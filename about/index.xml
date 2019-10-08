@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Abouts on David Friberg - Bits of awareness</title>
-    <link>https://dfrib.github.io/about/</link>
+    <link>http://dfrib.github.io/about/</link>
     <description>Recent content in Abouts on David Friberg - Bits of awareness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 08 Oct 2019 13:41:30 +0200</lastBuildDate>
     
-	<atom:link href="https://dfrib.github.io/about/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://dfrib.github.io/about/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>About</title>
-      <link>https://dfrib.github.io/about/about/</link>
+      <link>http://dfrib.github.io/about/about/</link>
       <pubDate>Tue, 08 Oct 2019 13:41:30 +0200</pubDate>
       
-      <guid>https://dfrib.github.io/about/about/</guid>
+      <guid>http://dfrib.github.io/about/about/</guid>
       <description>There is not much in here, at the moment.</description>
     </item>
     
