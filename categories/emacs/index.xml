@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>emacs on David Friberg - Bits of awareness</title>
-    <link>https://dfrib.github.io/categories/emacs/</link>
+    <link>//dfrib.github.io/categories/emacs/</link>
     <description>Recent content in emacs on David Friberg - Bits of awareness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 07 Oct 2019 00:00:00 +0200</lastBuildDate>
     
-	<atom:link href="https://dfrib.github.io/categories/emacs/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="//dfrib.github.io/categories/emacs/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>A blog is born</title>
-      <link>https://dfrib.github.io/blog/blogging-with-org-mode-and-ox-hugo/</link>
+      <link>//dfrib.github.io/blog/blogging-with-org-mode-and-ox-hugo/</link>
       <pubDate>Mon, 07 Oct 2019 00:00:00 +0200</pubDate>
       
-      <guid>https://dfrib.github.io/blog/blogging-with-org-mode-and-ox-hugo/</guid>
+      <guid>//dfrib.github.io/blog/blogging-with-org-mode-and-ox-hugo/</guid>
       <description>I few weeks ago I decided to try to set up a personal blog, aimed primarily at software development topics, but perhaps also containing one or another post about my other interests; climbing/bouldering and writing and performing music.
 I intend for the blog to be a place that can encourage me to write up ideas and experiences as they pass through in my day-to-day life, however without my usual need to thoroughly explain every essential background detail for the potential reader.</description>
     </item>
