@@ -6,7 +6,7 @@
     <description>Recent content on David Friberg - Bits of awareness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 08 Oct 2019 13:41:30 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 09 Oct 2019 11:35:12 +0200</lastBuildDate>
     
 	<atom:link href="//dfrib.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>About</title>
       <link>//dfrib.github.io/about/about/</link>
-      <pubDate>Tue, 08 Oct 2019 13:41:30 +0200</pubDate>
+      <pubDate>Wed, 09 Oct 2019 11:35:12 +0200</pubDate>
       
       <guid>//dfrib.github.io/about/about/</guid>
       <description>There is not much in here, at the moment.</description>
@@ -26,7 +26,7 @@
       <pubDate>Mon, 07 Oct 2019 00:00:00 +0200</pubDate>
       
       <guid>//dfrib.github.io/blog/blogging-with-org-mode-and-ox-hugo/</guid>
-      <description>I few weeks ago I decided to try to set up a personal blog, aimed primarily at software development topics, but perhaps also containing one or another post about my other interests; climbing/bouldering and writing and performing music.
+      <description>I few weeks ago I decided to try to set up a personal blog, aimed primarily at software development topics, but possibly also containing one or another post about my other interests; climbing/bouldering and writing and performing music. Starting with this post, the blog is now up.
 I intend for the blog to be a place that can encourage me to write up ideas and experiences as they pass through in my day-to-day life, however without my usual need to thoroughly explain every essential background detail for the potential reader.</description>
     </item>
     
