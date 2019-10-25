@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <title>
+    WIP Internal linkage and a curious case of ADL // David Friberg - Bits of awareness
+  </title>
+
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="[David Friberg]">
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+  <meta property="og:title" content="WIP Internal linkage and a curious case of ADL" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="//dfrib.github.io/lookup-and-adl/" />
+
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/base-min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/pure-min.css">
+  
+  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/grids-responsive-min.css">
+  
+  
+
+   
+   <link rel="stylesheet" href="//dfrib.github.io/css/redlounge.css">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href='//fonts.googleapis.com/css?family=Raleway:400,200,100,700,300,500,600,800' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' rel='stylesheet' type='text/css'>
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="//dfrib.github.io/touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" type="image/x-icon" href="//dfrib.github.io/img/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="David Friberg - Bits of awareness" />
+
+  
+
+
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="//dfrib.github.io/css/override.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
+  <script
+    charset="UTF-8"
+    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/lisp.min.js"></script>
+  <script
+    charset="UTF-8"
+    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/swift.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+  
+
+  
+
+  
+
+  
+</head>
+
+<body>
+	
+
+	<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+  <div class="header">
+    
+
+	
+
+    <h1 class="brand-title">David Friberg</h1>
+    <h2 class="brand-tagline">Bits of awareness</h2>
+
+    <nav class="nav">
+      <ul class="nav-list">
+        
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="//dfrib.github.io/">Home</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="//dfrib.github.io/categories/cplusplus">C&#43;&#43;</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="//dfrib.github.io/categories/emacs">Emacs</a></li>
+        
+      </ul>
+    </nav>
+
+    
+    <div class="social-buttons">
+      
+        
+        <a href="https://github.com/dfrib" target="_blank"><i class ='fa fa-github'></i></a>
+        
+      
+        
+        <a href="https://www.linkedin.com/in/david-friberg-7642863a" target="_blank"><i class ='fa fa-linkedin'></i></a>
+        
+      
+        
+        <a href="https://stackoverflow.com/users/4573247/dfri?tab=profile" target="_blank"><i class ='fa fa-stack-overflow'></i></a>
+        
+      
+      
+    </div>
+    
+
+  </div>
+</div>
+
+	
+	
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+		<a name="top"></a>
+		
+
+		
+			
+		    
+			
+		    
+		    
+		    
+	    
+  		<section class="post">
+            <h1 class="post-title">
+              <a href="//dfrib.github.io/lookup-and-adl/">WIP Internal linkage and a curious case of ADL</a>
+            </h1>
+            <h3 class="post-subtitle">
+            	
+            </h3>
+            
+            	
+                
+            	
+            	
+            
+            	
+            		
+            		
+            	
+            
+
+			
+			
+				<div class="post-categories">
+				
+					<a class="post-category post-category-cplusplus" href="//dfrib.github.io/categories/cplusplus">cplusplus</a>
+				
+				</div>
+			
+            
+				<div class="tags-list">
+					<span class="dark-red">Tags</span><span class="decorative-marker">//</span>
+					
+	                <a class="post-tag post-tag-cpp" href="//dfrib.github.io/tags/cpp">cpp</a>,
+	                
+	                <a class="post-tag post-tag-lookup" href="//dfrib.github.io/tags/lookup">lookup</a>,
+	                
+	                <a class="post-tag post-tag-linkage" href="//dfrib.github.io/tags/linkage">linkage</a>,
+	                
+				</div>
+			
+
+			
+
+			
+
+            
+
+<blockquote>
+<p>Is there any scenario where we should prefer using <code>static</code> instead of an
+unnamed namespace to give a name internal linkage?</p>
+</blockquote>
+
+<p>The other day I was in a situation where I wanted to hide a function name from
+other translation units (TU) than its own (internal linkage), but I also needed
+it to be found via Argument-dependent lookup (ADL) from a scope within its own
+TU that could not find it via (un-)qualified name lookup. For namespace-scope
+functions I usually rely on unnamed namespaces for internal linkage but in this
+case I had to rely on the <code>static</code> class storage specifier, as ADL does not,
+opposite to lexical name lookup, continue beyond its own namespace. Details
+follow below.</p>
+
+<h2 id="a-recap-of-linkage">A recap of linkage</h2>
+
+<p>A <em>name</em> in C++, as (re-)introduced by a <em>declaration</em>, can have several
+properties, one of which is its <em>linkage</em>, which is either given implicitely by
+context and scope, or explicitly specified by <em>the storage class specifiers</em> of
+the name&rsquo;s declaration. The linkage of a name is one of the following:</p>
+
+<ul>
+<li><em>no</em> linkage</li>
+<li><em>internal</em> linkage</li>
+<li><em>external</em> linkage</li>
+</ul>
+
+<p>No linkage is not of particular interest for the context of this post, but
+basically refers to names which can only be referred to from within the scope in
+which the name has been declared; for example a variable name declared at block
+scope without the <em>extern</em> storage class specifier. We&rsquo;ll focus on the two
+latter two for the remainder of this post.</p>
+
+<h3 id="internal-linkage">Internal linkage</h3>
+
+<p>Internal linkage, as compared to no linkage, expands the scope of reference of a
+name to all scopes in the TU in which it has been declared. All names declared
+within an unnamed namespace have internal linkage, but e.g. variable and
+function names can be given internal linkage by be declaring them using the
+<code>static</code> storage class identifier.</p>
+
+<p>So what does it look like we try access a name with internal linkage from
+another TU than the one in which is has been defined? In the following snippets
+the function name <code>a()</code>, declared (and defined) in an unnamed namespace in the
+namespace <code>foo</code>, has internal linkage to the TU associated with the <code>foo.cpp</code>
+source file.</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#000080">// foo.h
+</span><span style="color:#000080"></span><span style="color:#000080">#pragma once
+</span></code></pre></div><div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#000080">// foo.cpp
+</span><span style="color:#000080"></span><span style="color:#000080">#include</span> <span style="color:#000080">&#34;foo.h&#34;</span><span style="color:#000080">
+</span><span style="color:#000080">#include</span> <span style="color:#000080">&lt;iostream&gt;</span><span style="color:#000080">
+</span><span style="color:#000080"></span>
+<span style="color:#cdcd00">namespace</span> foo {
+<span style="color:#cdcd00">namespace</span> {
+
+<span style="color:#00cd00">void</span> a() { std<span style="color:#39c">::</span>cout <span style="color:#39c">&lt;&lt;</span> <span style="color:#cd0000">&#34;internal linkage</span><span style="color:#cd0000">\n</span><span style="color:#cd0000">&#34;</span>; }
+
+}  <span style="color:#000080">// namespace
+</span><span style="color:#000080"></span>}  <span style="color:#000080">// namespace foo
+</span></code></pre></div>
+<p><code>foo::a()</code> can thus not be referred to from the scope different TU&rsquo;s, say the TU
+associated with the <code>main.cpp</code> source file in the snippet below, even if the
+<em>name</em> is (re-)declared in <code>main.cpp</code>.</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#000080">// main.cpp
+</span><span style="color:#000080"></span><span style="color:#000080">#include</span> <span style="color:#000080">&#34;foo.h&#34;</span><span style="color:#000080">
+</span><span style="color:#000080"></span>
+<span style="color:#cdcd00">namespace</span> foo {
+
+<span style="color:#00cd00">void</span> a();
+
+}  <span style="color:#000080">// namespace foo
+</span><span style="color:#000080"></span>
+<span style="color:#00cd00">int</span> main() {
+    foo<span style="color:#39c">::</span>a();
+    <span style="color:#cdcd00">return</span> <span style="color:#cd00cd">0</span>;
+}
+</code></pre></div><div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">λ g++ -std<span style="color:#39c">=</span>c++14 main.cpp foo.cpp -o run
+/tmp/ccB0It1t.o: In <span style="color:#cdcd00">function</span> <span style="color:#cd0000">`</span>main<span style="color:#cd0000">&#39;:
+</span><span style="color:#cd0000">main.cpp:(.text+0x5): undefined reference to `foo::a()&#39;</span></code></pre></div>
+<p>From my experience <code>undefined reference</code> errors can be a bit elusive for
+inexperienced developers, particularly in large opaque code bases, but knowing
+about linkage as well as difference between declarations and definitions can go
+a long way to mitigate this, and my first hint when junior colleagues are
+struggling with these kind of errors usually go along the lines of:</p>
+
+<blockquote>
+<p>&ndash; Has the name for which you get an undefined reference error been <em>defined</em>?<br />
+&ndash; What is the <em>linkage</em> of the name for which you get the undefined reference
+error?</p>
+</blockquote>
+
+<h4 id="rant-avoiding-special-cases-in-order-to-avoid-others-having-to-rely-on-knowing-them-by-heart">[Rant] Avoiding special cases in order to avoid others having to rely on knowing them by heart</h4>
+
+<p>A common special case for implicit internal linkage applies for a variable name
+with namespace scope if it is:</p>
+
+<ul>
+<li><a href="http://eel.is/c++draft/basic.link#5.2">a non-template (C++17: non-inline) variable of non-volatile const-qualified
+type that is neither explicitly declared extern nor previously declared to
+have external linkage</a>,</li>
+</ul>
+
+<p>even if it is not explicitly declared within an unnamed namespace nor declared
+with <code>static</code>. This is not a special case from some dark corner of standard, but
+it can still be used to argue about an general approach when working with any
+kind of special cases: to prompt fellow well-versed developers to avoid writing
+code that relies on others knowing the special cases by heart. If a special case
+can be replaced with a more general alternative approach, I would recommend to
+always do so. E.g. for this particular example, always declare variable names
+within an unnamed namespace <em>if the intent is for the variable name to have
+internal linkage</em>, even if they may fall under a special case and have,
+implicitly, internal linkage. A risk with relying on special cases is that they
+can lead to future mishaps when another developer comes along and follows the
+existing pattern of the source code without knowing about the details. E.g. in
+this particular example declaring another name, which does not fall under the
+same special case, in the same scope, mistakenly thinking one follows the
+practice on the pre-existing (<em>&ldquo;internal linkage intended&rdquo;</em>) source code.</p>
+
+<p>To wrap up this sub-section with a contrived example; replacing this scenario:</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#000080">// bar.cpp, v.1,
+</span><span style="color:#000080">// by someone well-versed in the standard
+</span><span style="color:#000080"></span><span style="color:#cdcd00">namespace</span> bar {
+
+<span style="color:#cdcd00">const</span> <span style="color:#00cd00">int</span> a <span style="color:#39c">=</span> <span style="color:#cd00cd">42</span>;  <span style="color:#000080">// internal linkage
+</span><span style="color:#000080"></span>
+<span style="color:#000080">// ... a is used and intended to only ever be used in the
+</span><span style="color:#000080">//     scope of this source file / TU.
+</span><span style="color:#000080"></span>
+}  <span style="color:#000080">// namespace bar
+</span></code></pre></div><div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#000080">// bar.cpp, v.2,
+</span><span style="color:#000080">// modified by a somewhat novice C++ developer (and sloppy peer review)
+</span><span style="color:#000080"></span><span style="color:#cdcd00">namespace</span> bar {
+
+<span style="color:#cdcd00">const</span> <span style="color:#00cd00">int</span> a <span style="color:#39c">=</span> <span style="color:#cd00cd">42</span>;  <span style="color:#000080">// internal linkage
+</span><span style="color:#000080"></span><span style="color:#00cd00">int</span> b       <span style="color:#39c">=</span> <span style="color:#cd00cd">84</span>;  <span style="color:#000080">// external linkage
+</span><span style="color:#000080"></span>
+<span style="color:#000080">// ... a and b is used and intended to only ever be used
+</span><span style="color:#000080">//     in the scope of this source file / TU.
+</span><span style="color:#000080"></span>
+<span style="color:#000080">// b can be referred to, and written to, from other TU&#39;s!
+</span><span style="color:#000080"></span>
+}  <span style="color:#000080">// namespace bar
+</span></code></pre></div>
+<p>in favour of the following one:</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#000080">// bar.cpp, v.1,
+</span><span style="color:#000080">// by someone well-versed in the standard with a mindset of future-proofing
+</span><span style="color:#000080"></span><span style="color:#cdcd00">namespace</span> bar {
+
+<span style="color:#cdcd00">namespace</span> {
+
+<span style="color:#cdcd00">const</span> <span style="color:#00cd00">int</span> a <span style="color:#39c">=</span> <span style="color:#cd00cd">42</span>;  <span style="color:#000080">// internal linkage
+</span><span style="color:#000080"></span>
+}  <span style="color:#000080">// namespace
+</span><span style="color:#000080"></span>
+<span style="color:#000080">// ... a is used and intended to only ever be used in the
+</span><span style="color:#000080">//     scope of this source file / TU.
+</span><span style="color:#000080"></span>
+}  <span style="color:#000080">// namespace bar
+</span></code></pre></div><div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#000080">// bar.cpp, v.2,
+</span><span style="color:#000080">// modified by a somewhat novice C++ developer
+</span><span style="color:#000080"></span><span style="color:#cdcd00">namespace</span> bar {
+
+<span style="color:#cdcd00">namespace</span> {
+
+<span style="color:#cdcd00">const</span> <span style="color:#00cd00">int</span> a <span style="color:#39c">=</span> <span style="color:#cd00cd">42</span>;  <span style="color:#000080">// internal linkage
+</span><span style="color:#000080"></span><span style="color:#00cd00">int</span> b       <span style="color:#39c">=</span> <span style="color:#cd00cd">84</span>;  <span style="color:#000080">// internal linkage
+</span><span style="color:#000080"></span>
+}  <span style="color:#000080">// namespace
+</span><span style="color:#000080"></span>
+<span style="color:#000080">// ... a and b is used and intended to only ever be used
+</span><span style="color:#000080">//     in the scope of this source file / TU.
+</span><span style="color:#000080"></span>
+}  <span style="color:#000080">// namespace bar
+</span></code></pre></div>
+<h3 id="external-linkage">External linkage</h3>
+
+<p>External linkage means that a name can be referred to from scopes in other TUs
+than the one in which it has been declared. This applies for e.g. functions and
+variables (barring the special case above) declared at namespace scope, given
+that they do not reside within an unnamed namespace nor have been declared with
+the <code>static</code> class storage specifier.</p>
+
+<p>We modify the internal linkage example above such that, in the following
+snippets, the function name <code>a()</code>, declared (and defined) at namespace scope in
+the namespace <code>foo</code>, has external linkage.</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#000080">// foo.h
+</span><span style="color:#000080"></span><span style="color:#000080">#pragma once
+</span></code></pre></div><div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#000080">// foo.cpp
+</span><span style="color:#000080"></span><span style="color:#000080">#include</span> <span style="color:#000080">&#34;foo.h&#34;</span><span style="color:#000080">
+</span><span style="color:#000080">#include</span> <span style="color:#000080">&lt;iostream&gt;</span><span style="color:#000080">
+</span><span style="color:#000080"></span>
+<span style="color:#cdcd00">namespace</span> foo {
+
+<span style="color:#00cd00">void</span> a() { std<span style="color:#39c">::</span>cout <span style="color:#39c">&lt;&lt;</span> <span style="color:#cd0000">&#34;external linkage</span><span style="color:#cd0000">\n</span><span style="color:#cd0000">&#34;</span>; }
+
+}  <span style="color:#000080">// namespace foo
+</span></code></pre></div>
+<p><code>foo::a()</code> can thus not be referred to from the scope different TU&rsquo;s, say the TU
+associated with the <code>main.cpp</code> source file in the snippet below, even if the
+<em>name</em> is (re-)declared in <code>main.cpp</code>.</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#000080">// main.cpp
+</span><span style="color:#000080"></span><span style="color:#000080">#include</span> <span style="color:#000080">&#34;foo.h&#34;</span><span style="color:#000080">
+</span><span style="color:#000080"></span>
+<span style="color:#cdcd00">namespace</span> foo {
+<span style="color:#00cd00">void</span> a();
+}  <span style="color:#000080">// namespace foo
+</span><span style="color:#000080"></span>
+<span style="color:#00cd00">int</span> main() {
+    foo<span style="color:#39c">::</span>a();
+    <span style="color:#cdcd00">return</span> <span style="color:#cd00cd">0</span>;
+}
+</code></pre></div><div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">λ g++ -std<span style="color:#39c">=</span>c++14 main.cpp foo.cpp -o foo <span style="color:#39c">&amp;&amp;</span> ./foo
+external linkage</code></pre></div>
+<p>One may also explicitly make use of the <code>extern</code> class storage specifier to
+declare a variable name to have external linkage, which can be used to e.g.
+declare the special case above, a non-volatile, non-template (C++17: non-inline)
+const-qualified variable, to have external linkage. As for the possible
+conflicts between explicit internal and external linkage mechanisms—conflicts we
+should not hope to see in well-written code—note that an unnamed namespace takes
+linkage precedence over <code>extern</code>, whereas attempting to declare a variable name
+with both <code>extern</code> and <code>static</code> is an error.</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#000080">// bar.cpp
+</span><span style="color:#000080"></span><span style="color:#cdcd00">namespace</span> bar {
+
+<span style="color:#00cd00">int</span> a              <span style="color:#39c">=</span> <span style="color:#cd00cd">0</span>;  <span style="color:#000080">// external linkage
+</span><span style="color:#000080"></span><span style="color:#cdcd00">extern</span> <span style="color:#00cd00">int</span> b       <span style="color:#39c">=</span> <span style="color:#cd00cd">0</span>;  <span style="color:#000080">// external linkage
+</span><span style="color:#000080"></span><span style="color:#cdcd00">const</span> <span style="color:#00cd00">int</span> c        <span style="color:#39c">=</span> <span style="color:#cd00cd">0</span>;  <span style="color:#000080">// internal linkage
+</span><span style="color:#000080"></span><span style="color:#cdcd00">extern</span> <span style="color:#cdcd00">const</span> <span style="color:#00cd00">int</span> d <span style="color:#39c">=</span> <span style="color:#cd00cd">0</span>;  <span style="color:#000080">// external linkage
+</span><span style="color:#000080"></span>
+<span style="color:#cdcd00">namespace</span> {
+
+<span style="color:#00cd00">int</span> e              <span style="color:#39c">=</span> <span style="color:#cd00cd">0</span>;  <span style="color:#000080">// internal linkage
+</span><span style="color:#000080"></span><span style="color:#cdcd00">extern</span> <span style="color:#00cd00">int</span> f       <span style="color:#39c">=</span> <span style="color:#cd00cd">0</span>;  <span style="color:#000080">// internal linkage
+</span><span style="color:#000080"></span><span style="color:#cdcd00">const</span> <span style="color:#00cd00">int</span> g        <span style="color:#39c">=</span> <span style="color:#cd00cd">0</span>;  <span style="color:#000080">// internal linkage
+</span><span style="color:#000080"></span><span style="color:#cdcd00">extern</span> <span style="color:#cdcd00">const</span> <span style="color:#00cd00">int</span> h <span style="color:#39c">=</span> <span style="color:#cd00cd">0</span>;  <span style="color:#000080">// internal linkage
+</span><span style="color:#000080"></span>
+} <span style="color:#000080">// namespace
+</span><span style="color:#000080"></span>
+<span style="color:#000080">// [gcc] error: conflicting specifiers in declaration ...
+</span><span style="color:#000080"></span><span style="color:#cdcd00">extern</span> <span style="color:#cdcd00">static</span> <span style="color:#00cd00">int</span> illegal_a       <span style="color:#39c">=</span> <span style="color:#cd00cd">42</span>;
+<span style="color:#cdcd00">extern</span> <span style="color:#cdcd00">static</span> <span style="color:#cdcd00">const</span> <span style="color:#00cd00">int</span> illegal_b <span style="color:#39c">=</span> <span style="color:#cd00cd">42</span>;
+
+} <span style="color:#000080">// namespace bar
+</span></code></pre></div>
+<p>Finally note that the <code>extern</code> examples in the snippet above are likely to
+result in <code>-Wextern-initializer</code> warnings although they are all perfectly legal.
+The warning is arguably intended to guard against multiple definitions of
+a variable name with external linkage, as the likely use case of <code>extern</code>, from
+the view of the compiler, is to declare or re-declare a given external linkage
+name in a header file (intended for several TU&rsquo;s to use) or several source
+files, respectively, but to leave the definition of the variable to a single TU
+where <code>extern</code> can be omitted, as it has already been declared as such. If using
+this idiom (which is, along with the warning, sometimes controversial), <code>extern</code>
+sematically indicates not only that the name has external linkage but also that
+its definition is elsewhere, in the very source file where <code>extern</code> hs been
+omitted from the (re-)declaration and definition.</p>
+
+<h2 id="a-recap-of-name-lookup">A recap of name lookup</h2>
+
+<p>We have briefly covered linkage, which governs <em>whether a given scope may refer to
+given name or not</em>. We&rsquo;ll now proceed to <em>name lookup</em>, a mechanism which
+governs how the compiler may, when encountering a name, <em>look for the
+declaration of that name</em>. Lookup may seem to have a strong relation to the
+linkage of a name, but these two mechanisms are actually orthogonal; two
+same-name entities in two different TUs which both have internal linkage are
+strictly separate entities, not violating <a href="http://eel.is/c++draft/basic.def.odr">the One-Definition Rule</a> (ODR), and
+name lookup for the respective name is concerned about the concept of <em>scope</em>
+rather than linkage. Linkage affects the scope for which a given name is
+referrable, but it has no direct relation to the name lookup procedure.</p>
+
+<p>We&rsquo;ll focus on name lookup for functions, as this is a case which contains
+the most quirks and also covers the context for which this post was written. For
+name lookup of a function name in a well-formed program, the result is at least
+one <em>candidate function</em>; if more than one candidate is found, a mechanism
+called <em>overload resolution</em> is sub-sequently used to pick the <em>best candidate</em>.
+There are quite a lot of rules and special cases for how overload resolution
+works, and we will not dwell any deeper into those in this particular post, but
+we&rsquo;ll summarize the two main error cases w.r.t. function name lookup and
+overload resolution as:</p>
+
+<ul>
+<li>name lookup finds no candidate function, or</li>
+<li>name lookup finds several candidate functions but overload resolution cannot
+non-ambiguously select which of these candidate that is the best match.</li>
+</ul>
+
+<p>Now, name lookup of a function will use one of the following procedures:</p>
+
+<ul>
+<li><em>qualified name lookup</em>,</li>
+<li><em>unqualified name lookup</em>,</li>
+<li><em>argument-dependent lookup (ADL)</em>,</li>
+</ul>
+
+<p>where the latter is only present for function names, thus our choice to focus on
+function name lookup.</p>
+
+<p>We will not go into any details of the former two, &hellip;</p>
+
+<h3 id="qualified-name-lookup">Qualified name lookup</h3>
+
+<p>Exact scope?</p>
+
+<h3 id="unqualified-name-lookup">Unqualified name lookup</h3>
+
+<p>Lexical scope!</p>
+
+<h3 id="argument-dependent-lookup--adl">Argument-dependent lookup (ADL)</h3>
+
+<p>&hellip; No lexical scope!</p>
+
+<h2 id="adl-for-a-name-with-internal-linkage">ADL for a name with internal linkage</h2>
+
+<p>&hellip; a name that can not be found via qualified nor unqualified name lookup
+(lexical scope). In this case, we cannot use an unnamed namespace for internal
+linkage of the name. We need to resort to <code>static</code>, which was deprecated and
+then un-deprecated.</p>
+
+<h2 id="read-more">Read more</h2>
+
+<ul>
+<li><a href="https://en.cppreference.com/w/cpp/language/storage%5Fduration#Linkage">cppreference - Storage class specifiers - Linkage</a></li>
+<li><a href="https://en.cppreference.com/w/cpp/language/lookup">cppreference - Name lookup</a>:
+
+<ul>
+<li><a href="https://en.cppreference.com/w/cpp/language/qualified%5Flookup">cppreference - Qualified name lookup</a></li>
+<li><a href="https://en.cppreference.com/w/cpp/language/unqualified%5Flookup">cppreference - Unqualified name lookup</a></li>
+<li><a href="https://en.cppreference.com/w/cpp/language/adl">cppreference - Argument-dependent lookup</a></li>
+</ul></li>
+</ul>
+
+<p>Linkage in C++ can be quite elusive, and as I ran into an interesting case with
+Argument Dependent Lookup (ADL) the other day,</p>
+
+
+			
+
+			
+			
+			
+			
+	        
+	        
+	        
+	        
+	        
+	        
+			
+			    
+
+                
+				
+				
+
+			
+				<div class="paging">
+					<span class="paging-label">More Reading</span>
+
+					
+
+                    
+					<div class="paging-newer">
+						<span class="dark-red">Older</span><span class="decorative-marker">//</span>
+						<a class="paging-link" href="//dfrib.github.io/blogging-with-org-mode-and-ox-hugo/">A blog is born</a>
+		            </div>
+		            
+	            </div>
+                    
+
+                    
+                    
+          </section>
+          
+          	
+          
+        
+      <div class="footer">
+	<hr class="thin" />
+	<div class="pure-menu pure-menu-horizontal pure-menu-open">
+		<ul class="footer-menu">
+		
+		</ul>
+	</div>
+
+	<p>&copy; 2019 David Friberg</p>
+</div>
+    </div>
+  </div>
+	
+
+	
+
+  
+</body>
+</html>

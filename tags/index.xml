@@ -6,10 +6,37 @@
     <description>Recent content in Tags on David Friberg - Bits of awareness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 07 Oct 2019 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 16 Oct 2019 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="//dfrib.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>cpp</title>
+      <link>//dfrib.github.io/tags/cpp/</link>
+      <pubDate>Wed, 16 Oct 2019 00:00:00 +0200</pubDate>
+      
+      <guid>//dfrib.github.io/tags/cpp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linkage</title>
+      <link>//dfrib.github.io/tags/linkage/</link>
+      <pubDate>Wed, 16 Oct 2019 00:00:00 +0200</pubDate>
+      
+      <guid>//dfrib.github.io/tags/linkage/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lookup</title>
+      <link>//dfrib.github.io/tags/lookup/</link>
+      <pubDate>Wed, 16 Oct 2019 00:00:00 +0200</pubDate>
+      
+      <guid>//dfrib.github.io/tags/lookup/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>emacs</title>
