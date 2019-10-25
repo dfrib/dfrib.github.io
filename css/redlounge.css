@@ -203,6 +203,7 @@ a.post-author {
 .post {
     padding-bottom: 1.8rem;
     line-height: 1.75rem;
+    max-width: 60em;
 }
 .post p {
 	margin-bottom: 1.75rem;
