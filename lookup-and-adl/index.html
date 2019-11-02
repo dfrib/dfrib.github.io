@@ -186,12 +186,13 @@ unnamed namespace to give a name internal linkage?</p>
 
 <p>The other day I was in a situation where I wanted to hide a function name from
 other translation units (TU) than its own (internal linkage), but I also needed
-it to be found via Argument-dependent lookup (ADL) from a scope within its own
-TU that could not find it via (un-)qualified name lookup. For namespace-scope
-functions I usually rely on unnamed namespaces for internal linkage but in this
-case I had to rely on the <code>static</code> class storage specifier, as ADL does not,
-opposite to lexical name lookup, continue beyond its own namespace. Details
-follow below.</p>
+the name to be found via Argument-dependent lookup (ADL) from a scope within its
+own TU that could not find it via (un-)qualified name lookup. For
+namespace-scope functions I consistently rely on unnamed namespaces for internal
+linkage but in this case I had to rely on the <code>static</code> class storage specifier,
+as ADL does not, opposite to lexical name lookup, continue beyond its own
+namespace. We&rsquo;ll return to ADL and this particular case, but we&rsquo;ll first cover a
+recap of linkage and name lookup.</p>
 
 <h2 id="a-recap-of-linkage">A recap of linkage</h2>
 
@@ -220,48 +221,51 @@ within an unnamed namespace have internal linkage, but e.g. variable and
 function names can be given internal linkage by be declaring them using the
 <code>static</code> storage class identifier.</p>
 
-<p>So what does it look like we try access a name with internal linkage from
-another TU than the one in which is has been defined? In the following snippets
-the function name <code>a()</code>, declared (and defined) in an unnamed namespace in the
-namespace <code>foo</code>, has internal linkage to the TU associated with the <code>foo.cpp</code>
-source file.</p>
+<p>In the following snippets the function names <code>a</code> and <code>b</code>, declared (and
+defined) in the <code>foo</code> namespace and in an unnamed namespace in the <code>foo</code>
+namespace, respectively, both have internal linkage to the TU associated with
+the <code>foo.cpp</code> source file.</p>
 <div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#000080">// foo.h
 </span><span style="color:#000080"></span><span style="color:#000080">#pragma once
 </span></code></pre></div><div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#000080">// foo.cpp
 </span><span style="color:#000080"></span><span style="color:#000080">#include</span> <span style="color:#000080">&#34;foo.h&#34;</span><span style="color:#000080">
-</span><span style="color:#000080">#include</span> <span style="color:#000080">&lt;iostream&gt;</span><span style="color:#000080">
 </span><span style="color:#000080"></span>
 <span style="color:#cdcd00">namespace</span> foo {
+
+<span style="color:#cdcd00">static</span> <span style="color:#00cd00">void</span> a() {}  <span style="color:#000080">// internal linkage
+</span><span style="color:#000080"></span>
 <span style="color:#cdcd00">namespace</span> {
 
-<span style="color:#00cd00">void</span> a() { std<span style="color:#39c">::</span>cout <span style="color:#39c">&lt;&lt;</span> <span style="color:#cd0000">&#34;internal linkage</span><span style="color:#cd0000">\n</span><span style="color:#cd0000">&#34;</span>; }
-
+<span style="color:#00cd00">void</span> b() {}  <span style="color:#000080">// internal linkage
+</span><span style="color:#000080"></span>
 }  <span style="color:#000080">// namespace
-</span><span style="color:#000080"></span>}  <span style="color:#000080">// namespace foo
+</span><span style="color:#000080"></span>
+}  <span style="color:#000080">// namespace foo
 </span></code></pre></div>
-<p><code>foo::a()</code> can thus not be referred to from the scope different TU&rsquo;s, say the TU
-associated with the <code>main.cpp</code> source file in the snippet below, even if the
-<em>name</em> is (re-)declared in <code>main.cpp</code>.</p>
+<p>Thus, neither <code>foo::a()</code> nor <code>foo::&lt;unnamed-namespace::b()</code> can be referred to
+from the scope of different TU&rsquo;s, say the TU associated with the <code>main.cpp</code>
+source file in the snippet below, even if the <em>name</em>, for the former function,
+is (re-)declared in <code>main.cpp</code>.</p>
 <div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#000080">// main.cpp
 </span><span style="color:#000080"></span><span style="color:#000080">#include</span> <span style="color:#000080">&#34;foo.h&#34;</span><span style="color:#000080">
 </span><span style="color:#000080"></span>
 <span style="color:#cdcd00">namespace</span> foo {
 
-<span style="color:#00cd00">void</span> a();
-
+<span style="color:#00cd00">void</span> a();  <span style="color:#000080">// (re-)declaration of foo::a()
+</span><span style="color:#000080"></span>
 }  <span style="color:#000080">// namespace foo
 </span><span style="color:#000080"></span>
 <span style="color:#00cd00">int</span> main() {
-    foo<span style="color:#39c">::</span>a();
-    <span style="color:#cdcd00">return</span> <span style="color:#cd00cd">0</span>;
+    foo<span style="color:#39c">::</span>a();  <span style="color:#000080">// error: undefined reference to `foo::a()&#39;
+</span><span style="color:#000080"></span>    <span style="color:#cdcd00">return</span> <span style="color:#cd00cd">0</span>;
 }
-</code></pre></div><div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">λ g++ -std<span style="color:#39c">=</span>c++14 main.cpp foo.cpp -o run
+</code></pre></div><div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">λ g++ -std<span style="color:#39c">=</span>c++14 main.cpp foo.cpp
 /tmp/ccB0It1t.o: In <span style="color:#cdcd00">function</span> <span style="color:#cd0000">`</span>main<span style="color:#cd0000">&#39;:
 </span><span style="color:#cd0000">main.cpp:(.text+0x5): undefined reference to `foo::a()&#39;</span></code></pre></div>
 <p>From my experience <code>undefined reference</code> errors can be a bit elusive for
 inexperienced developers, particularly in large opaque code bases, but knowing
-about linkage as well as difference between declarations and definitions can go
-a long way to mitigate this, and my first hint when junior colleagues are
+about linkage as well as the difference between declarations and definitions can
+go a long way to mitigate this, and my first hint when junior colleagues are
 struggling with these kind of errors usually go along the lines of:</p>
 
 <blockquote>
@@ -270,9 +274,35 @@ struggling with these kind of errors usually go along the lines of:</p>
 error?</p>
 </blockquote>
 
-<h4 id="rant-avoiding-special-cases-in-order-to-avoid-others-having-to-rely-on-knowing-them-by-heart">[Rant] Avoiding special cases in order to avoid others having to rely on knowing them by heart</h4>
+<h4 id="unnamed-namespaces-or-static-for-internal-linkage">Unnamed namespaces or <code>static</code> for internal linkage?</h4>
 
-<p>A common special case for implicit internal linkage applies for a variable name
+<p>I mentioned above that I consistently rely on unnamed namespaces for internal
+linkage, and in my experience this is also the general advice from the
+community, at least in cases where both approaches are viable (as is being
+covered by this post, there are cases where we need to resort to <code>static</code>). As
+an example of the community&rsquo;s emphasis on favouring unnamed namespaces, we may
+recall that the alternative of using <code>static</code> to control the linkage <em>of an
+object</em> via its declaration in namespace scope was actually deprecated in
+C++03; quoting the C++03 standard, <a href="https://www.iso.org/standard/38110.html"><span class="underline">ISO/IEC 14882:2003 Programming Languages -
+C++</span></a> [*emphasis* mine]:</p>
+
+<blockquote>
+<p><strong>[namespace.unnamed]/2</strong> The use of the <code>static</code> keyword is deprecated when
+declaring objects in a namespace scope (see annex D); <strong>the <span class="underline">unnamed-namespace</span>
+provides a superior alternative.</strong></p>
+
+<p><strong>[depr.static]</strong> The use of the <code>static</code> keyword is deprecated when declaring
+ objects in namespace scope [&hellip;].</p>
+</blockquote>
+
+<p>The deprecation was eventually revoked for C++11, as per <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/cwg%5Fdefects.html#1012">C++ Standard Core
+Language Issue 1012</a>, but undeprecation was arguably based on compatibility
+concerns and not a revokation of the advice to use unnamed namespaces over
+<code>static</code> when applicable.</p>
+
+<h4 id="rant-a-common-special-case"><em>[Rant]</em> A common special case</h4>
+
+<p>A common-day special case for implicit internal linkage applies for a variable name
 with namespace scope if it is:</p>
 
 <ul>
@@ -284,18 +314,18 @@ have external linkage</a>,</li>
 <p>even if it is not explicitly declared within an unnamed namespace nor declared
 with <code>static</code>. This is not a special case from some dark corner of standard, but
 it can still be used to argue about an general approach when working with any
-kind of special cases: to prompt fellow well-versed developers to avoid writing
-code that relies on others knowing the special cases by heart. If a special case
-can be replaced with a more general alternative approach, I would recommend to
-always do so. E.g. for this particular example, always declare variable names
-within an unnamed namespace <em>if the intent is for the variable name to have
-internal linkage</em>, even if they may fall under a special case and have,
-implicitly, internal linkage. A risk with relying on special cases is that they
-can lead to future mishaps when another developer comes along and follows the
-existing pattern of the source code without knowing about the details. E.g. in
-this particular example declaring another name, which does not fall under the
-same special case, in the same scope, mistakenly thinking one follows the
-practice on the pre-existing (<em>&ldquo;internal linkage intended&rdquo;</em>) source code.</p>
+kind of special cases: to avoid writing code that relies on others knowing the
+special cases by heart; of one can make use of a more general alternative
+approach, I would argue for always doing so. E.g. for this particular example,
+always declare variable names within an unnamed namespace <em>if the intent is for
+the variable name to have internal linkage</em>, even if they may fall under a
+special case and have, implicitly, internal linkage. A risk with relying on
+special cases is that they can lead to future mishaps when another developer
+comes along and follows the existing pattern of the source code without knowing
+about the details. E.g. in this particular example declaring another name, which
+does not fall under the same special case, in the same scope, mistakenly
+thinking one follows the practice on the pre-existing (<em>&ldquo;internal linkage
+intended&rdquo;</em>) source code.</p>
 
 <p>To wrap up this sub-section with a contrived example; replacing this scenario:</p>
 <div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#000080">// bar.cpp, v.1,
@@ -309,7 +339,7 @@ practice on the pre-existing (<em>&ldquo;internal linkage intended&rdquo;</em>) 
 </span><span style="color:#000080"></span>
 }  <span style="color:#000080">// namespace bar
 </span></code></pre></div><div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#000080">// bar.cpp, v.2,
-</span><span style="color:#000080">// modified by a somewhat novice C++ developer (and sloppy peer review)
+</span><span style="color:#000080">// modified by a somewhat novice C++ developer (/&amp; sloppy peer review?)
 </span><span style="color:#000080"></span><span style="color:#cdcd00">namespace</span> bar {
 
 <span style="color:#cdcd00">const</span> <span style="color:#00cd00">int</span> a <span style="color:#39c">=</span> <span style="color:#cd00cd">42</span>;  <span style="color:#000080">// internal linkage
@@ -362,7 +392,7 @@ that they do not reside within an unnamed namespace nor have been declared with
 the <code>static</code> class storage specifier.</p>
 
 <p>We modify the internal linkage example above such that, in the following
-snippets, the function name <code>a()</code>, declared (and defined) at namespace scope in
+snippets, the function name <code>a</code>, declared (and defined) at namespace scope in
 the namespace <code>foo</code>, has external linkage.</p>
 <div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#000080">// foo.h
 </span><span style="color:#000080"></span><span style="color:#000080">#pragma once
@@ -376,14 +406,16 @@ the namespace <code>foo</code>, has external linkage.</p>
 
 }  <span style="color:#000080">// namespace foo
 </span></code></pre></div>
-<p><code>foo::a()</code> can thus not be referred to from the scope different TU&rsquo;s, say the TU
-associated with the <code>main.cpp</code> source file in the snippet below, even if the
-<em>name</em> is (re-)declared in <code>main.cpp</code>.</p>
+<p><code>foo::a()</code> can thus be referred to from the scope of different TU&rsquo;s, say the TU
+associated with the <code>main.cpp</code> source file in the snippet below, given that we
+expose the <em>name</em>, say by a (re-)declaration, in <code>main.cpp</code>.</p>
 <div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#000080">// main.cpp
 </span><span style="color:#000080"></span><span style="color:#000080">#include</span> <span style="color:#000080">&#34;foo.h&#34;</span><span style="color:#000080">
 </span><span style="color:#000080"></span>
 <span style="color:#cdcd00">namespace</span> foo {
-<span style="color:#00cd00">void</span> a();
+
+<span style="color:#00cd00">void</span> a();  <span style="color:#000080">// (re-)declaration of foo::a()
+</span><span style="color:#000080"></span>
 }  <span style="color:#000080">// namespace foo
 </span><span style="color:#000080"></span>
 <span style="color:#00cd00">int</span> main() {
@@ -393,7 +425,7 @@ associated with the <code>main.cpp</code> source file in the snippet below, even
 </code></pre></div><div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">λ g++ -std<span style="color:#39c">=</span>c++14 main.cpp foo.cpp -o foo <span style="color:#39c">&amp;&amp;</span> ./foo
 external linkage</code></pre></div>
 <p>One may also explicitly make use of the <code>extern</code> class storage specifier to
-declare a variable name to have external linkage, which can be used to e.g.
+declare a <em>variable name</em> to have external linkage, which can be used to e.g.
 declare the special case above, a non-volatile, non-template (C++17: non-inline)
 const-qualified variable, to have external linkage. As for the possible
 conflicts between explicit internal and external linkage mechanisms—conflicts we
@@ -433,7 +465,7 @@ files, respectively, but to leave the definition of the variable to a single TU
 where <code>extern</code> can be omitted, as it has already been declared as such. If using
 this idiom (which is, along with the warning, sometimes controversial), <code>extern</code>
 sematically indicates not only that the name has external linkage but also that
-its definition is elsewhere, in the very source file where <code>extern</code> hs been
+its definition is elsewhere, in the very source file where <code>extern</code> has been
 omitted from the (re-)declaration and definition.</p>
 
 <h2 id="a-recap-of-name-lookup">A recap of name lookup</h2>

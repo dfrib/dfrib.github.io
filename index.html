@@ -167,7 +167,7 @@
             
               <article class="post-summary">
                   Is there any scenario where we should prefer using static instead of an unnamed namespace to give a name internal linkage?
- The other day I was in a situation where I wanted to hide a function name from other translation units (TU) than its own (internal linkage), but I also needed it to be found via Argument-dependent lookup (ADL) from a scope within its own TU that could not find it via (un-)qualified name lookup.
+ The other day I was in a situation where I wanted to hide a function name from other translation units (TU) than its own (internal linkage), but I also needed the name to be found via Argument-dependent lookup (ADL) from a scope within its own TU that could not find it via (un-)qualified name lookup.
               </article>
               <div class="read-more-link">
                   <a href="//dfrib.github.io/lookup-and-adl/"><span class="read-more-slashes">//</span>Read More...</a>
