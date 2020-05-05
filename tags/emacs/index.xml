@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>emacs on David Friberg - Bits of awareness</title>
+    <title>emacs on [unfold] Bits of awareness</title>
     <link>//dfrib.github.io/tags/emacs/</link>
-    <description>Recent content in emacs on David Friberg - Bits of awareness</description>
+    <description>Recent content in emacs on [unfold] Bits of awareness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 07 Oct 2019 00:00:00 +0200</lastBuildDate>
@@ -12,13 +12,13 @@
     
     
     <item>
-      <title>A blog is born</title>
+      <title>The Reddest Rose Unfolds</title>
       <link>//dfrib.github.io/blogging-with-org-mode-and-ox-hugo/</link>
       <pubDate>Mon, 07 Oct 2019 00:00:00 +0200</pubDate>
       
       <guid>//dfrib.github.io/blogging-with-org-mode-and-ox-hugo/</guid>
-      <description>I few weeks ago I decided to try to set up a personal blog, aimed primarily at software development topics, but possibly also containing one or another post about my other interests; climbing/bouldering and writing and performing music. Starting with this post, the blog is now up.
-I intend for the blog to be a place that can encourage me to write up ideas and experiences as they pass through in my day-to-day life, however without my usual need to thoroughly explain every essential background detail for the potential reader.</description>
+      <description>I few weeks ago I decided to set up a personal blog, aimed primarily at software development topics, but possibly also containing one or another post about my other interests; climbing/bouldering and writing and performing music. Starting with this post, the blog is now up.
+I intend for the blog to be a place that can encourage me to write up ideas and experiences as they pass through in my day-to-day life, however not necessarily with the requirement of thoroughly explaining every essential background detail for the potential reader.</description>
     </item>
     
   </channel>

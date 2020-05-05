@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
   <title>
-    linkage // David Friberg - Bits of awareness
+    linkage // [unfold] Bits of awareness
   </title>
 
   <link href="https://gmpg.org/xfn/11" rel="profile">
@@ -44,20 +44,23 @@
   <link rel="shortcut icon" type="image/x-icon" href="//dfrib.github.io/img/favicon.png">
 
   
-  <link href="//dfrib.github.io/tags/linkage/index.xml" rel="alternate" type="application/rss+xml" title="David Friberg - Bits of awareness" />
+  <link href="//dfrib.github.io/tags/linkage/index.xml" rel="alternate" type="application/rss+xml" title="[unfold] Bits of awareness" />
 
   
 
 
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/atom-one-dark.min.css">
   <link rel="stylesheet" href="//dfrib.github.io/css/override.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
   <script
     charset="UTF-8"
-    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/lisp.min.js"></script>
+    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/lisp.min.js"></script>
   <script
     charset="UTF-8"
-    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/swift.min.js"></script>
+    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/swift.min.js"></script>
+  <script
+    charset="UTF-8"
+    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/cmake.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script>
 
 
@@ -78,7 +81,7 @@
 
 	
 
-    <h1 class="brand-title">David Friberg</h1>
+    <h1 class="brand-title">[unfold]</h1>
     <h2 class="brand-tagline">Bits of awareness</h2>
 
     <nav class="nav">
@@ -167,7 +170,7 @@
             </p>
             
               <article class="post-summary">
-            	Is there any scenario where we should prefer using static instead of an unnamed namespace to give a name internal linkage?
+            	Are there any scenarios where we should prefer using static instead of an unnamed namespace to give a name internal linkage?
  The other day I was in a situation where I wanted to hide a function name from other translation units (TU) than its own (internal linkage), but I also needed the name to be found via Argument-dependent lookup (ADL) from a scope within its own TU that could not find it via (un-)qualified name lookup.
               </article>
 			  <div class="read-more-link">
@@ -186,7 +189,7 @@
 		</ul>
 	</div>
 
-	<p>&copy; 2019 David Friberg</p>
+	<p>&copy; 2019-2020 David Friberg</p>
 </div>
     </div>
   </div>

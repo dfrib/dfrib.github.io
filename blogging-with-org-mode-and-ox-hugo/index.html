@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
   <title>
-    A blog is born // David Friberg - Bits of awareness
+    The Reddest Rose Unfolds // [unfold] Bits of awareness
   </title>
 
   <link href="https://gmpg.org/xfn/11" rel="profile">
@@ -17,7 +17,7 @@
 <meta name="generator" content="Hugo 0.58.3" />
 
 
-  <meta property="og:title" content="A blog is born" />
+  <meta property="og:title" content="The Reddest Rose Unfolds" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="en_US" />
@@ -44,20 +44,23 @@
   <link rel="shortcut icon" type="image/x-icon" href="//dfrib.github.io/img/favicon.png">
 
   
-  <link href="" rel="alternate" type="application/rss+xml" title="David Friberg - Bits of awareness" />
+  <link href="" rel="alternate" type="application/rss+xml" title="[unfold] Bits of awareness" />
 
   
 
 
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/atom-one-dark.min.css">
   <link rel="stylesheet" href="//dfrib.github.io/css/override.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
   <script
     charset="UTF-8"
-    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/lisp.min.js"></script>
+    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/lisp.min.js"></script>
   <script
     charset="UTF-8"
-    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/swift.min.js"></script>
+    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/swift.min.js"></script>
+  <script
+    charset="UTF-8"
+    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/cmake.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script>
 
 
@@ -80,7 +83,7 @@
 
 	
 
-    <h1 class="brand-title">David Friberg</h1>
+    <h1 class="brand-title">[unfold]</h1>
     <h2 class="brand-tagline">Bits of awareness</h2>
 
     <nav class="nav">
@@ -130,7 +133,7 @@
 	    
   		<section class="post">
             <h1 class="post-title">
-              <a href="//dfrib.github.io/blogging-with-org-mode-and-ox-hugo/">A blog is born</a>
+              <a href="//dfrib.github.io/blogging-with-org-mode-and-ox-hugo/">The Reddest Rose Unfolds</a>
             </h1>
             <h3 class="post-subtitle">
             	
@@ -172,17 +175,18 @@
 
 			
 
-            <p>I few weeks ago I decided to try to set up a personal blog, aimed primarily at
+            <p>I few weeks ago I decided to set up a personal blog, aimed primarily at
 software development topics, but possibly also containing one or another post
 about my other interests; climbing/bouldering and writing and performing music.
 Starting with this post, the blog is now up.</p>
 
 <p>I intend for the blog to be a place that can encourage me to write up ideas and
-experiences as they pass through in my day-to-day life, however without my usual
-need to thoroughly explain every essential background detail for the potential
-reader. Thus, the posts herein will mostly take the form of shorter insights
-intended as future reference for myself as well as, hopefully, for some
-potential blog readers. For more technical topics, I will refer to external
+experiences as they pass through in my day-to-day life, however not necessarily
+with the requirement of thoroughly explaining every essential background detail
+for the potential reader. Thus, the posts herein will mostly take the form of
+shorter insights—intended as a future reference for myself as well as,
+hopefully, for some potential blog readers—along with some deeper dwelling posts
+in particularly interesting topics. For the former, I will refer to external
 links for a deeper dive into the details beyond what the content of the
 particular blog post covers.</p>
 
@@ -193,13 +197,33 @@ in combination with <a href="https://ox-hugo.scripter.co/"><code>ox-hugo</code><
 Markdown. As for the blog theme, a tweaked version of the (no longer maintained)
 <a href="https://github.com/tmaiaroto/hugo-redlounge"><code>hugo-redlounge</code></a> Hugo theme by Tom Maiaroto is used.</p>
 
+<p>As a future reminder to myself, I export my <code>org</code> master page to Markdown using
+<code>org-hugo-export-to-md</code> or, via the <code>ox-hugo</code> hydra, <code>C-c C-e H H</code>. The <code>hugo
+server -D --navigateToChanged</code> command can be used to dynamically inspect the
+blog locally while writing new posts, whereas I use <code>hugo</code> to build the site for
+deployment into my <code>public</code> subdirectory, which is a Git submodule mounting my
+public repository, <a href="https://github.com/dfrib/dfrib.github.io">dfrib.github.io</a>, into my private org/Hugo backend repository.</p>
+
 <p>Finally, returning to the intended purpose of the blog, I think I can likewise
 describe it as trying to capture some pieces from my stream of consciousness.
 As I find <em>bits of awareness</em> to be a good attempt describing one&rsquo;s
 consciousness, I think this makes for a good blog title.</p>
 
-<p>Let&rsquo;s hope for long-living and at least somewhat frequently updated journey
-together, dear Blog!</p>
+<p>Let&rsquo;s unfold some interesting topics, dear blog, and why not a few template
+parameter packs along the way.</p>
+
+<blockquote>
+<p>[&hellip;]<br />
+the reddest rose unfolds<br />
+(which is ridiculous<br />
+in this time, this place,<br /></p>
+
+<p>unseemly, impossible,<br />
+even slightly scandalous),<br />
+the reddest rose unfolds;<br />
+[&hellip;]<br />
+&mdash; H.D., <em>Red Rose and a Beggar</em>, Part 1 (1960)</p>
+</blockquote>
 
 
 			
@@ -251,7 +275,7 @@ together, dear Blog!</p>
 		</ul>
 	</div>
 
-	<p>&copy; 2019 David Friberg</p>
+	<p>&copy; 2019-2020 David Friberg</p>
 </div>
     </div>
   </div>

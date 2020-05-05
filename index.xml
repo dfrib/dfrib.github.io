@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>David Friberg - Bits of awareness</title>
+    <title>[unfold] Bits of awareness</title>
     <link>//dfrib.github.io/</link>
-    <description>Recent content on David Friberg - Bits of awareness</description>
+    <description>Recent content on [unfold] Bits of awareness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 16 Oct 2019 00:00:00 +0200</lastBuildDate>
@@ -17,18 +17,18 @@
       <pubDate>Wed, 16 Oct 2019 00:00:00 +0200</pubDate>
       
       <guid>//dfrib.github.io/lookup-and-adl/</guid>
-      <description>Is there any scenario where we should prefer using static instead of an unnamed namespace to give a name internal linkage?
+      <description>Are there any scenarios where we should prefer using static instead of an unnamed namespace to give a name internal linkage?
  The other day I was in a situation where I wanted to hide a function name from other translation units (TU) than its own (internal linkage), but I also needed the name to be found via Argument-dependent lookup (ADL) from a scope within its own TU that could not find it via (un-)qualified name lookup.</description>
     </item>
     
     <item>
-      <title>A blog is born</title>
+      <title>The Reddest Rose Unfolds</title>
       <link>//dfrib.github.io/blogging-with-org-mode-and-ox-hugo/</link>
       <pubDate>Mon, 07 Oct 2019 00:00:00 +0200</pubDate>
       
       <guid>//dfrib.github.io/blogging-with-org-mode-and-ox-hugo/</guid>
-      <description>I few weeks ago I decided to try to set up a personal blog, aimed primarily at software development topics, but possibly also containing one or another post about my other interests; climbing/bouldering and writing and performing music. Starting with this post, the blog is now up.
-I intend for the blog to be a place that can encourage me to write up ideas and experiences as they pass through in my day-to-day life, however without my usual need to thoroughly explain every essential background detail for the potential reader.</description>
+      <description>I few weeks ago I decided to set up a personal blog, aimed primarily at software development topics, but possibly also containing one or another post about my other interests; climbing/bouldering and writing and performing music. Starting with this post, the blog is now up.
+I intend for the blog to be a place that can encourage me to write up ideas and experiences as they pass through in my day-to-day life, however not necessarily with the requirement of thoroughly explaining every essential background detail for the potential reader.</description>
     </item>
     
   </channel>

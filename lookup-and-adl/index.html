@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
   <title>
-    WIP Internal linkage and a curious case of ADL // David Friberg - Bits of awareness
+    WIP Internal linkage and a curious case of ADL // [unfold] Bits of awareness
   </title>
 
   <link href="https://gmpg.org/xfn/11" rel="profile">
@@ -44,20 +44,23 @@
   <link rel="shortcut icon" type="image/x-icon" href="//dfrib.github.io/img/favicon.png">
 
   
-  <link href="" rel="alternate" type="application/rss+xml" title="David Friberg - Bits of awareness" />
+  <link href="" rel="alternate" type="application/rss+xml" title="[unfold] Bits of awareness" />
 
   
 
 
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/atom-one-dark.min.css">
   <link rel="stylesheet" href="//dfrib.github.io/css/override.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
   <script
     charset="UTF-8"
-    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/lisp.min.js"></script>
+    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/lisp.min.js"></script>
   <script
     charset="UTF-8"
-    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/swift.min.js"></script>
+    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/swift.min.js"></script>
+  <script
+    charset="UTF-8"
+    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/cmake.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script>
 
 
@@ -80,7 +83,7 @@
 
 	
 
-    <h1 class="brand-title">David Friberg</h1>
+    <h1 class="brand-title">[unfold]</h1>
     <h2 class="brand-tagline">Bits of awareness</h2>
 
     <nav class="nav">
@@ -180,7 +183,7 @@
             
 
 <blockquote>
-<p>Is there any scenario where we should prefer using <code>static</code> instead of an
+<p>Are there any scenarios where we should prefer using <code>static</code> instead of an
 unnamed namespace to give a name internal linkage?</p>
 </blockquote>
 
@@ -189,10 +192,10 @@ other translation units (TU) than its own (internal linkage), but I also needed
 the name to be found via Argument-dependent lookup (ADL) from a scope within its
 own TU that could not find it via (un-)qualified name lookup. For
 namespace-scope functions I consistently rely on unnamed namespaces for internal
-linkage but in this case I had to rely on the <code>static</code> class storage specifier,
-as ADL does not, opposite to lexical name lookup, continue beyond its own
-namespace. We&rsquo;ll return to ADL and this particular case, but we&rsquo;ll first cover a
-recap of linkage and name lookup.</p>
+linkage whereas in this particular case I had to rely on the <code>static</code> class
+storage specifier, as ADL does not, opposite to lexical name lookup, continue
+beyond its own namespace. We&rsquo;ll return to ADL and this particular case, but
+we&rsquo;ll first cover a recap of linkage and name lookup.</p>
 
 <h2 id="a-recap-of-linkage">A recap of linkage</h2>
 
@@ -470,8 +473,8 @@ omitted from the (re-)declaration and definition.</p>
 
 <h2 id="a-recap-of-name-lookup">A recap of name lookup</h2>
 
-<p>We have briefly covered linkage, which governs <em>whether a given scope may refer to
-given name or not</em>. We&rsquo;ll now proceed to <em>name lookup</em>, a mechanism which
+<p>We have briefly covered linkage, which governs <em>whether a given scope may refer
+to given name or not</em>. We&rsquo;ll now proceed to <em>name lookup</em>, a mechanism which
 governs how the compiler may, when encountering a name, <em>look for the
 declaration of that name</em>. Lookup may seem to have a strong relation to the
 linkage of a name, but these two mechanisms are actually orthogonal; two
@@ -512,7 +515,7 @@ function name lookup.</p>
 
 <h3 id="qualified-name-lookup">Qualified name lookup</h3>
 
-<p>Exact scope?</p>
+<p>&hellip;</p>
 
 <h3 id="unqualified-name-lookup">Unqualified name lookup</h3>
 
@@ -541,9 +544,6 @@ then un-deprecated.</p>
 <li><a href="https://en.cppreference.com/w/cpp/language/adl">cppreference - Argument-dependent lookup</a></li>
 </ul></li>
 </ul>
-
-<p>Linkage in C++ can be quite elusive, and as I ran into an interesting case with
-Argument Dependent Lookup (ADL) the other day,</p>
 
 
 			
@@ -574,7 +574,7 @@ Argument Dependent Lookup (ADL) the other day,</p>
                     
 					<div class="paging-newer">
 						<span class="dark-red">Older</span><span class="decorative-marker">//</span>
-						<a class="paging-link" href="//dfrib.github.io/blogging-with-org-mode-and-ox-hugo/">A blog is born</a>
+						<a class="paging-link" href="//dfrib.github.io/blogging-with-org-mode-and-ox-hugo/">The Reddest Rose Unfolds</a>
 		            </div>
 		            
 	            </div>
@@ -595,7 +595,7 @@ Argument Dependent Lookup (ADL) the other day,</p>
 		</ul>
 	</div>
 
-	<p>&copy; 2019 David Friberg</p>
+	<p>&copy; 2019-2020 David Friberg</p>
 </div>
     </div>
   </div>
