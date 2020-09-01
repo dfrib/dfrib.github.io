@@ -131,7 +131,7 @@
                 <header class="post-header">
                     
                     <h1 class="post-title">
-                      <a href="//dfrib.github.io/lookup-and-adl/">WIP Internal linkage and a curious case of ADL</a>
+                      <a href="//dfrib.github.io/non-deduced-contexts/">Leveraging non-deduced contexts for template argument deduction</a>
                   </h1>
               </header>
               <p class="post-meta">
@@ -160,20 +160,19 @@
 					        
 	                <a class="post-tag post-tag-cpp" href="//dfrib.github.io/tags/cpp">cpp</a>,
 	                
-	                <a class="post-tag post-tag-lookup" href="//dfrib.github.io/tags/lookup">lookup</a>,
-	                
-	                <a class="post-tag post-tag-linkage" href="//dfrib.github.io/tags/linkage">linkage</a>,
+	                <a class="post-tag post-tag-templates" href="//dfrib.github.io/tags/templates">templates</a>,
 	                
 				        </div>
 			          
             </p>
             
               <article class="post-summary">
-                  Are there any scenarios where we should prefer using static instead of an unnamed namespace to give a name internal linkage?
- The other day I was in a situation where I wanted to hide a function name from other translation units (TU) than its own (internal linkage), but I also needed the name to be found via Argument-dependent lookup (ADL) from a scope within its own TU that could not find it via (un-)qualified name lookup.
+                  What is an example of a non-deduced context, and why can it be useful to know about these?
+ The following snippet
+template&lt;typename T&gt; struct Foo { T t; }; template&lt;typename T&gt; void addToFoo(Foo&lt;T&gt;&amp; foo, T val) { foo.t += val; } int main() { Foo&lt;long&gt; f{42}; addToFoo(f, 13); // error: no matching function for call to &#39;addToFoo&#39;  return 0; }  is ill-formed, as (function) template argument deduction for the dependent function parameters foo and val of the addToFoo function template resolves to different, conflicting types in the addToFoo(f, 13) function call.
               </article>
               <div class="read-more-link">
-                  <a href="//dfrib.github.io/lookup-and-adl/"><span class="read-more-slashes">//</span>Read More...</a>
+                  <a href="//dfrib.github.io/non-deduced-contexts/"><span class="read-more-slashes">//</span>Read More...</a>
               </div>
             
           </section>

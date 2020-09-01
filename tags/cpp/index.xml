@@ -6,19 +6,20 @@
     <description>Recent content in cpp on [unfold] Bits of awareness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 16 Oct 2019 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Mon, 31 Aug 2020 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="//dfrib.github.io/tags/cpp/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>WIP Internal linkage and a curious case of ADL</title>
-      <link>//dfrib.github.io/lookup-and-adl/</link>
-      <pubDate>Wed, 16 Oct 2019 00:00:00 +0200</pubDate>
+      <title>Leveraging non-deduced contexts for template argument deduction</title>
+      <link>//dfrib.github.io/non-deduced-contexts/</link>
+      <pubDate>Mon, 31 Aug 2020 00:00:00 +0200</pubDate>
       
-      <guid>//dfrib.github.io/lookup-and-adl/</guid>
-      <description>Are there any scenarios where we should prefer using static instead of an unnamed namespace to give a name internal linkage?
- The other day I was in a situation where I wanted to hide a function name from other translation units (TU) than its own (internal linkage), but I also needed the name to be found via Argument-dependent lookup (ADL) from a scope within its own TU that could not find it via (un-)qualified name lookup.</description>
+      <guid>//dfrib.github.io/non-deduced-contexts/</guid>
+      <description>What is an example of a non-deduced context, and why can it be useful to know about these?
+ The following snippet
+template&amp;lt;typename T&amp;gt; struct Foo { T t; }; template&amp;lt;typename T&amp;gt; void addToFoo(Foo&amp;lt;T&amp;gt;&amp;amp; foo, T val) { foo.t += val; } int main() { Foo&amp;lt;long&amp;gt; f{42}; addToFoo(f, 13); // error: no matching function for call to &amp;#39;addToFoo&amp;#39;  return 0; }  is ill-formed, as (function) template argument deduction for the dependent function parameters foo and val of the addToFoo function template resolves to different, conflicting types in the addToFoo(f, 13) function call.</description>
     </item>
     
   </channel>

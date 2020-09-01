@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>[unfold] Bits of awareness</title>
-    <link>//dfrib.github.io/</link>
-    <description>Recent content on [unfold] Bits of awareness</description>
+    <title>templates on [unfold] Bits of awareness</title>
+    <link>//dfrib.github.io/tags/templates/</link>
+    <description>Recent content in templates on [unfold] Bits of awareness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 31 Aug 2020 00:00:00 +0200</lastBuildDate>
     
-	<atom:link href="//dfrib.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="//dfrib.github.io/tags/templates/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -20,16 +20,6 @@
       <description>What is an example of a non-deduced context, and why can it be useful to know about these?
  The following snippet
 template&amp;lt;typename T&amp;gt; struct Foo { T t; }; template&amp;lt;typename T&amp;gt; void addToFoo(Foo&amp;lt;T&amp;gt;&amp;amp; foo, T val) { foo.t += val; } int main() { Foo&amp;lt;long&amp;gt; f{42}; addToFoo(f, 13); // error: no matching function for call to &amp;#39;addToFoo&amp;#39;  return 0; }  is ill-formed, as (function) template argument deduction for the dependent function parameters foo and val of the addToFoo function template resolves to different, conflicting types in the addToFoo(f, 13) function call.</description>
-    </item>
-    
-    <item>
-      <title>The Reddest Rose Unfolds</title>
-      <link>//dfrib.github.io/blogging-with-org-mode-and-ox-hugo/</link>
-      <pubDate>Mon, 07 Oct 2019 00:00:00 +0200</pubDate>
-      
-      <guid>//dfrib.github.io/blogging-with-org-mode-and-ox-hugo/</guid>
-      <description>I few weeks ago I decided to set up a personal blog, aimed primarily at software development topics, but possibly also containing one or another post about my other interests; climbing/bouldering and writing and performing music. Starting with this post, the blog is now up.
-I intend for the blog to be a place that can encourage me to write up ideas and experiences as they pass through in my day-to-day life, however not necessarily with the requirement of thoroughly explaining every essential background detail for the potential reader.</description>
     </item>
     
   </channel>

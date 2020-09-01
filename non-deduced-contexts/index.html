@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <title>
+    Leveraging non-deduced contexts for template argument deduction // [unfold] Bits of awareness
+  </title>
+
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="[David Friberg]">
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+  <meta property="og:title" content="Leveraging non-deduced contexts for template argument deduction" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="//dfrib.github.io/non-deduced-contexts/" />
+
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/base-min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/pure-min.css">
+  
+  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/grids-responsive-min.css">
+  
+  
+
+   
+   <link rel="stylesheet" href="//dfrib.github.io/css/redlounge.css">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href='//fonts.googleapis.com/css?family=Raleway:400,200,100,700,300,500,600,800' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' rel='stylesheet' type='text/css'>
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="//dfrib.github.io/touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" type="image/x-icon" href="//dfrib.github.io/img/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="[unfold] Bits of awareness" />
+
+  
+
+
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="//dfrib.github.io/css/override.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+  <script
+    charset="UTF-8"
+    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/lisp.min.js"></script>
+  <script
+    charset="UTF-8"
+    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/swift.min.js"></script>
+  <script
+    charset="UTF-8"
+    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/cmake.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+  
+
+  
+
+  
+
+  
+</head>
+
+<body>
+	
+
+	<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+  <div class="header">
+    
+
+	
+
+    <h1 class="brand-title">[unfold]</h1>
+    <h2 class="brand-tagline">Bits of awareness</h2>
+
+    <nav class="nav">
+      <ul class="nav-list">
+        
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="//dfrib.github.io/">Home</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="//dfrib.github.io/categories/cplusplus">C&#43;&#43;</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="//dfrib.github.io/categories/emacs">Emacs</a></li>
+        
+      </ul>
+    </nav>
+
+    
+    <div class="social-buttons">
+      
+        
+        <a href="https://github.com/dfrib" target="_blank"><i class ='fa fa-github'></i></a>
+        
+      
+        
+        <a href="https://www.linkedin.com/in/david-friberg-7642863a" target="_blank"><i class ='fa fa-linkedin'></i></a>
+        
+      
+        
+        <a href="https://stackoverflow.com/users/4573247/dfri?tab=profile" target="_blank"><i class ='fa fa-stack-overflow'></i></a>
+        
+      
+      
+    </div>
+    
+
+  </div>
+</div>
+
+	
+	
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+		<a name="top"></a>
+		
+
+		
+			
+	    
+  		<section class="post">
+            <h1 class="post-title">
+              <a href="//dfrib.github.io/non-deduced-contexts/">Leveraging non-deduced contexts for template argument deduction</a>
+            </h1>
+            <h3 class="post-subtitle">
+            	
+            </h3>
+            
+            	
+                
+            	
+            	
+            
+            	
+            		
+            		
+            	
+            
+
+			
+			
+				<div class="post-categories">
+				
+					<a class="post-category post-category-cplusplus" href="//dfrib.github.io/categories/cplusplus">cplusplus</a>
+				
+				</div>
+			
+            
+				<div class="tags-list">
+					<span class="dark-red">Tags</span><span class="decorative-marker">//</span>
+					
+	                <a class="post-tag post-tag-cpp" href="//dfrib.github.io/tags/cpp">cpp</a>,
+	                
+	                <a class="post-tag post-tag-templates" href="//dfrib.github.io/tags/templates">templates</a>,
+	                
+				</div>
+			
+
+			
+
+			
+
+            <blockquote>
+<p>What is an example of a non-deduced context, and why can it be useful to know
+about these?</p>
+</blockquote>
+
+<p>The following snippet</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#cdcd00">template</span><span style="color:#39c">&lt;</span><span style="color:#cdcd00">typename</span> T<span style="color:#39c">&gt;</span>
+<span style="color:#cdcd00">struct</span> Foo { T t; };
+
+<span style="color:#cdcd00">template</span><span style="color:#39c">&lt;</span><span style="color:#cdcd00">typename</span> T<span style="color:#39c">&gt;</span>
+<span style="color:#00cd00">void</span> addToFoo(Foo<span style="color:#39c">&lt;</span>T<span style="color:#39c">&gt;&amp;</span> foo, T val) { foo.t <span style="color:#39c">+=</span> val; }
+
+<span style="color:#00cd00">int</span> main() {
+    Foo<span style="color:#39c">&lt;</span><span style="color:#00cd00">long</span><span style="color:#39c">&gt;</span> f{<span style="color:#cd00cd">42</span>};
+    addToFoo(f, <span style="color:#cd00cd">13</span>); <span style="color:#000080">// error: no matching function for call to &#39;addToFoo&#39;
+</span><span style="color:#000080"></span>    <span style="color:#cdcd00">return</span> <span style="color:#cd00cd">0</span>;
+}
+</code></pre></div>
+<p>is ill-formed, as (function) template argument deduction for the dependent
+function parameters <code>foo</code> and <code>val</code> of the <code>addToFoo</code> function template resolves
+to different, conflicting types in the <code>addToFoo(f, 13)</code> function call.</p>
+
+<blockquote>
+<p>error: no matching function for call to &lsquo;<code>addToFoo</code>&rsquo;.</p>
+
+<p>note: candidate template ignored: deduced conflicting types for parameter &lsquo;<code>T</code>&lsquo;
+(&rsquo;<code>long</code>&rsquo; vs. &lsquo;<code>int</code>&rsquo;).</p>
+</blockquote>
+
+<p>Whilst we could make the program well-formed by invoking <code>addToFoo</code> as
+<code>addToFoo(f, 13L)</code>, this would keep the restrictions of the <code>addToFoo</code> API to
+limit the two dependent function parameters to deduce the same type template
+parameter <code>T</code>. This may not be our intent and, if indeed not, probably not an
+intentional limitation we want to place on the user of <code>addToFoo</code>.</p>
+
+<p>Instead, we could redesign <code>addToFoo</code> to explicitly ensure that the second
+function parameter <code>val</code> (and the argument(s) passed to it) will not participate
+in (function) template argument deduction of <code>T</code> for a given <code>addToFoo(...)</code>
+call.</p>
+
+<p>How? A dependent parameter name in a function template can only be used to
+deduce the associated template parameter if the latter is to the <em>right</em> of the
+<em>right-most</em> scope resolution operator <code>::</code> in the type of the dependent
+parameter; otherwise it is <em>not deducable</em>; formally, placing the dependent name
+in a <em>non-deduced context</em>. This can leveraged to, with intent, place a template
+parameter of a given function parameter in a non-deduced context, such that the
+given template parameter, say <code>T</code>, can only be deduced from elsewhere (say other
+function parameters dependent on <code>T</code>).</p>
+
+<p>We may apply this to the example above, using an identity transformation trait
+on the dependent type of <code>val</code> in <code>addToFoo</code>:</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#000080">#include</span> <span style="color:#000080">&lt;type_traits&gt;</span><span style="color:#000080">
+</span><span style="color:#000080"></span>
+<span style="color:#cdcd00">template</span><span style="color:#39c">&lt;</span><span style="color:#cdcd00">typename</span> T<span style="color:#39c">&gt;</span>
+<span style="color:#cdcd00">struct</span> Foo { T t; };
+
+<span style="color:#cdcd00">template</span><span style="color:#39c">&lt;</span><span style="color:#cdcd00">typename</span> T<span style="color:#39c">&gt;</span>
+<span style="color:#cdcd00">using</span> identity_t <span style="color:#39c">=</span> std<span style="color:#39c">::</span>common_type_t<span style="color:#39c">&lt;</span>T<span style="color:#39c">&gt;</span>;
+
+<span style="color:#cdcd00">template</span><span style="color:#39c">&lt;</span><span style="color:#cdcd00">typename</span> T<span style="color:#39c">&gt;</span>
+<span style="color:#00cd00">void</span> addToFoo(Foo<span style="color:#39c">&lt;</span>T<span style="color:#39c">&gt;&amp;</span> foo,  identity_t<span style="color:#39c">&lt;</span>T<span style="color:#39c">&gt;</span> val) { foo.t <span style="color:#39c">+=</span> val; }
+                         <span style="color:#000080">// ^^^^^^^^^^^^^ T in non-deduced context.
+</span><span style="color:#000080"></span><span style="color:#00cd00">int</span> main() {
+    Foo<span style="color:#39c">&lt;</span><span style="color:#00cd00">long</span><span style="color:#39c">&gt;</span> f{<span style="color:#cd00cd">42</span>};
+    addToFoo(f, <span style="color:#cd00cd">13</span>);  <span style="color:#000080">// Ok! T unambiguously deduced to &#39;long&#39;, and 13 promoted.
+</span><span style="color:#000080"></span>
+    <span style="color:#cdcd00">return</span> <span style="color:#cd00cd">0</span>;
+}
+</code></pre></div>
+<p>As <code>val</code> is now in a non-deduced context, template argument deduction falls back
+entirely on deduction via the argument supplied for the parameter <code>foo</code>.</p>
+
+<p>Note that the <code>identity_t</code> transformation trait above is just an alias, and, for
+clarity, we could likewise specify the type of <code>val</code> as
+<code>typename std::common_type&lt;T&gt;::type</code>, in which case it may be more apparent as
+to why <code>T</code> is non-deducable.</p>
+
+
+			
+
+			
+			
+			
+			
+	        
+	        
+	        
+	        
+			
+			    
+
+                
+				
+				
+
+			
+				<div class="paging">
+					<span class="paging-label">More Reading</span>
+
+					
+
+                    
+					<div class="paging-newer">
+						<span class="dark-red">Older</span><span class="decorative-marker">//</span>
+						<a class="paging-link" href="//dfrib.github.io/blogging-with-org-mode-and-ox-hugo/">The Reddest Rose Unfolds</a>
+		            </div>
+		            
+	            </div>
+                    
+
+                    
+                    
+          </section>
+          
+          	
+          
+        
+      <div class="footer">
+	<hr class="thin" />
+	<div class="pure-menu pure-menu-horizontal pure-menu-open">
+		<ul class="footer-menu">
+		
+		</ul>
+	</div>
+
+	<p>&copy; 2019-2020 David Friberg</p>
+</div>
+    </div>
+  </div>
+	
+
+	
+
+  
+</body>
+</html>
