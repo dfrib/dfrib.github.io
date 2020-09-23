@@ -250,6 +250,12 @@ clarity, we could likewise specify the type of <code>val</code> as
 <code>typename std::common_type&lt;T&gt;::type</code>, in which case it may be more apparent as
 to why <code>T</code> is non-deducable.</p>
 
+<p>Finally, note that as of C++20, specifically
+through its implementation of <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0887r1.pdf">P0887R1</a> (<em>The identity metafunction</em>), this very
+identity transformation trait has been added to the to the <code>type_traits</code> header,
+as the the library utility metafunction <code>std::type_identity</code> along with its
+helper alias template <code>std::type_identity_t</code>.</p>
+
 
 			
 
