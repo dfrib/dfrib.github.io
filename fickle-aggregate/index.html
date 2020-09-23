@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <title>
+    The fickle aggregate // [unfold] Bits of awareness
+  </title>
+
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="[David Friberg]">
+<meta name="generator" content="Hugo 0.58.3" />
+
+
+  <meta property="og:title" content="The fickle aggregate" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="//dfrib.github.io/fickle-aggregate/" />
+
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/base-min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/pure-min.css">
+  
+  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/grids-responsive-min.css">
+  
+  
+
+   
+   <link rel="stylesheet" href="//dfrib.github.io/css/redlounge.css">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href='//fonts.googleapis.com/css?family=Raleway:400,200,100,700,300,500,600,800' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' rel='stylesheet' type='text/css'>
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="//dfrib.github.io/touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" type="image/x-icon" href="//dfrib.github.io/img/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="[unfold] Bits of awareness" />
+
+  
+
+
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="//dfrib.github.io/css/override.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+  <script
+    charset="UTF-8"
+    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/lisp.min.js"></script>
+  <script
+    charset="UTF-8"
+    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/swift.min.js"></script>
+  <script
+    charset="UTF-8"
+    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/cmake.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+  
+
+  
+
+  
+
+  
+</head>
+
+<body>
+	
+
+	<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+  <div class="header">
+    
+
+	
+
+    <h1 class="brand-title">[unfold]</h1>
+    <h2 class="brand-tagline">Bits of awareness</h2>
+
+    <nav class="nav">
+      <ul class="nav-list">
+        
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="//dfrib.github.io/">Home</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="//dfrib.github.io/categories/cplusplus">C&#43;&#43;</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="//dfrib.github.io/categories/emacs">Emacs</a></li>
+        
+      </ul>
+    </nav>
+
+    
+    <div class="social-buttons">
+      
+        
+        <a href="https://github.com/dfrib" target="_blank"><i class ='fa fa-github'></i></a>
+        
+      
+        
+        <a href="https://www.linkedin.com/in/david-friberg-7642863a" target="_blank"><i class ='fa fa-linkedin'></i></a>
+        
+      
+        
+        <a href="https://stackoverflow.com/users/4573247/dfri?tab=profile" target="_blank"><i class ='fa fa-stack-overflow'></i></a>
+        
+      
+      
+    </div>
+    
+
+  </div>
+</div>
+
+	
+	
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+		<a name="top"></a>
+		
+
+		
+			
+		    
+			
+		    
+		    
+		    
+	    
+  		<section class="post">
+            <h1 class="post-title">
+              <a href="//dfrib.github.io/fickle-aggregate/">The fickle aggregate</a>
+            </h1>
+            <h3 class="post-subtitle">
+            	
+            </h3>
+            
+            	
+                
+            	
+            	
+            
+            	
+            		
+            		
+            	
+            
+
+			
+			
+				<div class="post-categories">
+				
+					<a class="post-category post-category-cplusplus" href="//dfrib.github.io/categories/cplusplus">cplusplus</a>
+				
+				</div>
+			
+            
+				<div class="tags-list">
+					<span class="dark-red">Tags</span><span class="decorative-marker">//</span>
+					
+	                <a class="post-tag post-tag-cpp" href="//dfrib.github.io/tags/cpp">cpp</a>,
+	                
+	                <a class="post-tag post-tag-aggregates" href="//dfrib.github.io/tags/aggregates">aggregates</a>,
+	                
+	                <a class="post-tag post-tag-initialization" href="//dfrib.github.io/tags/initialization">initialization</a>,
+	                
+				</div>
+			
+
+			
+
+			
+
+            
+
+<blockquote>
+<p>What is an aggregate class type?</p>
+</blockquote>
+
+<p>Aggregate class types makes up a special family of class types that can be,
+particularly, initialized by means of <em>aggregate initialization</em>, using
+<em>direct-list-init</em> or <em>copy-list-init</em>, <code>T aggr_obj{arg1, arg2, ...}</code> and <code>T
+aggr_obj = {arg1, arg2, ...}</code>, respectively. The rules governing whether a class
+is an aggregate or not, however, are not entirely straight-forward, particularly
+as the rules have been changing between different releases of the C++ standard.</p>
+
+<p>Before we visit the relevant standard passages, consider the implementation of
+the following contrived class type</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cdcd00">namespace</span> detail {
+<span style="color:#cdcd00">template</span> <span style="color:#39c">&lt;</span><span style="color:#00cd00">int</span> N<span style="color:#39c">&gt;</span>
+<span style="color:#cdcd00">struct</span> NumberImpl <span style="color:#cdcd00">final</span> {
+    <span style="color:#cdcd00">const</span> <span style="color:#00cd00">int</span> value{N};
+    <span style="color:#000080">// Factory method for NumberImpl&lt;N&gt; wrapping non-type
+</span><span style="color:#000080"></span>    <span style="color:#000080">// template parameter &#39;N&#39; as data member &#39;value&#39;.
+</span><span style="color:#000080"></span>    <span style="color:#cdcd00">static</span> <span style="color:#cdcd00">const</span> NumberImpl<span style="color:#39c">&amp;</span> get() {
+        <span style="color:#cdcd00">static</span> <span style="color:#cdcd00">constexpr</span> NumberImpl number{};
+        <span style="color:#cdcd00">return</span> number;
+    }
+
+<span style="color:#cdcd00">private</span><span style="color:#39c">:</span>
+    NumberImpl() <span style="color:#39c">=</span> <span style="color:#cdcd00">default</span>;
+    NumberImpl(<span style="color:#00cd00">int</span>) <span style="color:#39c">=</span> <span style="color:#cdcd00">delete</span>;
+    NumberImpl(<span style="color:#cdcd00">const</span> NumberImpl<span style="color:#39c">&amp;</span>) <span style="color:#39c">=</span> <span style="color:#cdcd00">delete</span>;
+    NumberImpl(NumberImpl<span style="color:#39c">&amp;&amp;</span>) <span style="color:#39c">=</span> <span style="color:#cdcd00">delete</span>;
+    NumberImpl<span style="color:#39c">&amp;</span> <span style="color:#cdcd00">operator</span><span style="color:#39c">=</span>(<span style="color:#cdcd00">const</span> NumberImpl<span style="color:#39c">&amp;</span>) <span style="color:#39c">=</span> <span style="color:#cdcd00">delete</span>;
+    NumberImpl<span style="color:#39c">&amp;</span> <span style="color:#cdcd00">operator</span><span style="color:#39c">=</span>(NumberImpl<span style="color:#39c">&amp;&amp;</span>) <span style="color:#39c">=</span> <span style="color:#cdcd00">delete</span>;
+};
+}  <span style="color:#000080">// namespace detail
+</span><span style="color:#000080"></span>
+<span style="color:#000080">// Intended public API.
+</span><span style="color:#000080"></span><span style="color:#cdcd00">template</span> <span style="color:#39c">&lt;</span><span style="color:#00cd00">int</span> N<span style="color:#39c">&gt;</span>
+<span style="color:#cdcd00">using</span> Number <span style="color:#39c">=</span> detail<span style="color:#39c">::</span>NumberImpl<span style="color:#39c">&lt;</span>N<span style="color:#39c">&gt;</span>;
+</code></pre></div>
+<p>where the design intent has been to create a non-copyable, non-movable singleton
+class template which wraps its single non-type template parameter into a
+public constant data member, and where the singleton object for each
+instantiation is the only that can ever be created for this particular class
+specialization. The author has defined an alias template <code>Number</code> solely to bar
+users of the API to explicitly specialize the underlying <code>detail::NumberImpl</code>
+class template.</p>
+
+<p>Ignoring the actual usefulness (or, rather, uselessness) of this class template,
+have the author correctly implemented its design intent? Or, in other words, as
+an acceptance test for the design of the publicly intended <code>Number</code> alias
+template, will the function that follows always return <code>true</code>?</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cdcd00">template</span> <span style="color:#39c">&lt;</span><span style="color:#00cd00">int</span> N<span style="color:#39c">&gt;</span>
+<span style="color:#00cd00">bool</span> wrappedValueIsN(<span style="color:#cdcd00">const</span> Number<span style="color:#39c">&lt;</span>N<span style="color:#39c">&gt;&amp;</span> num) {
+    <span style="color:#000080">// Always &#39;true&#39;, by design of the &#39;NumberImpl&#39; class?
+</span><span style="color:#000080"></span>    <span style="color:#cdcd00">return</span> N <span style="color:#39c">==</span> num.value;
+}
+</code></pre></div>
+<p>We will answer this question assuming that no user abuses the interface by
+specializing the semantically hidden <code>detail::NumberImpl</code>, in which case the
+answer is:</p>
+
+<ul>
+<li>C++11: Yes</li>
+<li>C++14: No</li>
+<li>C++17: No</li>
+<li>C++20: Yes</li>
+</ul>
+
+<p>The key is, as one might guess given the title of this post, that the class
+template <code>detail::NumberImpl</code> (for any instantiation of it) is an aggregate in
+C++14 and C++17, whereas it is not an aggregate in C++11 and C++20. As covered
+above, initialization of an object using <em>direct-list-init</em> or <em>copy-list-init</em>
+will result in <em>aggregate initialization</em> if the object is of an aggregate type.
+Thus what may look like <em>value initialization</em> (e.g. <code>Number&lt;1&gt; n{}</code> here)—which
+we may expect will have the effect of default initialization given that a
+user-provided default constructer exists—or <em>direct initialization</em> (<code>Number&lt;1&gt;
+n{2}</code> here) of a class type object will actually bypass any constructors, even
+deleted ones, if the class type is an aggregate.</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cdcd00">struct</span> NonCreateable {
+    NonCreateable() <span style="color:#39c">=</span> <span style="color:#cdcd00">delete</span>;
+    NonCreateable(<span style="color:#cdcd00">const</span> NonCreateable<span style="color:#39c">&amp;</span>) <span style="color:#39c">=</span> <span style="color:#cdcd00">delete</span>;
+    NonCreateable(NonCreateable<span style="color:#39c">&amp;&amp;</span>) <span style="color:#39c">=</span> <span style="color:#cdcd00">delete</span>;
+};
+
+<span style="color:#00cd00">int</span> main() {
+    <span style="color:#000080">//NonCreateable nc;  // error: call to deleted constructor
+</span><span style="color:#000080"></span>
+    <span style="color:#000080">// Aggregate initialization (and thus accepted) in C++11,
+</span><span style="color:#000080"></span>    <span style="color:#000080">// C++14 and C++17.
+</span><span style="color:#000080"></span>    <span style="color:#000080">// Rejected in C++20 (error: call to deleted constructor).
+</span><span style="color:#000080"></span>    NonCreateable nc{};
+}
+</code></pre></div>
+<p>Thus, we can fail the <code>wrappedValueIsN</code> acceptance test in C++14 and C++17 by
+bypassing the private and deleted <em>user-provided</em> constructors of
+<code>detail::NumberImpl</code> by aggregate initialization, specifically where we
+explicitly provide a value for the single <code>value</code> member thus overriding the
+designated member initializer (<code>... value{N};</code>) that otherwise sets its value to
+<code>N</code>.</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cdcd00">constexpr</span> <span style="color:#00cd00">bool</span> expected_result{<span style="color:#cd00cd">true</span>};
+<span style="color:#cdcd00">const</span> <span style="color:#00cd00">bool</span> actual_result <span style="color:#39c">=</span>
+    wrappedValueIsN(Number<span style="color:#39c">&lt;</span><span style="color:#cd00cd">42</span><span style="color:#39c">&gt;</span>{<span style="color:#cd00cd">41</span>}); <span style="color:#000080">// false
+</span><span style="color:#000080"></span>                           <span style="color:#000080">// ^^^^ aggr. init. int C++14 and C++17.
+</span></code></pre></div>
+<p>Note that even if <code>detail::NumberImpl</code> where to declare a private and explicitly
+defaulted destructor (<code>~NumberImpl() = default;</code> with <code>private</code> access
+specifyer) we could still, at the cost of a memory leak, break the acceptance
+test by e.g. dynamically allocating (and never deleting) a <code>detail::NumberImpl</code>
+object using aggregate initialization ( <code>wrappedValueIsN(*(new Number&lt;42&gt;{41}))</code>).</p>
+
+<p>But <em>why is</em> <code>detail::NumberImpl</code> an aggregate in C++14 and C++17, and <em>why is
+it not</em> an aggregate in C++11 and C++20? We shall turn to the relevant standard
+passages for the different standard versions for answer.</p>
+
+<h2 id="aggregates-in-c-plus-plus-11">Aggregates in C++11</h2>
+
+<p>The rules governing whether a class is an aggregate or not is covered by
+<a href="https://timsong-cpp.github.io/cppwp/n3337/dcl.init.aggr#1">{dcl.init.aggr}/1</a>, where we refer to <a href="https://timsong-cpp.github.io/cppwp/n3337/">N3337 (C++11 + editorial fixes)</a> for
+C++11 [ <strong>emphasis</strong> mine]:</p>
+
+<blockquote>
+<p>An <em>aggregate</em> is an array or a class (Clause [class]) with <strong>no user-provided
+constructors</strong> ([class.ctor]), <strong>no <em>brace-or-equal-initializers</em> for non-static
+data members</strong> ([class.mem]), no private or protected non-static data members (Clause
+[class.access]), no base classes (Clause [class.derived]), and no virtual
+functions ([class.virtual]).</p>
+</blockquote>
+
+<p>The emphasized segments are the most relevant ones for the context of this
+question.</p>
+
+<p>The <code>detail::NumberImpl</code> class does <em>declare</em> four constructors, such that is
+has four <em>user-declared</em> constructors, but it does not <em>provide</em> definitions for
+any of these constructors; it makes use of explicitly-defaulted and
+explicitly-deleted function definitions using the <code>default</code> and <code>delete</code>
+keywords, respectively, which does not count as being <em>user-provided</em>
+definitions.</p>
+
+<p>However, the class does use a <em>brace-or-equal-initializer</em> (commmonly referred
+to as a <em>designated member initializer</em>) for the single non-static data member
+<code>value</code>. This is the sole reason as to why the <code>detail::NumberImpl</code> class is not
+an aggregate in C++11.</p>
+
+<h2 id="aggregates-in-c-plus-plus-14">Aggregates in C++14</h2>
+
+<p>For C++14, we once again turn to <a href="https://timsong-cpp.github.io/cppwp/n4140/dcl.init.aggr#1">{dcl.init.aggr}/1</a>, now referring to <a href="https://timsong-cpp.github.io/cppwp/n4140/">N4140
+(C++14 + editorial fixes)</a>, which is nearly identical to the corresponding
+paragraph in C++11, except that the segment regarding
+<em>brace-or-equal-initializers</em> has been removed [ <strong>emphasis</strong> mine]:</p>
+
+<blockquote>
+<p>An <em>aggregate</em> is an array or a class (Clause [class]) with <strong>no user-provided
+constructors</strong> ([class.ctor]), no private or protected non-static data members
+(Clause [class.access]), no base classes (Clause [class.derived]), and no
+virtual functions ([class.virtual]).</p>
+</blockquote>
+
+<p>Thus, the <code>detail::NumberImpl</code> class fulfills the rules for it to be an
+aggregate in C++14, thus allowing circumventing all private, defaulted or
+deleted <em>user-declared</em> constructors by means of aggregate initialization.</p>
+
+<p>We will get back to the consistently emphasized segment regarding
+<em>user-provided</em> constructors once we reach C++20 in a minute, but shall visit
+some <code>explicit</code> confusion in C++17.</p>
+
+<h2 id="aggregates-in-c-plus-plus-17">Aggregates in C++17</h2>
+
+<p>True to its form, the aggregate once again changed in C++17, now allowing an
+aggregate to derive publically from a base class, with some restrictions, as
+well as prohibiting <code>explicit</code> constructors for aggregates. <a href="https://timsong-cpp.github.io/cppwp/n4659/dcl.init.aggr#1">{dcl.init.aggr}/1</a>
+from <a href="https://timsong-cpp.github.io/cppwp/n4659/">N4659 ((March 2017 post-Kona working draft/C++17 DIS)</a>, states [ <strong>emphasis</strong>
+mine]:</p>
+
+<blockquote>
+<p>An <em>aggregate</em> is an array or a class with</p>
+
+<ul>
+<li>(1.1) <strong>no user-provided, <code>explicit</code></strong>, or inherited <strong>constructors</strong> ([class.ctor]),</li>
+<li>(1.2) no private or protected non-static data members (Clause [class.access]),</li>
+<li>(1.3) no virtual functions, and</li>
+<li>(1.4) no virtual, private, or protected base classes ([class.mi]).</li>
+</ul>
+</blockquote>
+
+<p>The segment in about <code>explicit</code> is interesting in the context of this post, as
+we may further increase the aggregate cross-standard-releases volatility by
+changing the declaration of the private user-declared explicitly-defaulted
+default constructor of <code>detail::NumberImpl</code> from</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cdcd00">template</span> <span style="color:#39c">&lt;</span><span style="color:#00cd00">int</span> N<span style="color:#39c">&gt;</span>
+<span style="color:#cdcd00">struct</span> NumberImpl <span style="color:#cdcd00">final</span> {
+    <span style="color:#000080">// ...
+</span><span style="color:#000080"></span><span style="color:#cdcd00">private</span><span style="color:#39c">:</span>
+    NumberImpl() <span style="color:#39c">=</span> <span style="color:#cdcd00">default</span>;
+    <span style="color:#000080">// ...
+</span><span style="color:#000080"></span>};
+</code></pre></div>
+<p>into</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cdcd00">template</span> <span style="color:#39c">&lt;</span><span style="color:#00cd00">int</span> N<span style="color:#39c">&gt;</span>
+<span style="color:#cdcd00">struct</span> NumberImpl <span style="color:#cdcd00">final</span> {
+    <span style="color:#000080">// ...
+</span><span style="color:#000080"></span><span style="color:#cdcd00">private</span><span style="color:#39c">:</span>
+    <span style="color:#cdcd00">explicit</span> NumberImpl() <span style="color:#39c">=</span> <span style="color:#cdcd00">default</span>;
+    <span style="color:#000080">// ...
+</span><span style="color:#000080"></span>};
+</code></pre></div>
+<p>with the effect that <code>detail::NumberImpl</code> is no longer an aggregate in C++17,
+whilst still being an aggregate in C++14. Denote this example as <code>(*)</code>. Apart
+from <em>copy-list-initialization</em> with an empty <em>braced-init-list</em></p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cdcd00">struct</span> Foo {
+    <span style="color:#cdcd00">virtual</span> <span style="color:#00cd00">void</span> notAnAggregate() <span style="color:#cdcd00">const</span> {};
+    <span style="color:#cdcd00">explicit</span> Foo() {}
+};
+
+<span style="color:#00cd00">void</span> foo(Foo) {}
+
+<span style="color:#00cd00">int</span> main() {
+    Foo f1{};    <span style="color:#000080">// OK: direct-list-initialization
+</span><span style="color:#000080"></span>
+    <span style="color:#000080">// Error: converting to &#39;Foo&#39; from initializer
+</span><span style="color:#000080"></span>    <span style="color:#000080">// list would use explicit constructor &#39;Foo::Foo()&#39;
+</span><span style="color:#000080"></span>    Foo f2 <span style="color:#39c">=</span> {};
+    foo({});
+}
+</code></pre></div>
+<p>the case shown in <code>(*)</code> is the only situation where <code>explicit</code> actually has an
+effect on a default constructor with no parameters.</p>
+
+<h2 id="aggregates-in-c-plus-plus-20">Aggregates in C++20</h2>
+
+<p>As of C++20, particularly due to the implementation of <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1008r1.pdf">P1008R1</a> (<em>Prohibit
+aggregates with user-declared constructors</em>) most of the frequently surprising
+aggregate .. covered about has been addressed, specifically by no longer
+allowing aggregates to have <em>user-<strong>declared</strong></em> constructors, a much stricter
+requirement for a class to be an aggregate than just prohibiting <em>user-provided</em>
+constructors. We once again turn to <a href="https://timsong-cpp.github.io/cppwp/n4861/dcl.init.aggr#1">{dcl.init.aggr}/1</a>, now referring to <a href="https://timsong-cpp.github.io/cppwp/n4861/">N4861
+(March 2020 post-Prague working draft/C++20 DIS)</a>, which states [ <strong>emphasis</strong>
+mine]:</p>
+
+<blockquote>
+<p>An <em>aggregate</em> is an array or a class ([class]) with</p>
+
+<ul>
+<li>(1.1) <strong>no user-declared</strong> or inherited <strong>constructors</strong> ([class.ctor]),</li>
+<li>(1.2) no private or protected direct non-static data members ([class.access]),</li>
+<li>(1.3) no virtual functions ([class.virtual]), and</li>
+<li>(1.4) no virtual, private, or protected base classes ([class.mi]).</li>
+</ul>
+</blockquote>
+
+<p>We may also note that the segment about <code>explicit</code> constructors has been
+removed, now redundant a we cannot mark constructor as <code>explicit</code> if we may not
+declare it.</p>
+
+<h2 id="avoiding-aggregate-surprises">Avoiding aggregate surprises</h2>
+
+<p>All the examples above relied on class types with public non-static data
+members, which is commonly considered an anti-pattern for the design of
+&ldquo;non-POD-like&rdquo; classes. As a rule of thumb, if you&rsquo;d like to avoid designing a
+class that is unintentionally an aggregate, simply make sure at least one
+(typically even all) of its non-static data members are private (/protected).
+For cases where this for some reason cannot be applied, and where you still
+don&rsquo;t want the class to be an aggregate, make sure to turn to the relevant rules
+for the respective standard (as listed above) to avoid writing a class that is
+not portable w.r.t. being an aggregate or not over different C++ standard
+versions.</p>
+
+
+			
+
+			
+			
+			
+			
+	        
+	        
+	        
+	        
+	        
+	        
+			
+			    
+
+                
+				
+				
+
+			
+				<div class="paging">
+					<span class="paging-label">More Reading</span>
+
+					
+
+                    
+					<div class="paging-newer">
+						<span class="dark-red">Older</span><span class="decorative-marker">//</span>
+						<a class="paging-link" href="//dfrib.github.io/non-deduced-contexts/">Leveraging non-deduced contexts for template argument deduction</a>
+		            </div>
+		            
+	            </div>
+                    
+
+                    
+                    
+          </section>
+          
+          	
+          
+        
+      <div class="footer">
+	<hr class="thin" />
+	<div class="pure-menu pure-menu-horizontal pure-menu-open">
+		<ul class="footer-menu">
+		
+		</ul>
+	</div>
+
+	<p>&copy; 2019-2020 David Friberg</p>
+</div>
+    </div>
+  </div>
+	
+
+	
+
+  
+</body>
+</html>

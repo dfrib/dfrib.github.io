@@ -6,10 +6,20 @@
     <description>Recent content in cplusplus on [unfold] Bits of awareness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 31 Aug 2020 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 22 Sep 2020 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="//dfrib.github.io/categories/cplusplus/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>The fickle aggregate</title>
+      <link>//dfrib.github.io/fickle-aggregate/</link>
+      <pubDate>Tue, 22 Sep 2020 00:00:00 +0200</pubDate>
+      
+      <guid>//dfrib.github.io/fickle-aggregate/</guid>
+      <description>What is an aggregate class type?
+ Aggregate class types makes up a special family of class types that can be, particularly, initialized by means of aggregate initialization, using direct-list-init or copy-list-init, T aggr_obj{arg1, arg2, ...} and T aggr_obj = {arg1, arg2, ...}, respectively. The rules governing whether a class is an aggregate or not, however, are not entirely straight-forward, particularly as the rules have been changing between different releases of the C++ standard.</description>
+    </item>
     
     <item>
       <title>Leveraging non-deduced contexts for template argument deduction</title>
