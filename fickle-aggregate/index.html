@@ -349,7 +349,7 @@ some <code>explicit</code> confusion in C++17.</p>
 <h2 id="aggregates-in-c-plus-plus-17">Aggregates in C++17</h2>
 
 <p>True to its form, the aggregate once again changed in C++17, now allowing an
-aggregate to derive publically from a base class, with some restrictions, as
+aggregate to derive publicly from a base class, with some restrictions, as
 well as prohibiting <code>explicit</code> constructors for aggregates. <a href="https://timsong-cpp.github.io/cppwp/n4659/dcl.init.aggr#1">{dcl.init.aggr}/1</a>
 from <a href="https://timsong-cpp.github.io/cppwp/n4659/">N4659 ((March 2017 post-Kona working draft/C++17 DIS)</a>, states [ <strong>emphasis</strong>
 mine]:</p>
@@ -412,7 +412,7 @@ effect on a default constructor with no parameters.</p>
 
 <p>As of C++20, particularly due to the implementation of <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1008r1.pdf">P1008R1</a> (<em>Prohibit
 aggregates with user-declared constructors</em>) most of the frequently surprising
-aggregate .. covered about has been addressed, specifically by no longer
+aggregate behaviour covered above has been addressed, specifically by no longer
 allowing aggregates to have <em>user-<strong>declared</strong></em> constructors, a much stricter
 requirement for a class to be an aggregate than just prohibiting <em>user-provided</em>
 constructors. We once again turn to <a href="https://timsong-cpp.github.io/cppwp/n4861/dcl.init.aggr#1">{dcl.init.aggr}/1</a>, now referring to <a href="https://timsong-cpp.github.io/cppwp/n4861/">N4861
