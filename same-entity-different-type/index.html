@@ -206,12 +206,37 @@ Expand
 </summary>
 <p class="details"></p>
 
-<p>The answer is the enumerator of an enum.</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#000080">#include</span> <span style="color:#000080">&lt;type_traits&gt;</span><span style="color:#000080">
-</span><span style="color:#000080"></span>
-<span style="color:#cdcd00">enum</span> <span style="color:#cdcd00">class</span><span style=""> </span><span style="color:#00cdcd">Foo</span><span style="color:#39c">:</span> <span style="color:#00cd00">int</span>;
-<span style="color:#cdcd00">constexpr</span> Foo f <span style="color:#39c">=</span> <span style="color:#cdcd00">static_cast</span><span style="color:#39c">&lt;</span>Foo<span style="color:#39c">&gt;</span>(<span style="color:#cd00cd">0</span>);
+<p>The answer is the enumerator of an enum. As governed by <a href="https://timsong-cpp.github.io/cppwp/n4659/dcl.enum#5">{dcl.enum}/5</a> [extract,
+*<strong><em>emphasis</em></strong>* mine]:</p>
 
+<blockquote>
+<p>*<strong><em>Following the closing brace</em></strong>* of an enum-specifier, *<strong><em>each enumerator has the
+type of its enumeration</em></strong>*. If the underlying type is fixed, the type of each
+enumerator *<strong><em>prior to the closing brace is the underlying type</em></strong>* [&hellip;]. If the
+underlying type *<strong><em>is not fixed</em></strong>*, *<strong><em>the type of each enumerator prior to the
+closing brace</em></strong>* is determined as follows:</p>
+
+<ul>
+<li>[&hellip;]</li>
+</ul>
+</blockquote>
+
+<p>in simple terms, the type of each enumerator changes depending on whether its
+viewed from within the definition of the enumeration or from outside of it.</p>
+
+<p>Inside the definition of the enum (no matter if it is a scoped enum or not), the
+type of the enumerators (ignoring some details in <a href="https://timsong-cpp.github.io/cppwp/n4659/dcl.enum#5.1">{dcl.enum}/5.1</a> and
+<a href="https://timsong-cpp.github.io/cppwp/n4659/dcl.enum#5.3">{dcl.enum}/5.3</a> for enumerations where the underlying type is not fixed) is that
+of the underlying type, whereas outside of the definition of the enum, the type
+of the same enumerators have is that of the enum itself.</p>
+
+<p>We may show it in practice with an example, where we start by defining a trait
+that wraps a type identity check (<code>std::is_same</code>) whilst forwarding a
+<code>constexpr</code> value:</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#000080">// util.h
+</span><span style="color:#000080"></span><span style="color:#000080">#pragma once
+</span><span style="color:#000080">#include</span> <span style="color:#000080">&lt;type_traits&gt;</span><span style="color:#000080">
+</span><span style="color:#000080"></span>
 <span style="color:#000080">// Forward a constexpr value whilst statically asserting
 </span><span style="color:#000080">// type identity between the two type template parameters.
 </span><span style="color:#000080"></span><span style="color:#cdcd00">template</span> <span style="color:#39c">&lt;</span><span style="color:#cdcd00">typename</span> T, <span style="color:#cdcd00">typename</span> U, <span style="color:#00cd00">int</span> VALUE<span style="color:#39c">&gt;</span>
@@ -223,6 +248,15 @@ Expand
 <span style="color:#cdcd00">template</span> <span style="color:#39c">&lt;</span><span style="color:#cdcd00">typename</span> T, <span style="color:#cdcd00">typename</span> U, <span style="color:#00cd00">int</span> VALUE<span style="color:#39c">&gt;</span>
 <span style="color:#cdcd00">constexpr</span> <span style="color:#00cd00">int</span> is_same_and_value_v <span style="color:#39c">=</span>
     is_same_and_value<span style="color:#39c">&lt;</span>T, U, VALUE<span style="color:#39c">&gt;::</span>value;
+</code></pre></div>
+<p>and thereafter make use of this trait to check the type identity of an
+enumerator from within an enum definition whilst simultaneously initializing
+another enumerator with a <code>constexpr</code> value.</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#000080">#include</span> <span style="color:#000080">&lt;type_traits&gt;</span><span style="color:#000080">
+</span><span style="color:#000080">#include</span> <span style="color:#000080">&#34;util.h&#34;</span><span style="color:#000080">
+</span><span style="color:#000080"></span>
+<span style="color:#cdcd00">enum</span> <span style="color:#cdcd00">class</span><span style=""> </span><span style="color:#00cdcd">Foo</span><span style="color:#39c">:</span> <span style="color:#00cd00">int</span>;
+<span style="color:#cdcd00">constexpr</span> Foo f <span style="color:#39c">=</span> <span style="color:#cdcd00">static_cast</span><span style="color:#39c">&lt;</span>Foo<span style="color:#39c">&gt;</span>(<span style="color:#cd00cd">0</span>);
 
 <span style="color:#cdcd00">enum</span> <span style="color:#cdcd00">class</span><span style=""> </span><span style="color:#00cdcd">Foo</span><span style="color:#39c">:</span> <span style="color:#00cd00">int</span> {
   A,
@@ -234,7 +268,7 @@ Expand
 };
 
 <span style="color:#000080">// Outside of the definition, the type of each enumerator, however,
-</span><span style="color:#000080">// is no longer that of the underlying type, the is the type of the enum.
+</span><span style="color:#000080">// is no longer that of the underlying type, but that of the enum.
 </span><span style="color:#000080"></span><span style="color:#cdcd00">static_assert</span>(std<span style="color:#39c">::</span>is_same_v<span style="color:#39c">&lt;</span><span style="color:#cdcd00">decltype</span>(Foo<span style="color:#39c">::</span>A), Foo<span style="color:#39c">&gt;</span>, <span style="color:#cd0000">&#34;&#34;</span>);
 <span style="color:#cdcd00">static_assert</span>(<span style="color:#39c">!</span>std<span style="color:#39c">::</span>is_same_v<span style="color:#39c">&lt;</span><span style="color:#cdcd00">decltype</span>(Foo<span style="color:#39c">::</span>B), <span style="color:#00cd00">int</span><span style="color:#39c">&gt;</span>, <span style="color:#cd0000">&#34;&#34;</span>);
 
