@@ -12,24 +12,9 @@
     
     
     <item>
-      <title>Pop quiz: same entity, with different type depending on context and/or scope?</title>
-      <link>//dfrib.github.io/same-entity-different-type/</link>
-      <pubDate>Thu, 24 Sep 2020 00:00:00 +0200</pubDate>
-      
-      <guid>//dfrib.github.io/same-entity-different-type/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Is(/are) there any scenario(s) where a name, which refers to an entity, actually
-refers to a different types (whilst still referring to the same entity)
-depending on context and/or scope? Or, to put it in another way, is(/are) there
-any scenario(s) where the type of a named entity changes depending on context
-and/or scope?&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
       <title>The fickle aggregate</title>
       <link>//dfrib.github.io/fickle-aggregate/</link>
-      <pubDate>Tue, 22 Sep 2020 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 24 Sep 2020 00:00:00 +0200</pubDate>
       
       <guid>//dfrib.github.io/fickle-aggregate/</guid>
       <description>&lt;blockquote&gt;
