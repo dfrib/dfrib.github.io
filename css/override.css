@@ -47,7 +47,7 @@ details summary {
     /* border-right-width: 6px; */
     /* border-right-style: solid; */
     /* border-right-color: rgba(0, 0, 0, 0) transparent; */
-    background-color: paleturquoise;
+    background-color: #e6ffe6; /* #e6e6ff; */ 
 }
 
 /* use nicer block quotes */
