@@ -4,7 +4,37 @@
   
   <url>
     <loc>//dfrib.github.io/</loc>
-    <lastmod>2020-09-24T11:02:15+02:00</lastmod>
+    <lastmod>2020-09-24T11:40:35+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>//dfrib.github.io/categories/</loc>
+    <lastmod>2020-09-24T11:40:35+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>//dfrib.github.io/categories/cplusplus/</loc>
+    <lastmod>2020-09-24T11:40:35+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>//dfrib.github.io/tags/cpp/</loc>
+    <lastmod>2020-09-24T11:40:35+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>//dfrib.github.io/same-entity-different-type/</loc>
+    <lastmod>2020-09-24T11:40:35+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>//dfrib.github.io/tags/quiz/</loc>
+    <lastmod>2020-09-24T11:40:35+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>//dfrib.github.io/tags/</loc>
+    <lastmod>2020-09-24T11:40:35+02:00</lastmod>
   </url>
   
   <url>
@@ -13,28 +43,8 @@
   </url>
   
   <url>
-    <loc>//dfrib.github.io/categories/</loc>
-    <lastmod>2020-09-24T11:02:15+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>//dfrib.github.io/categories/cplusplus/</loc>
-    <lastmod>2020-09-24T11:01:53+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>//dfrib.github.io/tags/cpp/</loc>
-    <lastmod>2020-09-24T11:01:53+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>//dfrib.github.io/tags/initialization/</loc>
     <lastmod>2020-09-24T11:00:02+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>//dfrib.github.io/tags/</loc>
-    <lastmod>2020-09-24T11:02:15+02:00</lastmod>
   </url>
   
   <url>
@@ -53,12 +63,12 @@
   </url>
   
   <url>
-    <loc>//dfrib.github.io/tags/emacs/</loc>
+    <loc>//dfrib.github.io/categories/emacs/</loc>
     <lastmod>2020-09-24T11:02:15+02:00</lastmod>
   </url>
   
   <url>
-    <loc>//dfrib.github.io/categories/emacs/</loc>
+    <loc>//dfrib.github.io/tags/emacs/</loc>
     <lastmod>2020-09-24T11:02:15+02:00</lastmod>
   </url>
   
