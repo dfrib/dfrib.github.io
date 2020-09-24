@@ -252,7 +252,7 @@ a.post-author {
     height: 50px;
 }
 .post-summary {
-	margin-top: 0.5rem;
+	margin-top: 0; /* 0.5rem; */
 }
 .read-more-link {
 	float: right;
