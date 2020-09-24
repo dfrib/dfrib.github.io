@@ -168,9 +168,27 @@
             </p>
             
               <article class="post-summary">
-            	What is an example of a non-deduced context, and why can it be useful to know about these?
- The following snippet
-template&lt;typename T&gt; struct Foo { T t; }; template&lt;typename T&gt; void addToFoo(Foo&lt;T&gt;&amp; foo, T val) { foo.t += val; } int main() { Foo&lt;long&gt; f{42}; addToFoo(f, 13); // error: no matching function for call to &#39;addToFoo&#39;  return 0; }  is ill-formed, as (function) template argument deduction for the dependent function parameters foo and val of the addToFoo function template resolves to different, conflicting types in the addToFoo(f, 13) function call.
+            	<blockquote>
+<p>What is an example of a non-deduced context, and why can it be useful to know
+about these?</p>
+</blockquote>
+
+<p>The following snippet</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#cdcd00">template</span><span style="color:#39c">&lt;</span><span style="color:#cdcd00">typename</span> T<span style="color:#39c">&gt;</span>
+<span style="color:#cdcd00">struct</span> Foo { T t; };
+
+<span style="color:#cdcd00">template</span><span style="color:#39c">&lt;</span><span style="color:#cdcd00">typename</span> T<span style="color:#39c">&gt;</span>
+<span style="color:#00cd00">void</span> addToFoo(Foo<span style="color:#39c">&lt;</span>T<span style="color:#39c">&gt;&amp;</span> foo, T val) { foo.t <span style="color:#39c">+=</span> val; }
+
+<span style="color:#00cd00">int</span> main() {
+    Foo<span style="color:#39c">&lt;</span><span style="color:#00cd00">long</span><span style="color:#39c">&gt;</span> f{<span style="color:#cd00cd">42</span>};
+    addToFoo(f, <span style="color:#cd00cd">13</span>); <span style="color:#000080">// error: no matching function for call to &#39;addToFoo&#39;
+</span><span style="color:#000080"></span>    <span style="color:#cdcd00">return</span> <span style="color:#cd00cd">0</span>;
+}
+</code></pre></div>
+<p>is ill-formed, as (function) template argument deduction for the dependent
+function parameters <code>foo</code> and <code>val</code> of the <code>addToFoo</code> function template resolves
+to different, conflicting types in the <code>addToFoo(f, 13)</code> function call.</p>
               </article>
 			  <div class="read-more-link">
 				<a href="//dfrib.github.io/non-deduced-contexts/"><span class="read-more-slashes">//</span>Read More...</a>

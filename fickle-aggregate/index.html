@@ -180,16 +180,16 @@
 
 			
 
-            
-
-<blockquote>
+            <blockquote>
 <p>What is an aggregate class?</p>
 </blockquote>
 
 <p>Aggregate class types makes up a special family of class types that can be,
 particularly, initialized by means of <em>aggregate initialization</em>, using
 <em>direct-list-init</em> or <em>copy-list-init</em>, <code>T aggr_obj{arg1, arg2, ...}</code> and <code>T
-aggr_obj = {arg1, arg2, ...}</code>, respectively. The rules governing whether a class
+aggr_obj = {arg1, arg2, ...}</code>, respectively.</p>
+
+<p>The rules governing whether a class
 is an aggregate or not are not entirely straight-forward, particularly as the
 rules have been changing between different releases of the C++ standard. In this
 post we&rsquo;ll go over these rules and how they have changed over the standard
@@ -451,7 +451,6 @@ don&rsquo;t want the class to be an aggregate, make sure to turn to the relevant
 for the respective standard (as listed above) to avoid writing a class that is
 not portable w.r.t. being an aggregate or not over different C++ standard
 versions.</p>
-
 
 			
 

@@ -17,8 +17,14 @@
       <pubDate>Tue, 22 Sep 2020 00:00:00 +0200</pubDate>
       
       <guid>//dfrib.github.io/fickle-aggregate/</guid>
-      <description>What is an aggregate class?
- Aggregate class types makes up a special family of class types that can be, particularly, initialized by means of aggregate initialization, using direct-list-init or copy-list-init, T aggr_obj{arg1, arg2, ...} and T aggr_obj = {arg1, arg2, ...}, respectively. The rules governing whether a class is an aggregate or not are not entirely straight-forward, particularly as the rules have been changing between different releases of the C++ standard.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;What is an aggregate class?&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Aggregate class types makes up a special family of class types that can be,
+particularly, initialized by means of &lt;em&gt;aggregate initialization&lt;/em&gt;, using
+&lt;em&gt;direct-list-init&lt;/em&gt; or &lt;em&gt;copy-list-init&lt;/em&gt;, &lt;code&gt;T aggr_obj{arg1, arg2, ...}&lt;/code&gt; and &lt;code&gt;T
+aggr_obj = {arg1, arg2, ...}&lt;/code&gt;, respectively.&lt;/p&gt;</description>
     </item>
     
   </channel>

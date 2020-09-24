@@ -16,6 +16,8 @@ https://github.com/highlightjs/highlight.js/blob/master/src/styles/atom-one-dark
   display: block;
   overflow-x: auto;
   padding: 0.5em;
+  margin-bottom: -0.5em;
+  margin-top: -0.5em;
   color: #abb2bf;
   border: 2px solid black;
   background: #2d303b; /* #282c34; */
@@ -25,11 +27,34 @@ https://github.com/highlightjs/highlight.js/blob/master/src/styles/atom-one-dark
 /* blockquote { border-left: 1px dotted #f03838; margin: 40px 0; padding: 5px 30px; } */
 /* blockquote p { color: #aeadad; display: block; font-style: italic; margin: 0; width: 100%; } */
 
+details summary {
+    padding-left: 1em;
+    border: 2px solid black;
+    /* background-color: #F0F0F0; */
+    font-style: bold;
+
+    border-left: .25em solid;
+    margin: 1em;
+    margin-bottom: 1.0em;
+    padding: 0 1em;
+
+    border-radius: 6px;
+    border-left-width: 6px;
+    border-left-style: solid;
+    /* border-bottom-width: 1px; */
+    /* border-bottom-style: dashed; */
+    /* border-right: 6px solid transparent; */
+    /* border-right-width: 6px; */
+    /* border-right-style: solid; */
+    /* border-right-color: rgba(0, 0, 0, 0) transparent; */
+    background-color: paleturquoise;
+}
+
 /* use nicer block quotes */
 blockquote {
   border-left: .25em solid;
   margin: 1em;
-  margin-bottom: 1.5em;
+  margin-bottom: 1.0em;
   padding: 0 1em;
   font-size: 0.9em;
   font-style: italic;
