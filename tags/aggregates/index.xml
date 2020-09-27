@@ -6,22 +6,22 @@
     <description>Recent content in aggregates on [unfold] Bits of awareness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 24 Sep 2020 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 27 Sep 2020 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="//dfrib.github.io/tags/aggregates/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>The fickle aggregate</title>
-      <link>//dfrib.github.io/fickle-aggregate/</link>
-      <pubDate>Thu, 24 Sep 2020 00:00:00 +0200</pubDate>
+      <link>//dfrib.github.io/the-fickle-aggregate/</link>
+      <pubDate>Sun, 27 Sep 2020 00:00:00 +0200</pubDate>
       
-      <guid>//dfrib.github.io/fickle-aggregate/</guid>
+      <guid>//dfrib.github.io/the-fickle-aggregate/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;What is an aggregate class?&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;Aggregate class types makes up a special family of class types that can be,
+&lt;p&gt;Aggregate class types make up a special family of class types that can be,
 particularly, initialized by means of &lt;em&gt;aggregate initialization&lt;/em&gt;, using
 &lt;em&gt;direct-list-init&lt;/em&gt; or &lt;em&gt;copy-list-init&lt;/em&gt;, &lt;code&gt;T aggr_obj{arg1, arg2, ...}&lt;/code&gt; and &lt;code&gt;T
 aggr_obj = {arg1, arg2, ...}&lt;/code&gt;, respectively.&lt;/p&gt;</description>

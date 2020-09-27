@@ -21,7 +21,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="en_US" />
-<meta property="og:url" content="//dfrib.github.io/fickle-aggregate/" />
+<meta property="og:url" content="//dfrib.github.io/the-fickle-aggregate/" />
 
 
   
@@ -138,7 +138,7 @@
 	    
   		<section class="post">
             <h1 class="post-title">
-              <a href="//dfrib.github.io/fickle-aggregate/">The fickle aggregate</a>
+              <a href="//dfrib.github.io/the-fickle-aggregate/">The fickle aggregate</a>
             </h1>
             <h3 class="post-subtitle">
             	
@@ -184,7 +184,7 @@
 <p>What is an aggregate class?</p>
 </blockquote>
 
-<p>Aggregate class types makes up a special family of class types that can be,
+<p>Aggregate class types make up a special family of class types that can be,
 particularly, initialized by means of <em>aggregate initialization</em>, using
 <em>direct-list-init</em> or <em>copy-list-init</em>, <code>T aggr_obj{arg1, arg2, ...}</code> and <code>T
 aggr_obj = {arg1, arg2, ...}</code>, respectively.</p>
@@ -259,8 +259,8 @@ As covered above, initialization of an object using <em>direct-list-init</em> or
 <em>copy-list-init</em> will result in <em>aggregate initialization</em> if the object is of
 an aggregate type.
 Thus, what may look like <em>value initialization</em> (e.g. <code>Number&lt;1&gt; n{}</code>
-here)—which we may expect will have the effect of zero initialization followed
-by default initialization as a <em>user-declared</em> but not <em>user-provided</em> default
+here)—which we may expect will have the effect of <em>zero initialization</em> followed
+by <em>default initialization</em> as a <em>user-declared</em> but not <em>user-provided</em> default
 constructer exists—or <em>direct initialization</em> (<code>Number&lt;1&gt;n{2}</code> here) of a class
 type object will actually bypass any constructors, even deleted ones, if the
 class type is an aggregate.</p>
@@ -418,7 +418,7 @@ effect on a default constructor with no parameters.</p>
 <p>As of C++20, particularly due to the implementation of <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1008r1.pdf">P1008R1</a> (<em>Prohibit
 aggregates with user-declared constructors</em>) most of the frequently surprising
 aggregate behaviour covered above has been addressed, specifically by no longer
-allowing aggregates to have <em>user-<strong>declared</strong></em> constructors, a much stricter
+allowing aggregates to have <em>user-<strong>declared</strong></em> constructors, a stricter
 requirement for a class to be an aggregate than just prohibiting <em>user-provided</em>
 constructors. We once again turn to <a href="https://timsong-cpp.github.io/cppwp/n4861/dcl.init.aggr#1">{dcl.init.aggr}/1</a>, now referring to <a href="https://timsong-cpp.github.io/cppwp/n4861/">N4861
 (March 2020 post-Prague working draft/C++20 DIS)</a>, which states [ <strong>emphasis</strong>
@@ -436,8 +436,8 @@ mine]:</p>
 </blockquote>
 
 <p>We may also note that the segment about <code>explicit</code> constructors has been
-removed, now redundant a we cannot mark constructor as <code>explicit</code> if we may not
-declare it.</p>
+removed, now redundant as we cannot mark a constructor as <code>explicit</code> if we may
+not even declare it.</p>
 
 <h2 id="avoiding-aggregate-surprises">Avoiding aggregate surprises</h2>
 
@@ -445,7 +445,7 @@ declare it.</p>
 members, which is commonly considered an anti-pattern for the design of
 &ldquo;non-POD-like&rdquo; classes. As a rule of thumb, if you&rsquo;d like to avoid designing a
 class that is unintentionally an aggregate, simply make sure that at least one
-(typically even all) of its non-static data members are private (/protected).
+(typically even all) of its non-static data members is private (/protected).
 For cases where this for some reason cannot be applied, and where you still
 don&rsquo;t want the class to be an aggregate, make sure to turn to the relevant rules
 for the respective standard (as listed above) to avoid writing a class that is
