@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>cpp on [unfold] Bits of awareness</title>
@@ -6,11 +6,7 @@
     <description>Recent content in cpp on [unfold] Bits of awareness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Sep 2020 00:00:00 +0200</lastBuildDate>
-    
-	<atom:link href="https://dfrib.github.io/tags/cpp/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 28 Sep 2020 00:00:00 +0200</lastBuildDate><atom:link href="https://dfrib.github.io/tags/cpp/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>The fickle aggregate</title>
       <link>https://dfrib.github.io/the-fickle-aggregate/</link>
@@ -20,11 +16,9 @@
       <description>&lt;blockquote&gt;
 &lt;p&gt;What is an aggregate class?&lt;/p&gt;
 &lt;/blockquote&gt;
-
 &lt;p&gt;Aggregate class types make up a special family of class types that can be,
 particularly, initialized by means of &lt;em&gt;aggregate initialization&lt;/em&gt;, using
-&lt;em&gt;direct-list-init&lt;/em&gt; or &lt;em&gt;copy-list-init&lt;/em&gt;, &lt;code&gt;T aggr_obj{arg1, arg2, ...}&lt;/code&gt; and &lt;code&gt;T
-aggr_obj = {arg1, arg2, ...}&lt;/code&gt;, respectively.&lt;/p&gt;</description>
+&lt;em&gt;direct-list-init&lt;/em&gt; or &lt;em&gt;copy-list-init&lt;/em&gt;, &lt;code&gt;T aggr_obj{arg1, arg2, ...}&lt;/code&gt; and &lt;code&gt;T aggr_obj = {arg1, arg2, ...}&lt;/code&gt;, respectively.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -37,10 +31,9 @@ aggr_obj = {arg1, arg2, ...}&lt;/code&gt;, respectively.&lt;/p&gt;</description>
 &lt;p&gt;What is an example of a non-deduced context, and why can it be useful to know
 about these?&lt;/p&gt;
 &lt;/blockquote&gt;
-
 &lt;p&gt;The following snippet&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#cdcd00&#34;&gt;template&lt;/span&gt;&lt;span style=&#34;color:#39c&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#cdcd00&#34;&gt;typename&lt;/span&gt; T&lt;span style=&#34;color:#39c&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#cdcd00&#34;&gt;struct&lt;/span&gt; Foo { T t; };
+&lt;span style=&#34;color:#cdcd00&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#00cdcd&#34;&gt;Foo&lt;/span&gt; { T t; };
 
 &lt;span style=&#34;color:#cdcd00&#34;&gt;template&lt;/span&gt;&lt;span style=&#34;color:#39c&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#cdcd00&#34;&gt;typename&lt;/span&gt; T&lt;span style=&#34;color:#39c&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;span style=&#34;color:#00cd00&#34;&gt;void&lt;/span&gt; addToFoo(Foo&lt;span style=&#34;color:#39c&#34;&gt;&amp;lt;&lt;/span&gt;T&lt;span style=&#34;color:#39c&#34;&gt;&amp;gt;&amp;amp;&lt;/span&gt; foo, T val) { foo.t &lt;span style=&#34;color:#39c&#34;&gt;+=&lt;/span&gt; val; }
@@ -50,8 +43,7 @@ about these?&lt;/p&gt;
     addToFoo(f, &lt;span style=&#34;color:#cd00cd&#34;&gt;13&lt;/span&gt;); &lt;span style=&#34;color:#000080&#34;&gt;// error: no matching function for call to &amp;#39;addToFoo&amp;#39;
 &lt;/span&gt;&lt;span style=&#34;color:#000080&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#cdcd00&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#cd00cd&#34;&gt;0&lt;/span&gt;;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;is ill-formed, as (function) template argument deduction for the dependent
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;is ill-formed, as (function) template argument deduction for the dependent
 function parameters &lt;code&gt;foo&lt;/code&gt; and &lt;code&gt;val&lt;/code&gt; of the &lt;code&gt;addToFoo&lt;/code&gt; function template resolves
 to different, conflicting types in the &lt;code&gt;addToFoo(f, 13)&lt;/code&gt; function call.&lt;/p&gt;</description>
     </item>

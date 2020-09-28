@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>aggregates on [unfold] Bits of awareness</title>
@@ -6,11 +6,7 @@
     <description>Recent content in aggregates on [unfold] Bits of awareness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Sep 2020 00:00:00 +0200</lastBuildDate>
-    
-	<atom:link href="https://dfrib.github.io/tags/aggregates/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 28 Sep 2020 00:00:00 +0200</lastBuildDate><atom:link href="https://dfrib.github.io/tags/aggregates/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>The fickle aggregate</title>
       <link>https://dfrib.github.io/the-fickle-aggregate/</link>
@@ -20,11 +16,9 @@
       <description>&lt;blockquote&gt;
 &lt;p&gt;What is an aggregate class?&lt;/p&gt;
 &lt;/blockquote&gt;
-
 &lt;p&gt;Aggregate class types make up a special family of class types that can be,
 particularly, initialized by means of &lt;em&gt;aggregate initialization&lt;/em&gt;, using
-&lt;em&gt;direct-list-init&lt;/em&gt; or &lt;em&gt;copy-list-init&lt;/em&gt;, &lt;code&gt;T aggr_obj{arg1, arg2, ...}&lt;/code&gt; and &lt;code&gt;T
-aggr_obj = {arg1, arg2, ...}&lt;/code&gt;, respectively.&lt;/p&gt;</description>
+&lt;em&gt;direct-list-init&lt;/em&gt; or &lt;em&gt;copy-list-init&lt;/em&gt;, &lt;code&gt;T aggr_obj{arg1, arg2, ...}&lt;/code&gt; and &lt;code&gt;T aggr_obj = {arg1, arg2, ...}&lt;/code&gt;, respectively.&lt;/p&gt;</description>
     </item>
     
   </channel>

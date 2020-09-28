@@ -14,7 +14,7 @@
 <meta name="description" content="">
 <meta name="keywords" content="">
 <meta name="author" content="[David Friberg]">
-<meta name="generator" content="Hugo 0.58.3" />
+<meta name="generator" content="Hugo 0.75.1" />
 
 
   <meta property="og:title" content="Leveraging non-deduced contexts for template argument deduction" />
@@ -130,6 +130,11 @@
 
 		
 			
+		    
+			
+		    
+		    
+		    
 	    
   		<section class="post">
             <h1 class="post-title">
@@ -177,10 +182,9 @@
 <p>What is an example of a non-deduced context, and why can it be useful to know
 about these?</p>
 </blockquote>
-
 <p>The following snippet</p>
 <div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#cdcd00">template</span><span style="color:#39c">&lt;</span><span style="color:#cdcd00">typename</span> T<span style="color:#39c">&gt;</span>
-<span style="color:#cdcd00">struct</span> Foo { T t; };
+<span style="color:#cdcd00">struct</span> <span style="color:#00cdcd">Foo</span> { T t; };
 
 <span style="color:#cdcd00">template</span><span style="color:#39c">&lt;</span><span style="color:#cdcd00">typename</span> T<span style="color:#39c">&gt;</span>
 <span style="color:#00cd00">void</span> addToFoo(Foo<span style="color:#39c">&lt;</span>T<span style="color:#39c">&gt;&amp;</span> foo, T val) { foo.t <span style="color:#39c">+=</span> val; }
@@ -190,29 +194,23 @@ about these?</p>
     addToFoo(f, <span style="color:#cd00cd">13</span>); <span style="color:#000080">// error: no matching function for call to &#39;addToFoo&#39;
 </span><span style="color:#000080"></span>    <span style="color:#cdcd00">return</span> <span style="color:#cd00cd">0</span>;
 }
-</code></pre></div>
-<p>is ill-formed, as (function) template argument deduction for the dependent
+</code></pre></div><p>is ill-formed, as (function) template argument deduction for the dependent
 function parameters <code>foo</code> and <code>val</code> of the <code>addToFoo</code> function template resolves
 to different, conflicting types in the <code>addToFoo(f, 13)</code> function call.</p>
-
 <blockquote>
 <p>error: no matching function for call to <code>addToFoo</code>.</p>
-
 <p>note: candidate template ignored: deduced conflicting types for parameter <code>T</code>
 (<code>long</code> vs. <code>int</code>).</p>
 </blockquote>
-
 <p>Whilst we could make the program well-formed by invoking <code>addToFoo</code> as
 <code>addToFoo(f, 13L)</code>, this would keep the restrictions of the <code>addToFoo</code> API to
 limit the two dependent function parameters to deduce the same type template
 parameter <code>T</code>. This may not be our intent and, if indeed not, probably not an
 intentional limitation we want to place on the user of <code>addToFoo</code>.</p>
-
 <p>Instead, we could redesign <code>addToFoo</code> to explicitly ensure that the second
 function parameter <code>val</code> (and the argument(s) passed to it) will not participate
 in (function) template argument deduction of <code>T</code> for a given <code>addToFoo(...)</code>
 call.</p>
-
 <p>How? A dependent parameter name in a function template can only be used to
 deduce the associated template parameter if the latter is to the <em>right</em> of the
 <em>right-most</em> scope resolution operator <code>::</code> in the type of the dependent
@@ -221,13 +219,12 @@ in a <em>non-deduced context</em>. This can leveraged to, with intent, place a t
 parameter of a given function parameter in a non-deduced context, such that the
 given template parameter, say <code>T</code>, can only be deduced from elsewhere (say other
 function parameters dependent on <code>T</code>).</p>
-
 <p>We may apply this to the example above, using an identity transformation trait
 on the dependent type of <code>val</code> in <code>addToFoo</code>:</p>
 <div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#000080">#include</span> <span style="color:#000080">&lt;type_traits&gt;</span><span style="color:#000080">
 </span><span style="color:#000080"></span>
 <span style="color:#cdcd00">template</span><span style="color:#39c">&lt;</span><span style="color:#cdcd00">typename</span> T<span style="color:#39c">&gt;</span>
-<span style="color:#cdcd00">struct</span> Foo { T t; };
+<span style="color:#cdcd00">struct</span> <span style="color:#00cdcd">Foo</span> { T t; };
 
 <span style="color:#cdcd00">template</span><span style="color:#39c">&lt;</span><span style="color:#cdcd00">typename</span> T<span style="color:#39c">&gt;</span>
 <span style="color:#cdcd00">using</span> identity_t <span style="color:#39c">=</span> std<span style="color:#39c">::</span>common_type_t<span style="color:#39c">&lt;</span>T<span style="color:#39c">&gt;</span>;
@@ -241,20 +238,18 @@ on the dependent type of <code>val</code> in <code>addToFoo</code>:</p>
 </span><span style="color:#000080"></span>
     <span style="color:#cdcd00">return</span> <span style="color:#cd00cd">0</span>;
 }
-</code></pre></div>
-<p>As <code>val</code> is now in a non-deduced context, template argument deduction falls back
+</code></pre></div><p>As <code>val</code> is now in a non-deduced context, template argument deduction falls back
 entirely on deduction via the argument supplied for the parameter <code>foo</code>.</p>
-
 <p>Note that the <code>identity_t</code> transformation trait above is just an alias, and, for
 clarity, we could likewise specify the type of <code>val</code> as
 <code>typename std::common_type&lt;T&gt;::type</code>, in which case it may be more apparent as
 to why <code>T</code> is non-deducable.</p>
-
 <p>Finally, note that as of C++20, specifically
 through its implementation of <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0887r1.pdf">P0887R1</a> (<em>The identity metafunction</em>), this very
 identity transformation trait has been added to the to the <code>type_traits</code> header,
 as the the library utility metafunction <code>std::type_identity</code> along with its
 helper alias template <code>std::type_identity_t</code>.</p>
+<hr>
 
 			
 

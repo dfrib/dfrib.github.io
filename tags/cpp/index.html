@@ -14,7 +14,7 @@
 <meta name="description" content="">
 <meta name="keywords" content="">
 <meta name="author" content="">
-<meta name="generator" content="Hugo 0.58.3" />
+<meta name="generator" content="Hugo 0.75.1" />
 
 
   <meta property="og:title" content="cpp" />
@@ -173,11 +173,9 @@
             	<blockquote>
 <p>What is an aggregate class?</p>
 </blockquote>
-
 <p>Aggregate class types make up a special family of class types that can be,
 particularly, initialized by means of <em>aggregate initialization</em>, using
-<em>direct-list-init</em> or <em>copy-list-init</em>, <code>T aggr_obj{arg1, arg2, ...}</code> and <code>T
-aggr_obj = {arg1, arg2, ...}</code>, respectively.</p>
+<em>direct-list-init</em> or <em>copy-list-init</em>, <code>T aggr_obj{arg1, arg2, ...}</code> and <code>T aggr_obj = {arg1, arg2, ...}</code>, respectively.</p>
               </article>
 			  <div class="read-more-link">
 				<a href="https://dfrib.github.io/the-fickle-aggregate/"><span class="read-more-slashes">//</span>Read More...</a>
@@ -230,10 +228,9 @@ aggr_obj = {arg1, arg2, ...}</code>, respectively.</p>
 <p>What is an example of a non-deduced context, and why can it be useful to know
 about these?</p>
 </blockquote>
-
 <p>The following snippet</p>
 <div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#cdcd00">template</span><span style="color:#39c">&lt;</span><span style="color:#cdcd00">typename</span> T<span style="color:#39c">&gt;</span>
-<span style="color:#cdcd00">struct</span> Foo { T t; };
+<span style="color:#cdcd00">struct</span> <span style="color:#00cdcd">Foo</span> { T t; };
 
 <span style="color:#cdcd00">template</span><span style="color:#39c">&lt;</span><span style="color:#cdcd00">typename</span> T<span style="color:#39c">&gt;</span>
 <span style="color:#00cd00">void</span> addToFoo(Foo<span style="color:#39c">&lt;</span>T<span style="color:#39c">&gt;&amp;</span> foo, T val) { foo.t <span style="color:#39c">+=</span> val; }
@@ -243,8 +240,7 @@ about these?</p>
     addToFoo(f, <span style="color:#cd00cd">13</span>); <span style="color:#000080">// error: no matching function for call to &#39;addToFoo&#39;
 </span><span style="color:#000080"></span>    <span style="color:#cdcd00">return</span> <span style="color:#cd00cd">0</span>;
 }
-</code></pre></div>
-<p>is ill-formed, as (function) template argument deduction for the dependent
+</code></pre></div><p>is ill-formed, as (function) template argument deduction for the dependent
 function parameters <code>foo</code> and <code>val</code> of the <code>addToFoo</code> function template resolves
 to different, conflicting types in the <code>addToFoo(f, 13)</code> function call.</p>
               </article>
