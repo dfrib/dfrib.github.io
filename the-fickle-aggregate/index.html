@@ -317,17 +317,88 @@ functions ([class.virtual]).</p>
 <p>The emphasized segments are the most relevant ones for the context of this
 post.</p>
 
-<p>The <code>detail::NumberImpl</code> class does <em>declare</em> four constructors, such that is
-has four <em>user-declared</em> constructors, but it does not <em>provide</em> definitions for
-any of these constructors; it makes use of explicitly-defaulted and
-explicitly-deleted function definitions using the <code>default</code> and <code>delete</code>
-keywords, respectively, which does not count as being <em>user-provided</em>
-definitions.</p>
+<h4 id="user-provided-functions">User-provided functions</h4>
 
-<p>However, the class does use a <em>brace-or-equal-initializer</em> (commmonly referred
-to as a <em>designated member initializer</em>) for the single non-static data member
-<code>value</code>. This is the sole reason as to why the <code>detail::NumberImpl</code> class is not
-an aggregate in C++11.</p>
+<p>The <code>detail::NumberImpl</code> class does <em>declare</em> four constructors, such that it
+has four <em>user-declared</em> constructors, but it does not <em>provide</em> definitions for
+any of these constructors; it makes use of <em>explicitly-defaulted</em> and
+<em>explicitly-deleted</em> function definitions at the constructors&rsquo; first
+declarations, using the <code>default</code> and <code>delete</code> keywords, respectively.</p>
+
+<p>As governed by <a href="https://timsong-cpp.github.io/cppwp/n3337/dcl.fct.def.default#4">{dcl.fct.def.default}/4</a>, defining an explicitly-defaulted or
+explicitly-deleted function at its first declaration does not count as the
+function being <em>user-provided</em> [extract, <strong>emphasis</strong> mine]:</p>
+
+<blockquote>
+<p>[&hellip;] A special member function is user-provided if it is user-declared and not
+explicitly defaulted or deleted <strong>on its first declaration</strong>. [&hellip;]</p>
+</blockquote>
+
+<p>Thus, the <code>detail::NumberImpl</code> fulfills the aggregate class requirement
+regarding having no user-provided constructors.</p>
+
+<p><details>
+<summary>
+<em>(Expand)</em> Example: Out-of-line definitions for explicitly defaulted
+constructors.
+</summary>
+<p class="details"></p>
+
+<p>In the following example <code>B</code> has a user-provided default constructor, whereas
+<code>A</code> does not:</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cdcd00">struct</span> A {
+    A() <span style="color:#39c">=</span> <span style="color:#cdcd00">default</span>; <span style="color:#000080">// not user-provided.
+</span><span style="color:#000080"></span>    <span style="color:#00cd00">int</span> a;
+};
+
+<span style="color:#cdcd00">struct</span> B {
+    B(); <span style="color:#000080">// user-provided.
+</span><span style="color:#000080"></span>    <span style="color:#00cd00">int</span> b;
+};
+
+<span style="color:#000080">// Out of line definition: a user-provided
+</span><span style="color:#000080">// explicitly-defaulted constructor.
+</span><span style="color:#000080"></span>B<span style="color:#39c">::</span>B() <span style="color:#39c">=</span> <span style="color:#cdcd00">default</span>;
+</code></pre></div>
+<p>with the result that <code>A</code> is an aggregate, whereas <code>B</code> is not. This, in turn,
+means that initialization of <code>B</code> by means of an empty <em>direct-list-init</em> will
+result in its data member <code>b</code> being left in an uninitialized state. For <code>A</code>,
+however, the same initialization syntax will result in (via aggregate
+initialization of the <code>A</code> object and subsequent value initalization of its data
+member <code>a</code>) <em>zero-initialization</em> of its data member <code>a</code>:</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">A a{};
+<span style="color:#000080">// Empty brace direct-list-init:
+</span><span style="color:#000080">// -&gt; A has no user-provided constructor
+</span><span style="color:#000080">// -&gt; aggregate initialization
+</span><span style="color:#000080">// -&gt; data member &#39;a&#39; is value-initialized
+</span><span style="color:#000080">// -&gt; data member &#39;a&#39; is zero-initialized
+</span><span style="color:#000080"></span>
+B b{};
+<span style="color:#000080">// Empty brace direct-list-init:
+</span><span style="color:#000080">// -&gt; B has a user-provided constructor
+</span><span style="color:#000080">// -&gt; value-initialization
+</span><span style="color:#000080">// -&gt; default-initialization
+</span><span style="color:#000080">// -&gt; the explicitly-defaulted constructor will
+</span><span style="color:#000080">//    not initialize the data member &#39;b&#39;
+</span><span style="color:#000080">// -&gt; data member &#39;b&#39; is left in an unititialized state
+</span></code></pre></div>
+<p>This may come as a surprise, and with the obvious risk of reading the
+uninitialized data member <code>b</code> with the result of undefined behaviour:</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">A a{};
+B b{};     <span style="color:#000080">// may appear as a sound and complete initialization of &#39;b&#39;.
+</span><span style="color:#000080"></span>a.a <span style="color:#39c">=</span> b.b; <span style="color:#000080">// reading uninitialized &#39;b.b&#39;: undefined behaviour.
+</span></code></pre></div>
+<p>A takeaway from this example can be to, as a rule of thumb, never to define
+explicitly-defaulted constructors out-of-line.
+</p>
+</details></p>
+
+<h4 id="designated-member-initializers">Designated member initializers</h4>
+
+<p>Albeit the <code>detail::NumberImpl</code> class has no user-provided constructors, it does
+use a <em>brace-or-equal-initializer</em> (commmonly referred to as a <em>designated
+member initializer</em>) for the single non-static data member <code>value</code>. This is the
+sole reason as to why the <code>detail::NumberImpl</code> class is not an aggregate in C++11.</p>
 
 <h2 id="aggregates-in-c-plus-plus-14">Aggregates in C++14</h2>
 
