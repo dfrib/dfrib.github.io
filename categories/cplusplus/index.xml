@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>cplusplus on [unfold] Bits of awareness</title>
-    <link>//dfrib.github.io/categories/cplusplus/</link>
+    <link>https://dfrib.github.io/categories/cplusplus/</link>
     <description>Recent content in cplusplus on [unfold] Bits of awareness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 27 Sep 2020 00:00:00 +0200</lastBuildDate>
     
-	<atom:link href="//dfrib.github.io/categories/cplusplus/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://dfrib.github.io/categories/cplusplus/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>The fickle aggregate</title>
-      <link>//dfrib.github.io/the-fickle-aggregate/</link>
+      <link>https://dfrib.github.io/the-fickle-aggregate/</link>
       <pubDate>Sun, 27 Sep 2020 00:00:00 +0200</pubDate>
       
-      <guid>//dfrib.github.io/the-fickle-aggregate/</guid>
+      <guid>https://dfrib.github.io/the-fickle-aggregate/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;What is an aggregate class?&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -29,10 +29,10 @@ aggr_obj = {arg1, arg2, ...}&lt;/code&gt;, respectively.&lt;/p&gt;</description>
     
     <item>
       <title>Leveraging non-deduced contexts for template argument deduction</title>
-      <link>//dfrib.github.io/non-deduced-contexts/</link>
+      <link>https://dfrib.github.io/non-deduced-contexts/</link>
       <pubDate>Mon, 31 Aug 2020 00:00:00 +0200</pubDate>
       
-      <guid>//dfrib.github.io/non-deduced-contexts/</guid>
+      <guid>https://dfrib.github.io/non-deduced-contexts/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;What is an example of a non-deduced context, and why can it be useful to know
 about these?&lt;/p&gt;

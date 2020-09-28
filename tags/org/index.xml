@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>org on [unfold] Bits of awareness</title>
-    <link>//dfrib.github.io/tags/org/</link>
+    <link>https://dfrib.github.io/tags/org/</link>
     <description>Recent content in org on [unfold] Bits of awareness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 07 Oct 2019 00:00:00 +0200</lastBuildDate>
     
-	<atom:link href="//dfrib.github.io/tags/org/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://dfrib.github.io/tags/org/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>The Reddest Rose Unfolds</title>
-      <link>//dfrib.github.io/blogging-with-org-mode-and-ox-hugo/</link>
+      <link>https://dfrib.github.io/blogging-with-org-mode-and-ox-hugo/</link>
       <pubDate>Mon, 07 Oct 2019 00:00:00 +0200</pubDate>
       
-      <guid>//dfrib.github.io/blogging-with-org-mode-and-ox-hugo/</guid>
+      <guid>https://dfrib.github.io/blogging-with-org-mode-and-ox-hugo/</guid>
       <description>&lt;p&gt;I few weeks ago I decided to set up a personal blog, aimed primarily at
 software development topics, but possibly also containing one or another post
 about my other interests; climbing/bouldering and writing and performing music.

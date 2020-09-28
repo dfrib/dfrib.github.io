@@ -2,75 +2,75 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on [unfold] Bits of awareness</title>
-    <link>//dfrib.github.io/tags/</link>
+    <link>https://dfrib.github.io/tags/</link>
     <description>Recent content in Tags on [unfold] Bits of awareness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 27 Sep 2020 00:00:00 +0200</lastBuildDate>
     
-	<atom:link href="//dfrib.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://dfrib.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>aggregates</title>
-      <link>//dfrib.github.io/tags/aggregates/</link>
+      <link>https://dfrib.github.io/tags/aggregates/</link>
       <pubDate>Sun, 27 Sep 2020 00:00:00 +0200</pubDate>
       
-      <guid>//dfrib.github.io/tags/aggregates/</guid>
+      <guid>https://dfrib.github.io/tags/aggregates/</guid>
       <description></description>
     </item>
     
     <item>
       <title>cpp</title>
-      <link>//dfrib.github.io/tags/cpp/</link>
+      <link>https://dfrib.github.io/tags/cpp/</link>
       <pubDate>Sun, 27 Sep 2020 00:00:00 +0200</pubDate>
       
-      <guid>//dfrib.github.io/tags/cpp/</guid>
+      <guid>https://dfrib.github.io/tags/cpp/</guid>
       <description></description>
     </item>
     
     <item>
       <title>initialization</title>
-      <link>//dfrib.github.io/tags/initialization/</link>
+      <link>https://dfrib.github.io/tags/initialization/</link>
       <pubDate>Sun, 27 Sep 2020 00:00:00 +0200</pubDate>
       
-      <guid>//dfrib.github.io/tags/initialization/</guid>
+      <guid>https://dfrib.github.io/tags/initialization/</guid>
       <description></description>
     </item>
     
     <item>
       <title>templates</title>
-      <link>//dfrib.github.io/tags/templates/</link>
+      <link>https://dfrib.github.io/tags/templates/</link>
       <pubDate>Mon, 31 Aug 2020 00:00:00 +0200</pubDate>
       
-      <guid>//dfrib.github.io/tags/templates/</guid>
+      <guid>https://dfrib.github.io/tags/templates/</guid>
       <description></description>
     </item>
     
     <item>
       <title>emacs</title>
-      <link>//dfrib.github.io/tags/emacs/</link>
+      <link>https://dfrib.github.io/tags/emacs/</link>
       <pubDate>Mon, 07 Oct 2019 00:00:00 +0200</pubDate>
       
-      <guid>//dfrib.github.io/tags/emacs/</guid>
+      <guid>https://dfrib.github.io/tags/emacs/</guid>
       <description></description>
     </item>
     
     <item>
       <title>hugo</title>
-      <link>//dfrib.github.io/tags/hugo/</link>
+      <link>https://dfrib.github.io/tags/hugo/</link>
       <pubDate>Mon, 07 Oct 2019 00:00:00 +0200</pubDate>
       
-      <guid>//dfrib.github.io/tags/hugo/</guid>
+      <guid>https://dfrib.github.io/tags/hugo/</guid>
       <description></description>
     </item>
     
     <item>
       <title>org</title>
-      <link>//dfrib.github.io/tags/org/</link>
+      <link>https://dfrib.github.io/tags/org/</link>
       <pubDate>Mon, 07 Oct 2019 00:00:00 +0200</pubDate>
       
-      <guid>//dfrib.github.io/tags/org/</guid>
+      <guid>https://dfrib.github.io/tags/org/</guid>
       <description></description>
     </item>
     
