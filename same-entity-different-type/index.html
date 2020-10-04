@@ -278,7 +278,7 @@ another enumerator with a <code>constexpr</code> value.</p>
 with a constant expression that makes use of the value of another enumerator
 whose definition precedes it, without having to rely on implicit conversion
 between the enume type and its underlying type (for which special rules applies, which we briefly visit below).</p>
-<p><strong>Implicit and explicit conversions from enum types to their underlying types</strong></p>
+<h4>Implicit and explicit conversions from enum types to their underlying types</h4>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2347.pdf">N2347</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> (<em>Strongly Typed Enums (revision 3)</em>) introduced strongly typed enums, addressing the problems of weak typing, <em>implicit conversions</em> (that followed from the former), implementation-defined underlying types and weak scoping of the unscoped enums inherited from C.</p>
 <p>In the context of this post, we may note that the value of an enumerator of or object of an <em>unscoped</em> enum type can be implicitly converted to an integer by integral conversion and integral promotion, as governed by <a href="https://timsong-cpp.github.io/cppwp/n4659/conv.integral#1">{conv.integral}/1</a> and <a href="https://timsong-cpp.github.io/cppwp/n4659/conv.prom#4">{conv.prom}/4</a> (<a href="https://timsong-cpp.github.io/cppwp/n4659/conv.prom#3">{conv.prom}/3</a> for unscoped enum types whose underlying type is not fixed), respectively [ <strong>emphasis</strong> mine]:</p>
 <blockquote>
@@ -321,7 +321,7 @@ between the enume type and its underlying type (for which special rules applies,
 </span></span><span style="color:#000080"></span>  B
 };
 </code></pre></div>
-<p><strong>Upcoming further enum improvements?</strong></p>
+<h4>Upcoming enum improvements</h4>
 <p>We will wrap up by mentioning the <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1099r5.html">P1099R5</a> (<em>Using Enum</em>) proposal, which was accepted in time to make it into the C++20 standard, and which allows to associate enums with a <em>using directive</em> [extract]:</p>
 <blockquote>
 <p><strong>Abstract</strong> Class enums are restricted namespaces. Let’s extend the using declaration to them.</p>
