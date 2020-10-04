@@ -6,22 +6,31 @@
     <description>Recent content in Tags on [unfold] Bits of awareness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Sep 2020 00:00:00 +0200</lastBuildDate><atom:link href="https://dfrib.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 04 Oct 2020 00:00:00 +0200</lastBuildDate><atom:link href="https://dfrib.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>cpp</title>
+      <link>https://dfrib.github.io/tags/cpp/</link>
+      <pubDate>Sun, 04 Oct 2020 00:00:00 +0200</pubDate>
+      
+      <guid>https://dfrib.github.io/tags/cpp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>quiz</title>
+      <link>https://dfrib.github.io/tags/quiz/</link>
+      <pubDate>Sun, 04 Oct 2020 00:00:00 +0200</pubDate>
+      
+      <guid>https://dfrib.github.io/tags/quiz/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>aggregates</title>
       <link>https://dfrib.github.io/tags/aggregates/</link>
       <pubDate>Mon, 28 Sep 2020 00:00:00 +0200</pubDate>
       
       <guid>https://dfrib.github.io/tags/aggregates/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>cpp</title>
-      <link>https://dfrib.github.io/tags/cpp/</link>
-      <pubDate>Mon, 28 Sep 2020 00:00:00 +0200</pubDate>
-      
-      <guid>https://dfrib.github.io/tags/cpp/</guid>
       <description></description>
     </item>
     

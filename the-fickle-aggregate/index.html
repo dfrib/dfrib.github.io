@@ -422,18 +422,20 @@ default constructor of <code>detail::NumberImpl</code> from:</p>
 <span style="color:#cdcd00">struct</span> <span style="color:#00cdcd">NumberImpl</span> <span style="color:#cdcd00">final</span> {
     <span style="color:#000080">// ...
 </span><span style="color:#000080"></span><span style="color:#cdcd00">private</span><span style="color:#39c">:</span>
-    NumberImpl() <span style="color:#39c">=</span> <span style="color:#cdcd00">default</span>;
-    <span style="color:#000080">// ...
+<span style="display:block;width:100%;background-color:#191919">    NumberImpl() <span style="color:#39c">=</span> <span style="color:#cdcd00">default</span>;
+</span>    <span style="color:#000080">// ...
 </span><span style="color:#000080"></span>};
-</code></pre></div><p>into:</p>
+</code></pre></div>
+<p>into:</p>
 <div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cdcd00">template</span> <span style="color:#39c">&lt;</span><span style="color:#00cd00">int</span> N<span style="color:#39c">&gt;</span>
 <span style="color:#cdcd00">struct</span> <span style="color:#00cdcd">NumberImpl</span> <span style="color:#cdcd00">final</span> {
     <span style="color:#000080">// ...
 </span><span style="color:#000080"></span><span style="color:#cdcd00">private</span><span style="color:#39c">:</span>
-    <span style="color:#cdcd00">explicit</span> NumberImpl() <span style="color:#39c">=</span> <span style="color:#cdcd00">default</span>;
-    <span style="color:#000080">// ...
+<span style="display:block;width:100%;background-color:#191919">    <span style="color:#cdcd00">explicit</span> NumberImpl() <span style="color:#39c">=</span> <span style="color:#cdcd00">default</span>;
+</span>    <span style="color:#000080">// ...
 </span><span style="color:#000080"></span>};
-</code></pre></div><p>with the effect that <code>detail::NumberImpl</code> is no longer an aggregate in C++17,
+</code></pre></div>
+<p>with the effect that <code>detail::NumberImpl</code> is no longer an aggregate in C++17,
 whilst still being an aggregate in C++14. Denote this example as <code>(*)</code>. Apart
 from <em>copy-list-initialization</em> with an empty <em>braced-init-list</em>:</p>
 <div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cdcd00">struct</span> <span style="color:#00cdcd">Foo</span> {
@@ -511,6 +513,11 @@ versions.</p>
 					<span class="paging-label">More Reading</span>
 
 					
+					<div class="paging-older">
+						<span class="dark-red">Newer</span><span class="decorative-marker">//</span>
+			            <a class="paging-link" href="https://dfrib.github.io/same-entity-different-type/">Same entity, different type?</a>
+		            </div>
+		            
 
                     
 					<div class="paging-newer">

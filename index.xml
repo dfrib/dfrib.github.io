@@ -6,7 +6,22 @@
     <description>Recent content on [unfold] Bits of awareness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Sep 2020 00:00:00 +0200</lastBuildDate><atom:link href="https://dfrib.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 04 Oct 2020 00:00:00 +0200</lastBuildDate><atom:link href="https://dfrib.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Same entity, different type?</title>
+      <link>https://dfrib.github.io/same-entity-different-type/</link>
+      <pubDate>Sun, 04 Oct 2020 00:00:00 +0200</pubDate>
+      
+      <guid>https://dfrib.github.io/same-entity-different-type/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Is(/are) there any scenario(s) where a name, which refers to an entity, actually
+refers to a different types (whilst still referring to the same entity)
+depending on context and/or scope? Or, to put it in another way, is(/are) there
+any scenario(s) where the type of a named entity changes depending on context
+and/or scope?&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
     <item>
       <title>The fickle aggregate</title>
       <link>https://dfrib.github.io/the-fickle-aggregate/</link>
@@ -32,7 +47,7 @@ particularly, initialized by means of &lt;em&gt;aggregate initialization&lt;/em&
 about these?&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;The following snippet&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;color:#cdcd00&#34;&gt;template&lt;/span&gt;&lt;span style=&#34;color:#39c&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#cdcd00&#34;&gt;typename&lt;/span&gt; T&lt;span style=&#34;color:#39c&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#cdcd00&#34;&gt;template&lt;/span&gt;&lt;span style=&#34;color:#39c&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#cdcd00&#34;&gt;typename&lt;/span&gt; T&lt;span style=&#34;color:#39c&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;span style=&#34;color:#cdcd00&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#00cdcd&#34;&gt;Foo&lt;/span&gt; { T t; };
 
 &lt;span style=&#34;color:#cdcd00&#34;&gt;template&lt;/span&gt;&lt;span style=&#34;color:#39c&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#cdcd00&#34;&gt;typename&lt;/span&gt; T&lt;span style=&#34;color:#39c&#34;&gt;&amp;gt;&lt;/span&gt;
@@ -40,10 +55,11 @@ about these?&lt;/p&gt;
 
 &lt;span style=&#34;color:#00cd00&#34;&gt;int&lt;/span&gt; main() {
     Foo&lt;span style=&#34;color:#39c&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#00cd00&#34;&gt;long&lt;/span&gt;&lt;span style=&#34;color:#39c&#34;&gt;&amp;gt;&lt;/span&gt; f{&lt;span style=&#34;color:#cd00cd&#34;&gt;42&lt;/span&gt;};
-    addToFoo(f, &lt;span style=&#34;color:#cd00cd&#34;&gt;13&lt;/span&gt;); &lt;span style=&#34;color:#000080&#34;&gt;// error: no matching function for call to &amp;#39;addToFoo&amp;#39;
-&lt;/span&gt;&lt;span style=&#34;color:#000080&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#cdcd00&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#cd00cd&#34;&gt;0&lt;/span&gt;;
+&lt;span style=&#34;display:block;width:100%;background-color:#191919&#34;&gt;    addToFoo(f, &lt;span style=&#34;color:#cd00cd&#34;&gt;13&lt;/span&gt;); &lt;span style=&#34;color:#000080&#34;&gt;// error: no matching function for call to &amp;#39;addToFoo&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;color:#000080&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#cdcd00&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#cd00cd&#34;&gt;0&lt;/span&gt;;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;is ill-formed, as (function) template argument deduction for the dependent
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;is ill-formed, as (function) template argument deduction for the dependent
 function parameters &lt;code&gt;foo&lt;/code&gt; and &lt;code&gt;val&lt;/code&gt; of the &lt;code&gt;addToFoo&lt;/code&gt; function template resolves
 to different, conflicting types in the &lt;code&gt;addToFoo(f, 13)&lt;/code&gt; function call.&lt;/p&gt;</description>
     </item>
