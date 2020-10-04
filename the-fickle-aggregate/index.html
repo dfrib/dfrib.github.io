@@ -286,7 +286,7 @@ class type is an aggregate.</p>
 bypassing the private and deleted <em>user-declared</em> constructors of
 <code>detail::NumberImpl</code> by means of aggregate initialization, specifically where we
 explicitly provide a value for the single <code>value</code> member thus overriding the
-designated member initializer (<code>... value{N};</code>) that otherwise sets its value to
+default member initializer (<code>... value{N};</code>) that otherwise sets its value to
 <code>N</code>.</p>
 <div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cdcd00">constexpr</span> <span style="color:#00cd00">bool</span> expected_result{<span style="color:#cd00cd">true</span>};
 <span style="color:#cdcd00">const</span> <span style="color:#00cd00">bool</span> actual_result <span style="color:#39c">=</span>
@@ -379,11 +379,9 @@ B b{};     <span style="color:#000080">// may appear as a sound and complete ini
 explicitly-defaulted constructors out-of-line.</p>
 </p>
 </details>
-<h4 id="designated-member-initializers">Designated member initializers</h4>
-<p>Albeit the <code>detail::NumberImpl</code> class has no user-provided constructors, it does
-use a <em>brace-or-equal-initializer</em> (commmonly referred to as a <em>designated
-member initializer</em>) for the single non-static data member <code>value</code>. This is the
-sole reason as to why the <code>detail::NumberImpl</code> class is not an aggregate in C++11.</p>
+<h4 id="default-member-initializers">Default member initializers</h4>
+<p>Albeit the <code>detail::NumberImpl</code> class has no user-provided constructors, it does use a <em>brace-or-equal-initializer</em> for the single non-static data member <code>value</code>, such that the data memeber <code>value</code> has a <em>default
+member initializer</em>). This is the sole reason as to why the <code>detail::NumberImpl</code> class is not an aggregate in C++11.</p>
 <h2 id="aggregates-in-c-plus-plus-14">Aggregates in C++14</h2>
 <p>For C++14, we once again turn to <a href="https://timsong-cpp.github.io/cppwp/n4140/dcl.init.aggr#1">{dcl.init.aggr}/1</a>, now referring to <a href="https://timsong-cpp.github.io/cppwp/n4140/">N4140
 (C++14 + editorial fixes)</a>, which is nearly identical to the corresponding
