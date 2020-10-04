@@ -380,8 +380,8 @@ explicitly-defaulted constructors out-of-line.</p>
 </p>
 </details>
 <h4 id="default-member-initializers">Default member initializers</h4>
-<p>Albeit the <code>detail::NumberImpl</code> class has no user-provided constructors, it does use a <em>brace-or-equal-initializer</em> for the single non-static data member <code>value</code>, such that the data memeber <code>value</code> has a <em>default
-member initializer</em>). This is the sole reason as to why the <code>detail::NumberImpl</code> class is not an aggregate in C++11.</p>
+<p>Albeit the <code>detail::NumberImpl</code> class has no user-provided constructors, it does use a <em>brace-or-equal-initializer</em> for the single non-static data member <code>value</code>, such that the data member <code>value</code> has a <em>default
+member initializer</em>. This is the sole reason as to why the <code>detail::NumberImpl</code> class is not an aggregate in C++11.</p>
 <h2 id="aggregates-in-c-plus-plus-14">Aggregates in C++14</h2>
 <p>For C++14, we once again turn to <a href="https://timsong-cpp.github.io/cppwp/n4140/dcl.init.aggr#1">{dcl.init.aggr}/1</a>, now referring to <a href="https://timsong-cpp.github.io/cppwp/n4140/">N4140
 (C++14 + editorial fixes)</a>, which is nearly identical to the corresponding
