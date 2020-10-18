@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <title>
+    A typedef for when an alias declaration cannot // [unfold] Bits of awareness
+  </title>
+
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="[David Friberg]">
+<meta name="generator" content="Hugo 0.75.1" />
+
+
+  <meta property="og:title" content="A typedef for when an alias declaration cannot" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://dfrib.github.io/typedef-where-alias-decl-cannot/" />
+
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/base-min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/pure-min.css">
+  
+  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/grids-responsive-min.css">
+  
+  
+
+   
+   <link rel="stylesheet" href="https://dfrib.github.io/css/redlounge.css">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href='//fonts.googleapis.com/css?family=Raleway:400,200,100,700,300,500,600,800' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' rel='stylesheet' type='text/css'>
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://dfrib.github.io/touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" type="image/x-icon" href="https://dfrib.github.io/img/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="[unfold] Bits of awareness" />
+
+  
+
+
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://dfrib.github.io/css/override.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+  <script
+    charset="UTF-8"
+    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/lisp.min.js"></script>
+  <script
+    charset="UTF-8"
+    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/swift.min.js"></script>
+  <script
+    charset="UTF-8"
+    src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/cmake.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+  
+
+  
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-179323449-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  
+</head>
+
+<body>
+	
+
+	<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+  <div class="header">
+    
+
+	
+
+    <h1 class="brand-title">[unfold]</h1>
+    <h2 class="brand-tagline">Bits of awareness</h2>
+
+    <nav class="nav">
+      <ul class="nav-list">
+        
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="https://dfrib.github.io/">Home</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="https://dfrib.github.io/categories/cplusplus">C&#43;&#43;</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="https://dfrib.github.io/categories/emacs">Emacs</a></li>
+        
+      </ul>
+    </nav>
+
+    
+    <div class="social-buttons">
+      
+        
+        <a href="https://github.com/dfrib" target="_blank"><i class ='fa fa-github'></i></a>
+        
+      
+        
+        <a href="https://www.linkedin.com/in/david-friberg-7642863a" target="_blank"><i class ='fa fa-linkedin'></i></a>
+        
+      
+        
+        <a href="https://stackoverflow.com/users/4573247/dfri?tab=profile" target="_blank"><i class ='fa fa-stack-overflow'></i></a>
+        
+      
+      
+    </div>
+    
+
+  </div>
+</div>
+
+	
+	
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+		<a name="top"></a>
+		
+
+		
+			
+		    
+			
+		    
+		    
+		    
+	    
+  		<section class="post">
+            <h1 class="post-title">
+              <a href="https://dfrib.github.io/typedef-where-alias-decl-cannot/">A typedef for when an alias declaration cannot</a>
+            </h1>
+            <h3 class="post-subtitle">
+            	
+            </h3>
+            
+            	
+                
+            	
+            	
+            
+            	
+            		
+            		
+            	
+            
+
+			
+			
+				<div class="post-categories">
+				
+					<a class="post-category post-category-cplusplus" href="https://dfrib.github.io/categories/cplusplus">cplusplus</a>
+				
+				</div>
+			
+            
+				<div class="tags-list">
+					<span class="dark-red">Tags</span><span class="decorative-marker">//</span>
+					
+	                <a class="post-tag post-tag-cpp" href="https://dfrib.github.io/tags/cpp">cpp</a>,
+	                
+	                <a class="post-tag post-tag-typedef" href="https://dfrib.github.io/tags/typedef">typedef</a>,
+	                
+	                <a class="post-tag post-tag-type-alias" href="https://dfrib.github.io/tags/type-alias">type-alias</a>,
+	                
+				</div>
+			
+
+			
+
+			
+
+            <blockquote>
+<p>What is the difference between typedef declarations and alias declarations?</p>
+</blockquote>
+<p>A common question, particularly for developers migrating from pre-C++11 projects to more modern C++, is whether there are any differences between <em>typedef declarations</em> and <em>alias declarations</em>.</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#000080">// target_specific_fixed_width_types.h
+</span><span style="color:#000080"></span><span style="color:#cdcd00">typedef</span> <span style="color:#00cd00">float</span> Float32_t;   <span style="color:#000080">// typedef declaration
+</span><span style="color:#000080"></span><span style="color:#cdcd00">using</span> Float64_t <span style="color:#39c">=</span> <span style="color:#00cd00">double</span>;  <span style="color:#000080">// alias declaration
+</span></code></pre></div><p>A likewise common answer<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> typically goes along the lines of</p>
+<blockquote>
+<p>They are equivalent, but alias declarations can also be used to declare alias templates.</p>
+</blockquote>
+<p>The latter, <em>alias templates</em>, as specified in <a href="https://timsong-cpp.github.io/cppwp/n4659/temp.alias">[temp.alias]​</a><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> and as introduced by <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2003/n1489.pdf">N1489</a><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>, are commonly used e.g. to define helper types for type transformation traits; we used this in a previous post<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> when declaring the helper type <code>identity_t</code>, aliasing the wrapped type in the transformation trait <code>identity</code>:</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cdcd00">template</span><span style="color:#39c">&lt;</span><span style="color:#cdcd00">typename</span> T<span style="color:#39c">&gt;</span>
+<span style="color:#cdcd00">struct</span> <span style="color:#00cdcd">identity</span> { <span style="color:#cdcd00">using</span> type <span style="color:#39c">=</span> T; }
+
+<span style="color:#cdcd00">template</span><span style="color:#39c">&lt;</span><span style="color:#cdcd00">typename</span> T<span style="color:#39c">&gt;</span>
+<span style="display:block;width:100%;background-color:#191919"><span style="color:#cdcd00">using</span> identity_t <span style="color:#39c">=</span> <span style="color:#cdcd00">typename</span> identity<span style="color:#39c">::</span>type;
+</span></code></pre></div>
+<p>In this post we shall look into, for fun and probably not for too much profit, whether typedef declarations and alias declarations are—beyond the exception of alias templates—actually equivalent or not.</p>
+<h2 id="same-semantics">Same semantics</h2>
+<p>As governed by <a href="https://timsong-cpp.github.io/cppwp/n4659/dcl.typedef#2">[dcl.typedef]/2</a> [extract, <strong>emphasis</strong> mine]:</p>
+<blockquote>
+<p>A <em><a href="https://timsong-cpp.github.io/cppwp/n4659/dcl.typedef#nt:typedef-name">typedef-name</a></em> can also be introduced by an <em><a href="https://timsong-cpp.github.io/cppwp/n4659/dcl.dcl#nt:alias-declaration">alias-declaration</a></em>. The <em>identifier</em> following the <code>using</code> keyword becomes a <em>typedef-name</em> and the optional <em>attribute-specifier-seq</em> following the <em>identifier</em> appertains to that <em>typedef-name</em>. <strong>Such a <em>typedef-name</em> has the same semantics as if it were introduced by the <code>typedef</code> specifier</strong>. [&hellip;]</p>
+</blockquote>
+<p>a <em>typedef-name</em> introduced by an <em>alias-declaration</em> has <strong>the same semantics</strong> as if it were introduced by the <code>typedef</code> declaration. As such, w.r.t. semantics, we still alongside the <em>&ldquo;common answer&rdquo;</em> phrased above.</p>
+<h2 id="subtle-difference-in-allowed-contexts">Subtle difference in allowed contexts</h2>
+<p>However, even if the two variations have the same semantics, it does <strong>not</strong> imply that the two variations have the same restrictions w.r.t. in <strong>which contexts</strong> they may be used. And indeed, albeit a corner case, a <em><a href="https://timsong-cpp.github.io/cppwp/n4659/dcl.typedef#1">typedef declaration</a></em> is an <em><a href="https://timsong-cpp.github.io/cppwp/n4659/gram.stmt">init-statement</a></em> and may thus be used in contexts which allows initialization statements</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#000080">// C++11 (C++03) (init. statement in for loop iteration statements).
+</span><span style="display:block;width:100%;background-color:#191919"><span style="color:#000080"></span><span style="color:#cdcd00">for</span>(<span style="color:#cdcd00">typedef</span> <span style="color:#00cd00">int</span> Foo;
+</span><span style="color:#000080">//  ^^^^^^^^^^^^^^^ init-statement
+</span><span style="color:#000080"></span>
+<span style="color:#000080">// C++17 (if and switch initialization statements).
+</span><span style="display:block;width:100%;background-color:#191919"><span style="color:#000080"></span><span style="color:#cdcd00">if</span> (<span style="color:#cdcd00">typedef</span> <span style="color:#00cd00">int</span> Foo; <span style="color:#cd00cd">true</span>) { (<span style="color:#00cd00">void</span>)Foo{}; }
+</span><span style="color:#000080">//  ^^^^^^^^^^^^^^^ init-statement
+</span><span style="color:#000080"></span>
+<span style="display:block;width:100%;background-color:#191919"><span style="color:#cdcd00">switch</span>(<span style="color:#cdcd00">typedef</span> <span style="color:#00cd00">int</span> Foo; <span style="color:#cd00cd">0</span>) { <span style="color:#cdcd00">case</span> <span style="color:#cd00cd">0</span><span style="color:#39c">:</span> (<span style="color:#00cd00">void</span>)Foo{}; }
+</span><span style="color:#000080">//     ^^^^^^^^^^^^^^^ init-statement
+</span><span style="color:#000080"></span>
+<span style="color:#000080">// C++20 (range-based for loop initialization statements).
+</span><span style="display:block;width:100%;background-color:#191919"><span style="color:#000080"></span>      std<span style="color:#39c">::</span>vector<span style="color:#39c">&lt;</span><span style="color:#00cd00">int</span><span style="color:#39c">&gt;</span> v{<span style="color:#cd00cd">1</span>, <span style="color:#cd00cd">2</span>, <span style="color:#cd00cd">3</span>};
+</span><span style="color:#cdcd00">for</span>(<span style="color:#cdcd00">typedef</span> <span style="color:#00cd00">int</span> Foo; Foo f : v) { (<span style="color:#00cd00">void</span>)f; }
+<span style="color:#000080">//  ^^^^^^^^^^^^^^^ init-statement
+</span><span style="color:#000080"></span>
+<span style="color:#cdcd00">for</span>(<span style="color:#cdcd00">typedef</span> <span style="color:#cdcd00">struct</span> { <span style="color:#00cd00">int</span> x; <span style="color:#00cd00">int</span> y;} P;
+<span style="color:#000080">//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ init-statement
+</span><span style="color:#000080"></span>    <span style="color:#cdcd00">auto</span> [x, y] <span style="color:#39c">:</span> {P{<span style="color:#cd00cd">1</span>, <span style="color:#cd00cd">1</span>}, {<span style="color:#cd00cd">1</span>, <span style="color:#cd00cd">2</span>}, {<span style="color:#cd00cd">3</span>, <span style="color:#cd00cd">5</span>}}) { (<span style="color:#00cd00">void</span>)x; (<span style="color:#00cd00">void</span>)y; }
+</code></pre></div>
+<p>whereas an <em><a href="https://timsong-cpp.github.io/cppwp/n4659/dcl.dcl#nt:alias-declaration">alias-declaration</a></em> is <strong>not</strong> an <em>init-statement</em>, and <strong>may thus not</strong> be used in contexts which allows initialization statements</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#000080">// C++ 11.
+</span><span style="display:block;width:100%;background-color:#191919"><span style="color:#000080"></span><span style="color:#cdcd00">for</span>(<span style="color:#cdcd00">using</span> Foo <span style="color:#39c">=</span> <span style="color:#00cd00">int</span>; Foo{} <span style="color:#39c">!=</span> <span style="color:#cd00cd">0</span>;) {}
+</span><span style="color:#000080">//  ^^^^^^^^^^^^^^^ error: expected expression
+</span><span style="color:#000080"></span>
+<span style="color:#000080">// C++17 (initialization expressions in switch and if statements).
+</span><span style="display:block;width:100%;background-color:#191919"><span style="color:#000080"></span><span style="color:#cdcd00">if</span> (<span style="color:#cdcd00">using</span> Foo <span style="color:#39c">=</span> <span style="color:#00cd00">int</span>; <span style="color:#cd00cd">true</span>) { (<span style="color:#00cd00">void</span>)Foo{}; }
+</span><span style="color:#000080">//  ^^^^^^^^^^^^^^^ error: expected expression
+</span><span style="color:#000080"></span>
+<span style="display:block;width:100%;background-color:#191919"><span style="color:#cdcd00">switch</span>(<span style="color:#cdcd00">using</span> Foo <span style="color:#39c">=</span> <span style="color:#00cd00">int</span>; <span style="color:#cd00cd">0</span>) { <span style="color:#cdcd00">case</span> <span style="color:#cd00cd">0</span><span style="color:#39c">:</span> (<span style="color:#00cd00">void</span>)Foo{}; }
+</span><span style="color:#000080">//     ^^^^^^^^^^^^^^^ error: expected expression
+</span><span style="color:#000080"></span>
+<span style="color:#000080">// C++20 (range-based for loop initialization statements).
+</span><span style="color:#000080"></span>std<span style="color:#39c">::</span>vector<span style="color:#39c">&lt;</span><span style="color:#00cd00">int</span><span style="color:#39c">&gt;</span> v{<span style="color:#cd00cd">1</span>, <span style="color:#cd00cd">2</span>, <span style="color:#cd00cd">3</span>};
+<span style="display:block;width:100%;background-color:#191919"><span style="color:#cdcd00">for</span>(<span style="color:#cdcd00">using</span> Foo <span style="color:#39c">=</span> <span style="color:#00cd00">int</span>; Foo f : v) { (<span style="color:#00cd00">void</span>)f; }
+</span><span style="color:#000080">//  ^^^^^^^^^^^^^^^ error: expected expression
+</span><span style="color:#000080"></span>
+<span style="color:#cdcd00">for</span>(<span style="color:#cdcd00">using</span> P <span style="color:#39c">=</span> <span style="color:#cdcd00">struct</span> { <span style="color:#00cd00">int</span> x; <span style="color:#00cd00">int</span> y; };
+<span style="color:#000080">//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ error: expected expression
+</span><span style="color:#000080"></span>    <span style="color:#cdcd00">auto</span> [x, y] <span style="color:#39c">:</span> {P{<span style="color:#cd00cd">1</span>, <span style="color:#cd00cd">1</span>}, {<span style="color:#cd00cd">1</span>, <span style="color:#cd00cd">2</span>}, {<span style="color:#cd00cd">3</span>, <span style="color:#cd00cd">5</span>}}) { (<span style="color:#00cd00">void</span>)x; (<span style="color:#00cd00">void</span>)y; }
+</code></pre></div>
+<p>Whether using typedef declarations as initializations statements can ever be actually useful (beyond solving <a href="https://en.wikipedia.org/wiki/XY%5Fproblem">XY problems</a>), even once in a blue moon, will be left unsaid, but we have learned about a curiosity w.r.t. initialization statements.</p>
+<h2 id="summary">Summary</h2>
+<p>As shown above, beyond the special case of alias templates, the difference between typedef declarations and alias declarations can be summarized as:</p>
+<ul>
+<li>Differences <strong>in semantics</strong>: none.</li>
+<li>Differences <strong>in allowed contexts</strong>: some.</li>
+<li>Differences <strong>in useful contexts</strong>: probably none.</li>
+</ul>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>E.g. as in <a href="https://stackoverflow.com/a/10748056/4573247">the following very highly upvoted StackOverflow answer</a>. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p>All standard references in this post refers to <a href="https://timsong-cpp.github.io/cppwp/n4659/">N4659: March 2017 post-Kona working draft/C++17 DIS</a>. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p>N1489 explicitly argues as for why there shall be no <span class="underline">typedef templates</span>, only alias templates, an essential difference as compared to the original proposal <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2002/n1406.pdf">N1406: Proposed Addition to C++: Typedef Templates</a> from Herb. <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4" role="doc-endnote">
+<p><a href="https://dfrib.github.io/non-deduced-contexts/">Leveraging non-deduced contexts for template argument deduction</a>. <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+
+			
+
+			
+			
+			
+			
+	        
+	        
+	        
+	        
+	        
+	        
+			
+			    
+
+                
+				
+				
+
+			
+				<div class="paging">
+					<span class="paging-label">More Reading</span>
+
+					
+
+                    
+					<div class="paging-newer">
+						<span class="dark-red">Older</span><span class="decorative-marker">//</span>
+						<a class="paging-link" href="https://dfrib.github.io/same-entity-different-type/">Same entity, different type?</a>
+		            </div>
+		            
+	            </div>
+                    
+
+                    
+                    
+          </section>
+          
+          	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "dfrib" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+          
+        
+      <div class="footer">
+	<hr class="thin" />
+	<div class="pure-menu pure-menu-horizontal pure-menu-open">
+		<ul class="footer-menu">
+		
+		</ul>
+	</div>
+
+	<p>David Friberg &copy 2020</p>
+	<p>Published with <a href="https://gohugo.io">Hugo</a> using a modified <a href="https://github.com/tmaiaroto/hugo-redlounge">Redlounge</a></p>
+</div>
+
+    </div>
+  </div>
+	
+
+	
+
+  
+</body>
+</html>

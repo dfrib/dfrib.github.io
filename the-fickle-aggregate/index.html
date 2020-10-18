@@ -265,7 +265,7 @@ an aggregate type.
 Thus, what may look like <em>value initialization</em> (e.g. <code>Number&lt;1&gt; n{}</code>
 here)—which we may expect will have the effect of <em>zero initialization</em> followed
 by <em>default initialization</em> as a <em>user-declared</em> but not <em>user-provided</em> default
-constructer exists—or <em>direct initialization</em> (<code>Number&lt;1&gt;n{2}</code> here) of a class
+constructer exists—or <em>direct initialization</em> (<code>Number&lt;1&gt; n{2}</code> here) of a class
 type object will actually bypass any constructors, even deleted ones, if the
 class type is an aggregate.</p>
 <div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cdcd00">struct</span> <span style="color:#00cdcd">NonConstructible</span> {
@@ -562,8 +562,10 @@ versions.</p>
 		</ul>
 	</div>
 
-	<p>&copy; 2019-2020 David Friberg</p>
+	<p>David Friberg &copy 2020</p>
+	<p>Published with <a href="https://gohugo.io">Hugo</a> using a modified <a href="https://github.com/tmaiaroto/hugo-redlounge">Redlounge</a></p>
 </div>
+
     </div>
   </div>
 	

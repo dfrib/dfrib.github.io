@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>typedef on [unfold] Bits of awareness</title>
+    <link>https://dfrib.github.io/tags/typedef/</link>
+    <description>Recent content in typedef on [unfold] Bits of awareness</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 18 Oct 2020 00:00:00 +0200</lastBuildDate><atom:link href="https://dfrib.github.io/tags/typedef/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A typedef for when an alias declaration cannot</title>
+      <link>https://dfrib.github.io/typedef-where-alias-decl-cannot/</link>
+      <pubDate>Sun, 18 Oct 2020 00:00:00 +0200</pubDate>
+      
+      <guid>https://dfrib.github.io/typedef-where-alias-decl-cannot/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;What is the difference between typedef declarations and alias declarations?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;A common question, particularly for developers migrating from pre-C++11 projects to more modern C++, is whether there are any differences between &lt;em&gt;typedef declarations&lt;/em&gt; and &lt;em&gt;alias declarations&lt;/em&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;color:#000080&#34;&gt;// target_specific_fixed_width_types.h
+&lt;/span&gt;&lt;span style=&#34;color:#000080&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#cdcd00&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#00cd00&#34;&gt;float&lt;/span&gt; Float32_t;   &lt;span style=&#34;color:#000080&#34;&gt;// typedef declaration
+&lt;/span&gt;&lt;span style=&#34;color:#000080&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#cdcd00&#34;&gt;using&lt;/span&gt; Float64_t &lt;span style=&#34;color:#39c&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#00cd00&#34;&gt;double&lt;/span&gt;;  &lt;span style=&#34;color:#000080&#34;&gt;// alias declaration
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

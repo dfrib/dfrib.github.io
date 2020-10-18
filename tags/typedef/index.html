@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
   <title>
-    quiz // [unfold] Bits of awareness
+    typedef // [unfold] Bits of awareness
   </title>
 
   <link href="https://gmpg.org/xfn/11" rel="profile">
@@ -17,11 +17,11 @@
 <meta name="generator" content="Hugo 0.75.1" />
 
 
-  <meta property="og:title" content="quiz" />
+  <meta property="og:title" content="typedef" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="en_US" />
-<meta property="og:url" content="https://dfrib.github.io/tags/quiz/" />
+<meta property="og:url" content="https://dfrib.github.io/tags/typedef/" />
 
 
   
@@ -44,7 +44,7 @@
   <link rel="shortcut icon" type="image/x-icon" href="https://dfrib.github.io/img/favicon.png">
 
   
-  <link href="https://dfrib.github.io/tags/quiz/index.xml" rel="alternate" type="application/rss+xml" title="[unfold] Bits of awareness" />
+  <link href="https://dfrib.github.io/tags/typedef/index.xml" rel="alternate" type="application/rss+xml" title="[unfold] Bits of awareness" />
 
   
 
@@ -144,7 +144,7 @@ if (!doNotTrack) {
             <header class="post-header">
             
             <h1 class="post-title">
-              <a href="https://dfrib.github.io/same-entity-different-type/">Same entity, different type?</a>
+              <a href="https://dfrib.github.io/typedef-where-alias-decl-cannot/">A typedef for when an alias declaration cannot</a>
             </h1>
             </header>
             
@@ -174,7 +174,9 @@ if (!doNotTrack) {
 					        
 	                <a class="post-tag post-tag-cpp" href="https://dfrib.github.io/tags/cpp">cpp</a>,
 	                
-	                <a class="post-tag post-tag-quiz" href="https://dfrib.github.io/tags/quiz">quiz</a>,
+	                <a class="post-tag post-tag-typedef" href="https://dfrib.github.io/tags/typedef">typedef</a>,
+	                
+	                <a class="post-tag post-tag-type-alias" href="https://dfrib.github.io/tags/type-alias">type-alias</a>,
 	                
 				        </div>
 			          
@@ -182,15 +184,16 @@ if (!doNotTrack) {
             
               <article class="post-summary">
             	<blockquote>
-<p>Is(/are) there any scenario(s) where a name, which refers to an entity, actually
-refers to a different types (whilst still referring to the same entity)
-depending on context and/or scope? Or, to put it in another way, is(/are) there
-any scenario(s) where the type of a named entity changes depending on context
-and/or scope?</p>
+<p>What is the difference between typedef declarations and alias declarations?</p>
 </blockquote>
+<p>A common question, particularly for developers migrating from pre-C++11 projects to more modern C++, is whether there are any differences between <em>typedef declarations</em> and <em>alias declarations</em>.</p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#000080">// target_specific_fixed_width_types.h
+</span><span style="color:#000080"></span><span style="color:#cdcd00">typedef</span> <span style="color:#00cd00">float</span> Float32_t;   <span style="color:#000080">// typedef declaration
+</span><span style="color:#000080"></span><span style="color:#cdcd00">using</span> Float64_t <span style="color:#39c">=</span> <span style="color:#00cd00">double</span>;  <span style="color:#000080">// alias declaration
+</span></code></pre></div>
               </article>
 			  <div class="read-more-link">
-				<a href="https://dfrib.github.io/same-entity-different-type/"><span class="read-more-slashes">//</span>Read More...</a>
+				<a href="https://dfrib.github.io/typedef-where-alias-decl-cannot/"><span class="read-more-slashes">//</span>Read More...</a>
 			  </div>
             
           </section>
