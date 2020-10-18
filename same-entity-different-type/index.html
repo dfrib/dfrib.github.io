@@ -363,6 +363,23 @@ between the enume type and its underlying type (for which special rules applies,
 </blockquote>
 </p>
 </details>
+<details>
+<summary>
+Same entity, different declared type
+</summary>
+<p class="details">
+<p>Another example that comes close to fulfill the criteria above, but arguably does not reach all the way, is the case where an array object may have a <em>declared type</em> of an array of unknown bound, at one point, and a declared type as an array of known bound. <a href="https://timsong-cpp.github.io/cppwp/n4659/basic.types#6">[basic.types]/6</a> states [ <strong>emphasis</strong> mine]:</p>
+<blockquote>
+<p>A class type (such as “class X”) might be incomplete at one point in a translation unit and complete later on; the type “class X” is the same type at both points. <strong>The declared type</strong> of an array object might be an array of incomplete class type and therefore incomplete; if the class type is completed later on in the translation unit, the array type becomes complete; the array type at those two points is the same type. <strong>The declared type of an array object</strong> might be an array of unknown bound <strong>and therefore be incomplete at one point in a translation unit and complete later on; the array types at those two points</strong> (“array of unknown bound of =T=” and “array of =N T=”) <strong>are different types.</strong> [&hellip;] [ <em>Example:</em></p>
+<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cdcd00">extern</span> <span style="color:#00cd00">int</span> arr[];  <span style="color:#000080">// the type of arr is incomplete
+</span><span style="color:#000080"></span><span style="color:#00cd00">int</span> arr[<span style="color:#cd00cd">10</span>];       <span style="color:#000080">// now the type of arr is complete
+</span></code></pre></div><p>— <em>end example</em> ]</p>
+</blockquote>
+<p>The <code>extern int arr[];</code> declaration above describes an array of an <em>incomplete</em> type, whereas the actual object (which is the <em>entity</em> here), denoted by the name of the variable (ref. <a href="https://timsong-cpp.github.io/cppwp/n4659/basic#4">[basic]/4</a> &amp; <a href="https://timsong-cpp.github.io/cppwp/n4659/basic#6">[basic]/6</a>: a variable by itself is not an entity) has the single complete <em>type</em> <code>int[42]</code>, as specified in its definition <code>int arr[42];</code>. Thus, for the array case it is the <em>declared type</em> that differs and not the <em>type of the entity</em> (although this area is arguably a bit gray in the standard).</p>
+<p>In other words; even if the declared type of a variable whose name denotes an object may differ depending on scope, the type of the actual entity, i.e., the object, will always be that of the complete type. The essential difference here is between that of a variable (whose name denotes an object) and an actual object (which is the entity); otherwise we could arguably argue that (legal) aliasing actually changes the type of the underlying object (the entity).</p>
+<p>Finally, recall that in the example of enumerators above, they are explicitly named as entities (in their own right), as are objects (but not variables).</p>
+</p>
+</details>
 <section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
