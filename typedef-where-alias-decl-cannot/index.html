@@ -232,12 +232,12 @@ if (!doNotTrack) {
 </span><span style="color:#000080">//     ^^^^^^^^^^^^^^^ init-statement
 </span><span style="color:#000080"></span>
 <span style="color:#000080">// C++20 (range-based for loop initialization statements).
-</span><span style="display:block;width:100%;background-color:#191919"><span style="color:#000080"></span>      std<span style="color:#39c">::</span>vector<span style="color:#39c">&lt;</span><span style="color:#00cd00">int</span><span style="color:#39c">&gt;</span> v{<span style="color:#cd00cd">1</span>, <span style="color:#cd00cd">2</span>, <span style="color:#cd00cd">3</span>};
-</span><span style="color:#cdcd00">for</span>(<span style="color:#cdcd00">typedef</span> <span style="color:#00cd00">int</span> Foo; Foo f : v) { (<span style="color:#00cd00">void</span>)f; }
-<span style="color:#000080">//  ^^^^^^^^^^^^^^^ init-statement
+</span><span style="color:#000080"></span>std<span style="color:#39c">::</span>vector<span style="color:#39c">&lt;</span><span style="color:#00cd00">int</span><span style="color:#39c">&gt;</span> v{<span style="color:#cd00cd">1</span>, <span style="color:#cd00cd">2</span>, <span style="color:#cd00cd">3</span>};
+<span style="display:block;width:100%;background-color:#191919"><span style="color:#cdcd00">for</span>(<span style="color:#cdcd00">typedef</span> <span style="color:#00cd00">int</span> Foo; Foo f : v) { (<span style="color:#00cd00">void</span>)f; }
+</span><span style="color:#000080">//  ^^^^^^^^^^^^^^^ init-statement
 </span><span style="color:#000080"></span>
-<span style="color:#cdcd00">for</span>(<span style="color:#cdcd00">typedef</span> <span style="color:#cdcd00">struct</span> { <span style="color:#00cd00">int</span> x; <span style="color:#00cd00">int</span> y;} P;
-<span style="color:#000080">//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ init-statement
+<span style="display:block;width:100%;background-color:#191919"><span style="color:#cdcd00">for</span>(<span style="color:#cdcd00">typedef</span> <span style="color:#cdcd00">struct</span> { <span style="color:#00cd00">int</span> x; <span style="color:#00cd00">int</span> y;} P;
+</span><span style="color:#000080">//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ init-statement
 </span><span style="color:#000080"></span>    <span style="color:#cdcd00">auto</span> [x, y] <span style="color:#39c">:</span> {P{<span style="color:#cd00cd">1</span>, <span style="color:#cd00cd">1</span>}, {<span style="color:#cd00cd">1</span>, <span style="color:#cd00cd">2</span>}, {<span style="color:#cd00cd">3</span>, <span style="color:#cd00cd">5</span>}}) { (<span style="color:#00cd00">void</span>)x; (<span style="color:#00cd00">void</span>)y; }
 </code></pre></div>
 <p>whereas an <em><a href="https://timsong-cpp.github.io/cppwp/n4659/dcl.dcl#nt:alias-declaration">alias-declaration</a></em> is <strong>not</strong> an <em>init-statement</em>, and <strong>may thus not</strong> be used in contexts which allows initialization statements</p>
@@ -257,8 +257,8 @@ if (!doNotTrack) {
 <span style="display:block;width:100%;background-color:#191919"><span style="color:#cdcd00">for</span>(<span style="color:#cdcd00">using</span> Foo <span style="color:#39c">=</span> <span style="color:#00cd00">int</span>; Foo f : v) { (<span style="color:#00cd00">void</span>)f; }
 </span><span style="color:#000080">//  ^^^^^^^^^^^^^^^ error: expected expression
 </span><span style="color:#000080"></span>
-<span style="color:#cdcd00">for</span>(<span style="color:#cdcd00">using</span> P <span style="color:#39c">=</span> <span style="color:#cdcd00">struct</span> { <span style="color:#00cd00">int</span> x; <span style="color:#00cd00">int</span> y; };
-<span style="color:#000080">//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ error: expected expression
+<span style="display:block;width:100%;background-color:#191919"><span style="color:#cdcd00">for</span>(<span style="color:#cdcd00">using</span> P <span style="color:#39c">=</span> <span style="color:#cdcd00">struct</span> { <span style="color:#00cd00">int</span> x; <span style="color:#00cd00">int</span> y; };
+</span><span style="color:#000080">//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ error: expected expression
 </span><span style="color:#000080"></span>    <span style="color:#cdcd00">auto</span> [x, y] <span style="color:#39c">:</span> {P{<span style="color:#cd00cd">1</span>, <span style="color:#cd00cd">1</span>}, {<span style="color:#cd00cd">1</span>, <span style="color:#cd00cd">2</span>}, {<span style="color:#cd00cd">3</span>, <span style="color:#cd00cd">5</span>}}) { (<span style="color:#00cd00">void</span>)x; (<span style="color:#00cd00">void</span>)y; }
 </code></pre></div>
 <p>Whether using typedef declarations as initializations statements can ever be actually useful (beyond solving <a href="https://en.wikipedia.org/wiki/XY%5Fproblem">XY problems</a>), even once in a blue moon, will be left unsaid, but we have learned about a curiosity w.r.t. initialization statements.</p>
