@@ -6,7 +6,19 @@
     <description>Recent content in templates on [unfold] Bits of awareness</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 31 Aug 2020 00:00:00 +0200</lastBuildDate><atom:link href="https://dfrib.github.io/tags/templates/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 07 Dec 2020 00:00:00 +0100</lastBuildDate><atom:link href="https://dfrib.github.io/tags/templates/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A foliage of folly</title>
+      <link>https://dfrib.github.io/a-foliage-of-folly/</link>
+      <pubDate>Mon, 07 Dec 2020 00:00:00 +0100</pubDate>
+      
+      <guid>https://dfrib.github.io/a-foliage-of-folly/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Can we circumvent the private access rules without relying on techniques that are considered &amp;ldquo;arcane&amp;rdquo; and likely to be made illegal (at some point)?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;I recently read the article &lt;a href=&#34;https://accu.org/journals/overload/28/156/harrison%5F2776/&#34;&gt;Profiting from the Folly of Others&lt;/a&gt; by Alastair Harrison, which walks through a technique to circumvent private access rules, particularly by means of (ab)using the template instantiation mechanism together with injections of inline friend definitions. I first saw this technique used in Filip Roséen&amp;rsquo;s blog article series on stateful metaprogramming back in 2015, which made use of it to implement a constexpr-counter that were, if not fully, at the very least nearly&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; standard compliant. A. Harrison&amp;rsquo;s article mentions that the origin of the technique is likely two blog articles by Johannes Schaub published in 2010-2011&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Leveraging non-deduced contexts for template argument deduction</title>
       <link>https://dfrib.github.io/non-deduced-contexts/</link>
