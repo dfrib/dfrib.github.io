@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
   <title>
-    templates // [unfold] Bits of awareness
+    accessprivate // [unfold] Bits of awareness
   </title>
 
   <link href="https://gmpg.org/xfn/11" rel="profile">
@@ -17,11 +17,11 @@
 <meta name="generator" content="Hugo 0.75.1" />
 
 
-  <meta property="og:title" content="templates" />
+  <meta property="og:title" content="accessprivate" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="en_US" />
-<meta property="og:url" content="https://dfrib.github.io/tags/templates/" />
+<meta property="og:url" content="https://dfrib.github.io/tags/accessprivate/" />
 
 
   
@@ -44,7 +44,7 @@
   <link rel="shortcut icon" type="image/x-icon" href="https://dfrib.github.io/img/favicon.png">
 
   
-  <link href="https://dfrib.github.io/tags/templates/index.xml" rel="alternate" type="application/rss+xml" title="[unfold] Bits of awareness" />
+  <link href="https://dfrib.github.io/tags/accessprivate/index.xml" rel="alternate" type="application/rss+xml" title="[unfold] Bits of awareness" />
 
   
 
@@ -190,74 +190,6 @@ if (!doNotTrack) {
               </article>
 			  <div class="read-more-link">
 				<a href="https://dfrib.github.io/a-foliage-of-folly/"><span class="read-more-slashes">//</span>Read More...</a>
-			  </div>
-            
-          </section>
-        
-          <section  class="post">
-            <header class="post-header">
-            
-            <h1 class="post-title">
-              <a href="https://dfrib.github.io/non-deduced-contexts/">Leveraging non-deduced contexts for template argument deduction</a>
-            </h1>
-            </header>
-            
-            	
-		          
-		          
-		          
-      				
-      				
-      				
-      				
-              
-                
-              
-      				
-      					<div class="post-categories">
-				        
-      					
-					        <a class="post-category post-category-cplusplus" href="https://dfrib.github.io/categories/cplusplus">cplusplus</a>
-      					
-      					</div>
-      				
-              
-				        <div class="tags-list">
-                  
-					        <span class="dark-red">Tags</span><span class="decorative-marker">//</span>
-					        
-	                <a class="post-tag post-tag-cpp" href="https://dfrib.github.io/tags/cpp">cpp</a>,
-	                
-	                <a class="post-tag post-tag-templates" href="https://dfrib.github.io/tags/templates">templates</a>,
-	                
-				        </div>
-			          
-            
-            
-              <article class="post-summary">
-            	<blockquote>
-<p>What is an example of a non-deduced context, and why can it be useful to know
-about these?</p>
-</blockquote>
-<p>The following snippet</p>
-<div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cdcd00">template</span><span style="color:#39c">&lt;</span><span style="color:#cdcd00">typename</span> T<span style="color:#39c">&gt;</span>
-<span style="color:#cdcd00">struct</span> <span style="color:#00cdcd">Foo</span> { T t; };
-
-<span style="color:#cdcd00">template</span><span style="color:#39c">&lt;</span><span style="color:#cdcd00">typename</span> T<span style="color:#39c">&gt;</span>
-<span style="color:#00cd00">void</span> addToFoo(Foo<span style="color:#39c">&lt;</span>T<span style="color:#39c">&gt;&amp;</span> foo, T val) { foo.t <span style="color:#39c">+=</span> val; }
-
-<span style="color:#00cd00">int</span> main() {
-    Foo<span style="color:#39c">&lt;</span><span style="color:#00cd00">long</span><span style="color:#39c">&gt;</span> f{<span style="color:#cd00cd">42</span>};
-<span style="display:block;width:100%;background-color:#191919">    addToFoo(f, <span style="color:#cd00cd">13</span>); <span style="color:#000080">// error: no matching function for call to &#39;addToFoo&#39;
-</span></span><span style="color:#000080"></span>    <span style="color:#cdcd00">return</span> <span style="color:#cd00cd">0</span>;
-}
-</code></pre></div>
-<p>is ill-formed, as (function) template argument deduction for the dependent
-function parameters <code>foo</code> and <code>val</code> of the <code>addToFoo</code> function template resolves
-to different, conflicting types in the <code>addToFoo(f, 13)</code> function call.</p>
-              </article>
-			  <div class="read-more-link">
-				<a href="https://dfrib.github.io/non-deduced-contexts/"><span class="read-more-slashes">//</span>Read More...</a>
 			  </div>
             
           </section>

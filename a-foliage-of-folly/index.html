@@ -184,6 +184,8 @@ if (!doNotTrack) {
 	                
 	                <a class="post-tag post-tag-templates" href="https://dfrib.github.io/tags/templates">templates</a>,
 	                
+	                <a class="post-tag post-tag-accessprivate" href="https://dfrib.github.io/tags/accessprivate">accessprivate</a>,
+	                
 				</div>
 			
 
@@ -195,6 +197,14 @@ if (!doNotTrack) {
 <p>Can we circumvent the private access rules without relying on techniques that are considered &ldquo;arcane&rdquo; and likely to be made illegal (at some point)?</p>
 </blockquote>
 <p>I recently read the article <a href="https://accu.org/journals/overload/28/156/harrison%5F2776/">Profiting from the Folly of Others</a> by Alastair Harrison, which walks through a technique to circumvent private access rules, particularly by means of (ab)using the template instantiation mechanism together with injections of inline friend definitions. I first saw this technique used in Filip Roséen&rsquo;s blog article series on stateful metaprogramming back in 2015, which made use of it to implement a constexpr-counter that were, if not fully, at the very least nearly<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> standard compliant. A. Harrison&rsquo;s article mentions that the origin of the technique is likely two blog articles by Johannes Schaub published in 2010-2011<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.</p>
+<details>
+<summary>
+Spoiler / TL;DR
+</summary>
+<p class="details">
+<p>Yes: see <a href="https://github.com/dfrib/accessprivate">dfrib / accessprivate</a> at GitHub.</p>
+</p>
+</details>
 <p>The publication of Roséen&rsquo;s blog series swiftly lead to <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/cwg%5Factive.html#2118">CWG issue 2118</a>, describing the technique to be <em>&quot;[&hellip;] arcane and should be made ill-formed&quot;</em>, but the issue is, still, yet<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> to be addressed.</p>
 <blockquote>
 <p><strong>2118. Stateful metaprogramming via friend injection</strong></p>
@@ -206,7 +216,7 @@ if (!doNotTrack) {
 <p><strong>Notes from the May, 2015 meeting:</strong> <br>
 CWG agreed that such techniques should be ill-formed, although the mechanism for prohibiting them is as yet undetermined.</p>
 </blockquote>
-<p>The core working group&rsquo;s main concern, afaict, is that the <em>definition</em> of the injected friend depends on <em>which specialization</em> of the template entity that is <em>first instantiated</em>, thus allowing one to capture a metaprogramming state. For the purpose of circumventing private access rules, however, we have no actual need of capturing a metaprogramming state in this kind of sense, it just so happens that the most viable mechanism (thus far; prior to C++20) by which we may <em>legally</em> refer to a private entity beyond its intended access rules is by means of explicit instantiation definitions, which in turn lead us onto the path of <em>&ldquo;arcane&rdquo;</em> stateful metaprogramming.</p>
+<p>The core working group&rsquo;s main concern, afaict, is that the <em>definition</em> of the injected friend depends on <em>which specialization</em> of the template entity that is <em>first instantiated</em>, thus allowing one to capture a metaprogramming state<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>. For the purpose of circumventing private access rules, however, we have no actual need of capturing a metaprogramming state in this kind of sense, it just so happens that the most viable mechanism (thus far; prior to C++20) by which we may <em>legally</em> refer to a private entity beyond its intended access rules is by means of explicit instantiation definitions, which in turn lead us onto the path of <em>&ldquo;arcane&rdquo;</em> stateful metaprogramming.</p>
 <p>In this blog post we&rsquo;ll walk through the established approach (applied to C++17), whereafter we will proceed to look into a new minor C++20 feature to see if we can create a novel approach to circumvention of access rules, one which does not rely on mechanisms that CWG issue 2118 intends to deprecate and make ill-formed.</p>
 <h3 id="a-disclaimer-before-we-begin">A disclaimer before we begin</h3>
 <p>This post is, like some others on my blog, driven from a curiousity (and sometimes also language-lawyer) perspective. However, as the end result in this post <a href="https://i.kym-cdn.com/photos/images/original/000/877/596/f66.jpg">can be particularly abused</a>, I want to highlight that <strong>thou shalt not use the techniques herein in production code</strong>. Or, by the words of Herb from <a href="http://www.gotw.ca/gotw/076.htm">GotW #76: Uses and Abuses of Access Rights</a>:</p>
@@ -236,7 +246,7 @@ CWG agreed that such techniques should be ill-formed, although the mechanism for
 </blockquote>
 <p>or, in more general words, <em>can we circumvent the private access rules of C++ without relying on non-conforming code or implementation-defined mechanisms</em>?</p>
 <h2 id="recalling-the-pre-c-plus-plus-20-approach--schaub-folly-library-et-al">Recalling the pre-C++20 approach (Schaub, Folly library et al)</h2>
-<p><em>(We will be performing this pre-C++20 journey using C++17, and thus all standard references below refer to N4659<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>)</em></p>
+<p><em>(We will be performing this pre-C++20 journey using C++17, and thus all standard references below refer to N4659<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>)</em></p>
 <p>Before we move on to investigate whether a new minor feature of C++20 can help us circumvent access rules without inciting the anger of CWG issue 2118 or not, we&rsquo;ll walk through and make sure we understand the mechanisms as well as the pitfalls of the existing approach used e.g. in <a href="https://github.com/facebook/folly">the Fickle library</a>, and whose mechanisms are covered in detail also in <a href="https://accu.org/journals/overload/28/156/harrison%5F2776/">Profiting from the Folly of Others</a>.</p>
 <p>The key feature of this approach is governed by <a href="https://timsong-cpp.github.io/cppwp/n4659/temp.explicit#12">[temp.explicit]/12</a>:</p>
 <blockquote>
@@ -254,7 +264,7 @@ CWG agreed that such techniques should be ill-formed, although the mechanism for
 </span><span style="color:#000080">//                     member &#39;x&#39; is waived in an
 </span><span style="color:#000080">//                     explicit instantiation definition.
 </span></code></pre></div>
-<p>This mechanism in itself is neither unusual nor a direct tool for language abuse, however for the purpose of circumventing private access rules it needs to be combined with a mechanism that is; namely defining, in a class template, a friend function whose definition relies on one or more template parameters, meaning the definition depends on which specialization of the class template that is first instantiated.</p>
+<p>This mechanism in itself is neither unusual nor a direct tool for language abuse, however for the purpose of circumventing private access rules it needs to be combined with a mechanism that is; namely defining, in a class template, a friend function whose definition relies on one or more template parameters, meaning the definition depends on which specialization of the class template is first instantiated.</p>
 <h3 id="defining-a-friend-within-a-class-template">Defining a friend within a class template</h3>
 <p>As governed by <a href="https://timsong-cpp.github.io/cppwp/n4659/class.friend#6">[class.friend]/6</a>, a function that is also a friend may be <em>defined</em> at its friend declaration within a class [ <strong>emphasis</strong> mine]:</p>
 <blockquote>
@@ -269,12 +279,12 @@ CWG agreed that such techniques should be ill-formed, although the mechanism for
 <blockquote>
 <p>Such a function <strong>is implicitly an inline function</strong>. A <code>friend</code> function defined in a class is in the (lexical) scope of the class in which it is defined. A friend function defined outside the class is not ([basic.lookup.unqual]).</p>
 </blockquote>
-<p>which is important as it allows the definition to be present in multiple translation units (TU) without ODR-violations. Specifically, if the definition of say the class <code>M</code> above were to be located in a header file that was included by several source files, then the corresponding TU:s would all include their own definition of the global (inline) function <code>f</code>, which would be fine, as per <a href="https://timsong-cpp.github.io/cppwp/n4659/basic.def.odr#6">[basic.def.odr]/6</a>, as the definition in each TU would be the same.</p>
+<p>which is important as it allows the definition to be present in multiple translation units (TU) without ODR-violations, given that it is the same definition. Specifically, if the definition of say the class <code>M</code> above were to be located in a header file that was included by several source files, then the corresponding TU:s would all include their own definition of the global (inline) function <code>f</code>, which would be fine, as per <a href="https://timsong-cpp.github.io/cppwp/n4659/basic.def.odr#6">[basic.def.odr]/6</a>, as the definition in each TU would be the same.</p>
 <p>Now, although a function defined at its friend declaration has namespace scope, a friend declaration does not introduce the declared name into the enclosing namespace, as per <a href="https://timsong-cpp.github.io/cppwp/n4659/namespace.memdef#3">[namespace.memdef]/3</a> [ <strong>emphasis</strong> mine]:</p>
 <blockquote>
 <p>If a friend declaration in a non-local class <strong>first declares</strong> class, function, class template or function template <strong>the friend is a member of the innermost enclosing namespace</strong>. The friend declaration <strong>does not by itself make the name visible to unqualified lookup</strong> ([basic.lookup.unqual]) or qualified lookup ([basic.lookup.qual]). [ Note: The name of the friend <strong>will be visible in its namespace if a matching declaration is provided at namespace scope</strong> (either before or after the class definition granting friendship).  — end note ] [&hellip;]</p>
 </blockquote>
-<p>meaning a matching declaration needs to be provided at namespace scope to allow the friend function to be found via non-ADL lookup<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>:</p>
+<p>meaning a matching declaration needs to be provided at namespace scope to allow the friend function to be found via non-ADL lookup<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup>:</p>
 <div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#cdcd00">struct</span> <span style="color:#00cdcd">C</span> {
 <span style="display:block;width:100%;background-color:#191919">    <span style="color:#cdcd00">friend</span> <span style="color:#00cd00">void</span> f() { }
 </span>    <span style="color:#cdcd00">friend</span> <span style="color:#00cd00">void</span> g() { }
@@ -434,7 +444,7 @@ An implementation is not required to diagnose a violation of this rule.</p>
 <p><a href="https://wandbox.org/permlink/ttKuVlrsMe2AycJo">Demo</a>.</p>
 <p>We move on to look into finding an alternative approach, by making use of a new minor feature of C++20.</p>
 <h2 id="c-plus-plus-20-and-waiving-of-access-checking-on-specializations">C++20 &amp; waiving of access checking on specializations</h2>
-<p><em>(As we are now moving to C++20, all standard references from hereon refers to N4861<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup>)</em></p>
+<p><em>(As we are now moving to C++20, all standard references from hereon refers to N4861<sup id="fnref:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup>)</em></p>
 <p>C++20 implemented <a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2017/p0692r1.html">P0692R1</a> (<em>Access Checking on Specializations</em>), summarized in <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p2131r0.html">P2131R0</a> (<em>Changes between C++17 and C++20 DIS</em>) as</p>
 <blockquote>
 <p>This change fixes a long-standing, somewhat obscure situation, where it was not possible to declare a template specialization for a template argument that is a private (or protected) member type. For example, given <code>class Foo { class Bar {}; };</code>, the access <code>Foo::Bar</code> is now allowed in <code>template&lt;class&gt; struct X; template&lt;&gt; struct X&lt;Foo::Bar&gt;;</code>.</p>
@@ -443,7 +453,7 @@ An implementation is not required to diagnose a violation of this rule.</p>
 <blockquote>
 <p><strong>The usual access checking rules do not apply to names in a declaration of an</strong> explicit instantiation or <strong>explicit specialization</strong>, with the exception of names appearing in a function body, default argument, base-clause, member-specification, enumerator-list, or static data member or variable template initializer. [ Note: <strong>In particular, the template arguments</strong> and names used in the function declarator (including parameter types, return types and exception specifications) <strong>may be private types or objects that would normally not be accessible.</strong> — end note ]</p>
 </blockquote>
-<p>This opens up a new approach for circumvention of private access rules, one which does not fall under CWG issue 2118, and moreover offers more freedom and fewer gotha&rsquo;s than that of the explicit instantiation hack.</p>
+<p>This opens up a new approach for circumvention of private access rules, one which does not fall under CWG issue 2118, and moreover offers more freedom and fewer gotchas than that of the explicit instantiation hack.</p>
 <h3 id="common-top-level-private-accessor-class">Common top-level private accessor class</h3>
 <p>Specializations can allow us to use a single top-level utility class template for circumvention of private access rules of <em>any</em> class, as compared to the C++17 approach above where a new class (template) needs to be defined for each unique member of a unique type that we want to access.</p>
 <p>With the specialization approach we still leverage the in-class friend definition trick, but leaves such friend declarations to appear only in explicit specializations of a member class to the top-level utility class. Specifically, we let the latter be a class template with a single non-type template parameter—semantically intended to take arguments that are pointers to private members—which is used to initialize a single static data member, and <em>declare</em> a member class in the class template that is intended to be <em>defined only in explicit specializations</em>:</p>
@@ -491,7 +501,7 @@ An implementation is not required to diagnose a violation of this rule.</p>
 <p><strong>If</strong> a template, a member template or <strong>a member of a class template is explicitly specialized then that specialization shall be declared before the first use of that specialization that would cause an implicit instantiation to take place, in every translation unit in which such a use occurs; no diagnostic is required.</strong> If the program does not provide a definition for an explicit specialization and either the specialization is used in a way that would cause an implicit instantiation to take place or the member is a virtual member function, the program is ill-formed, no diagnostic required. An implicit instantiation is never generated for an explicit specialization that is declared but not defined.</p>
 </blockquote>
 <p>as any explicit specialization of <code>AccessPrivate::Delegate</code> is intended to ever only use a non-type template argument that may otherwise not be referred to—due to private access rules—and there is thus no risk that an implicit instantiation of such an specialization precedes the explicit specialization. Moreover, the sole purpose of each explicit specialization is to declare and define a uniquely named friend, whereas the specialization of the class itself is not intended to be used directly (say as an object or in an explicit instantiation definition).</p>
-<p>Finally, as for any external linkage entity definition, we naturally mustn&rsquo;t provide <em>different</em> definitions for the same explicit specialization, or for the same (inline) friend function, in different TU:s. This is arguably <em>&ldquo;general ODR-sanity&rdquo;</em>, and it does not come with the same subtleness as that of the non-diagnosable and ill-formed NDR dangers of the explicit instantiation definition approach. Furthermore, as the definition of the accessor friend function is no longer depending on instantiation order in the sense that it caputes a metaprogramming state, we are using a technique that does not fall under CWG issue 2118.</p>
+<p>Finally, as for any external linkage entity definition, we naturally mustn&rsquo;t provide <em>different</em> definitions for the same explicit specialization, or for the same (inline) friend function, in different TU:s. This is arguably <em>&ldquo;general ODR-sanity&rdquo;</em>, and it does not come with the same subtleness as that of the non-diagnosable and ill-formed NDR dangers of the explicit instantiation definition approach. Furthermore, as the definition of the accessor friend function is no longer depending on instantiation order in the sense that it captures a metaprogramming state, we are using a technique that does not fall under CWG issue 2118.</p>
 <h3 id="circumvention-of-private-access-rules-by-means-of-explicit-specializations">Circumvention of private access rules by means of explicit specializations</h3>
 <p>Thus, we have reached an alternative mechanism to that of the explicit instantiation definition approach, and we may reproduce the behaviour of the C++17 demo using our alternative approach:</p>
 <div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#000080">// demo.cpp
@@ -511,8 +521,8 @@ An implementation is not required to diagnose a violation of this rule.</p>
 </span><span style="color:#000080"></span>}
 </code></pre></div><p><a href="https://wandbox.org/permlink/sVJgppGUnD8EaWpp">Demo</a>.</p>
 <h3 id="setting-up-a-simple-macro-api-lib">Setting up a simple macro API lib</h3>
-<p>We&rsquo;ll conclude this post with setting up a simple private accessor header-only lib, say <code>accessprivate</code>, out of the new C++20 approach used above; possibly someone can find this lib useful for, say, injection testing. As this post has become quite long-winding already, we&rsquo;ll settle for writing a macro API only for the simpler case of accessing private data members, and leave the case of invokers for private members functions for a later time.</p>
-<p>We expand the <code>accessprivate.h</code> header above with the addition of a (beautifully highlighted<sup id="fnref:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup>) macro:</p>
+<p>We&rsquo;ll conclude this post with setting up a small header-only lib of macros, used as a utility to apply the new C++20 approach as above without bothering about the details. Possibly someone can find this lib useful for, say, injection testing. As this post has become quite long-winding already, we&rsquo;ll settle for writing a macro API only for the simpler case of accessing private data members, whilst leaving the case of invokers for private members functions for a later time.</p>
+<p>We may expand the <code>accessprivate.h</code> header above with the addition of a (beautifully highlighted<sup id="fnref:8"><a href="#fn:8" class="footnote-ref" role="doc-noteref">8</a></sup>) accessor creator macro:</p>
 <div class="highlight"><pre style="color:#ccc;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#000080">// accessprivate/accessprivate.h
 </span><span style="color:#000080"></span><span style="color:#000080">#pragma once
 </span><span style="color:#000080"></span>
@@ -572,8 +582,14 @@ DEFINE_ACCESSOR(bar<span style="color:#39c">::</span>Bar, x)
     std<span style="color:#39c">::</span>cout <span style="color:#39c">&lt;&lt;</span> b.getX() <span style="color:#39c">&lt;&lt;</span> <span style="color:#cd0000">&#34; &#34;</span> <span style="color:#39c">&lt;&lt;</span> b.getY();  <span style="color:#000080">// 13 33
 </span><span style="color:#000080"></span>}
 </code></pre></div><p><a href="https://wandbox.org/permlink/IGPP47w3OFUMKo6x">Demo</a>.</p>
-<p>We may return to this lib in a future post, to have a look at whether we can expand it to provide macro &ldquo;overloads&rdquo; (delegating, per se) for invoking (non-overloaded) private member functions of various number of arguments.</p>
-<p>Before wrapping up, we&rsquo;ll re-visit the disclaimer above, adding a final reminder that the technique above should not be used in production code! Even if the technique, when used with some care, results in well-formed code, a prodution &ldquo;use case&rdquo; for this mechanism is likely either misunderstood, a code smell, or an XY problem.</p>
+<p>The lib has been published at <a href="https://github.com/dfrib/accessprivate">dfrib / accessprivate</a> at GitHub, and we may return to this lib in a future post, to have a look at whether we can expand it to provide macro &ldquo;overloads&rdquo; (delegating, per se) for invoking (non-overloaded) private member functions of various number of arguments.</p>
+<p>We may also note that <a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2017/p0692r1.html">P0692R1</a> points out that for the particular case of explicit specializations, the mechanism introduced by the paper is already implemented (non-documented) by all compilers that the authors of the paper had the chance to try out:</p>
+<blockquote>
+<p>It is important to note that even though the above specialization of trait is not allowed according to the standard, it <strong>builds with all compilers that were tested</strong>, including various versions of gcc, clang, icc, and msvc. Already, for the sake of standardizing existing practice, one might argue that this should be allowed.</p>
+</blockquote>
+<p>meaning that the <a href="https://github.com/dfrib/accessprivate">accessprivate</a> lib will most likely work with most compilers also in C++17, even if it is, strictly, non-conformant in C++17.</p>
+<h3 id="recalling-the-disclaimer">Recalling the disclaimer</h3>
+<p>Finally, before wrapping up, we&rsquo;ll re-visit the disclaimer above, adding a final reminder that the technique above should not be used in production code! Even if the technique results in well-formed code, a production code &ldquo;use case&rdquo; for this mechanism is likely either misunderstood, a code smell, or an <a href="https://en.wikipedia.org/wiki/XY%5Fproblem">XY problem</a>.</p>
 <section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
@@ -587,16 +603,19 @@ DEFINE_ACCESSOR(bar<span style="color:#39c">::</span>Bar, x)
 <p>Were I to speculate, this is not really any kind of high-priority (if even at all an) issue for the C++ language as such, but rather a dark corner that should <em>ideally</em> not exist for the <em>Machiavellistic</em> language lawyers out there to abuse; a paraphrasing of <a href="http://www.gotw.ca/gotw/076.htm">the words of Herb</a>, on the topic of the existence of mechanisms in the language that <em>can</em> be abused: <em>&ldquo;This isn&rsquo;t actually a problem. The issue here is of protecting against Murphy vs. protecting against Machiavelli&hellip; that is, protecting against accidental misuse (which the language does very well) vs. protecting against deliberate abuse (which is effectively impossible).&quot;</em> <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:4" role="doc-endnote">
-<p><a href="https://timsong-cpp.github.io/cppwp/n4659/">N4659</a>: : March 2017 post-Kona working draft/C++17 DIS. <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>The meaning of what is a metaprogramming state is not exlicitly explained in CWG 2118, and it is a non-normative term, but it arguably refers to capturing a state of translation, in the sense that one attempts to (say, within a TU), capture which specialization that was instantiated not only <em>first</em> (and only), but beyond that. In this article <em>&ldquo;instantiated second&rdquo;</em> would be ill-formed, but in Roséen&rsquo;s article (IIRC) injected templated friends were used to use the (afaik non-specified) <em>relative</em> order of instantiations of different specializations within a single TU. This was most likely non-conformant, but the major compilers (at the time) seemingly implemented instantiation order in a way that allowed the constexpr counter to work as intended. <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:5" role="doc-endnote">
-<p>As per <a href="https://timsong-cpp.github.io/cppwp/n4659/basic.lookup.argdep#4">[basic.lookup.argdep]/4</a> a hidden friend (defined at its friend declaration without a matching declaration at namespace scope) can be found via ADL on the class type in which is has defined, but this is not of interest for the use cases of this blog post. <a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p><a href="https://timsong-cpp.github.io/cppwp/n4659/">N4659</a>: : March 2017 post-Kona working draft/C++17 DIS. <a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:6" role="doc-endnote">
-<p><a href="https://timsong-cpp.github.io/cppwp/n4861/">N4861</a>: March 2020 post-Prague working draft/C++20 DIS. <a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>As per <a href="https://timsong-cpp.github.io/cppwp/n4659/basic.lookup.argdep#4">[basic.lookup.argdep]/4</a> a hidden friend (defined at its friend declaration without a matching declaration at namespace scope) can be found via ADL on the class type in which is has defined, but this is not of interest for the use cases of this blog post. <a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:7" role="doc-endnote">
-<p>I&rsquo;ll intentiationally leave the entirely broken syntax highlighting of the macro as a subtle reminder of that macros are, generally, evil. <a href="#fnref:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p><a href="https://timsong-cpp.github.io/cppwp/n4861/">N4861</a>: March 2020 post-Prague working draft/C++20 DIS. <a href="#fnref:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:8" role="doc-endnote">
+<p>I&rsquo;ll intentiationally leave the entirely broken syntax highlighting of the macro as a subtle reminder of that macros are, generally, evil. <a href="#fnref:8" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
@@ -607,6 +626,8 @@ DEFINE_ACCESSOR(bar<span style="color:#39c">::</span>Bar, x)
 			
 			
 			
+	        
+	        
 	        
 	        
 	        
