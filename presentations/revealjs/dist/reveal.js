@@ -1,0 +1,1 @@
+/home/davfri/.emacs.d/.local/straight/repos/reveal.js/dist/reveal.js
