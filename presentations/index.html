@@ -1,7 +1,1628 @@
-<html>
- <head>
- </head>
- <body>
-   <h1>There's nothing here.<h1>
- </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Three new minor features of C++20</title>
+<meta name="author" content="David Friberg, Zenseact"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="revealjs/dist/reveal.css"/>
+
+<link rel="stylesheet" href="revealjs/dist/theme/league.css" id="theme"/>
+<style>normal_white { color: #dfdfdf; }</style>
+<style>emphasis { color: #51afef; }</style>
+<style>emphasis_green { color: #99bb66; }</style>
+<style>emphasis_red { color: #ff6655; }</style>
+<style>no_emph { color: #808080; }</style>
+<style>.reveal blockquote { width: 88%; font-style: normal; }</style>
+<style>.reveal code { color: #51afef; padding-left: 0.1em; padding-right: 0.1em; font-size: 90%; }</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h2 class="title">Three new minor features of C++20</h2>
+<h4 class="subtitle">&#x2026; from useful to curious</4>
+<h4 class="author">David Friberg, Zenseact</h4>
+<h5 class="date">2020-12-10 Thu 17:40</h5>
+</section>
+<section id="slide-org55b73d9">
+<h2 id="org55b73d9">Agenda</h2>
+<ul data-fragment-index="1" class="fragment">
+<li>Feature A (c+<sup><code>1</code></sup>, uuu<sup><code>2</code></sup>)</li>
+<li>Feature B (cc, uu)</li>
+<li>Feature C (ccc, u-)
+<ul>
+<li>(Bonus slides)</li>
+
+</ul></li>
+<li>Questions</li>
+
+</ul>
+
+<div style="font-size: 60%;">
+<p data-fragment-index="1" class="fragment">
+<b><code>1</code></b> curiosity rating
+</p>
+<p data-fragment-index="1" class="fragment">
+<b><code>2</code></b> usefulness rating
+</p>
+
+</section>
+<section id="slide-org25086fc">
+<h2 id="org25086fc">Feature A</h2>
+<p>
+(c+, uuu)
+</p>
+</section>
+<section>
+<aside class="notes">
+<p>
+Enter speaker notes here.
+</p>
+
+</aside>
+<div class="column" style="float:left; width: 60%;">
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #51afef;">template</span> <span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">N</span><span style="color: #51afef;">&gt;</span> <span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">Number</span> <span style="color: #51afef;">final</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">const</span> <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">m_value</span><span style="color: #c678dd;">{</span>N<span style="color: #c678dd;">}</span>;
+  <span style="color: #51afef;">static</span> <span style="color: #51afef;">constexpr</span> <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">value</span><span style="color: #c678dd;">{</span>N<span style="color: #c678dd;">}</span>;
+  <span style="color: #51afef;">static</span> <span style="color: #51afef;">constexpr</span> <span style="color: #ECBE7B;">Number</span> <span style="color: #c678dd;">create</span><span style="color: #c678dd;">()</span> <span style="color: #c678dd;">{</span> <span style="color: #51afef;">return</span> <span style="color: #98be65;">{}</span>; <span style="color: #c678dd;">}</span>
+
+<span style="color: #51afef;">private</span>:
+  <span style="color: #51afef;">constexpr</span> <span style="color: #c678dd;">Number</span><span style="color: #c678dd;">()</span> = <span style="color: #51afef;">default</span>;
+  <span style="color: #c678dd;">Number</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">)</span> = <span style="color: #51afef;">delete</span>;
+<span style="color: #51afef;">}</span>;
+</pre>
+</div>
+<blockquote class="fragment">
+<div style="font-size: 70%;">
+<p>
+<b>claim:</b> <br> for any object, say <code>number</code>, of a specialization of the <code>Number</code> class template, the following invariant is <code>true</code>:
+</p>
+</div>
+<div class="org-src-container">
+
+<pre class="src src-cpp">number.m_value == <span style="color: #51afef;">decltype</span><span style="color: #51afef;">(</span>number<span style="color: #51afef;">)</span>::value
+</pre>
+</div>
+</blockquote>
+<blockquote class="fragment">
+<div style="font-size: 70%;">
+<p>
+<b>given that:</b> <br> <code>Number</code> is not explicitly specialized.
+</p>
+</div>
+</blockquote>
+
+</div>
+<div class="column" style="float:left; width: 40%; margin-top: 0%;">
+<p class="fragment">
+Does the claim hold?
+</p>
+<ul class="fragment">
+<li>C++11: Yes</li>
+<li>C++14: No</li>
+<li>C++17: No</li>
+<li>C++20: Yes<br></li>
+
+</ul>
+<blockquote class="fragment">
+<div class="org-src-container">
+
+<pre class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">Well-formed in C++14, C++17</span>
+<span style="color: #ECBE7B;">Number</span><span style="color: #51afef;">&lt;</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #51afef;">&gt;</span> <span style="color: #dcaeea;">n</span><span style="color: #51afef;">{</span><span style="color: #da8548; font-weight: bold;">42</span><span style="color: #51afef;">}</span>;
+<span style="color: #51afef;">auto</span> <span style="color: #dcaeea;">a</span> = <span style="color: #51afef;">decltype</span><span style="color: #51afef;">(</span>n<span style="color: #51afef;">)</span>::value;
+<span style="color: #51afef;">auto</span> <span style="color: #dcaeea;">b</span> = n.m_value;
+</pre>
+</div>
+<div style="font-size: 70%;">
+<p class="fragment">
+<code>a</code> is <code>1</code>, <code>b</code> is <code>42</code>
+</p>
+</div>
+<div style="font-size: 70%;">
+<p class="fragment">
+-&gt; Aggregate initialization
+</p>
+</div>
+</blockquote>
+</div>
+</section>
+<section id="slide-org5d4819e">
+<h3 id="org5d4819e">Aggregates</h3>
+<aside class="notes">
+<p>
+Aggregate class types make up a special family of class types that can be, particularly, initialized by means of <i>aggregate initialization</i>, using <i>direct-list-init</i> or <i>copy-list-init</i>, <code>T aggr_obj{arg1, arg2, ...}</code> and <code>T aggr_obj = {arg1, arg2, ...}, respectively.</code>
+</p>
+
+</aside>
+<p data-fragment-index="1" class="fragment">
+<b>Why</b>? / Properties of aggregates
+</p>
+<ul>
+<li data-fragment-index="2" class="fragment"><i>List initialization</i> for aggregates is <i>aggregate initialization</i>
+<ul>
+<li data-fragment-index="3" class="fragment"><i>direct-list-init</i>, <code>T aggr_obj{arg1, arg2, ...}</code></li>
+<li data-fragment-index="4" class="fragment"><i>copy-list-init</i> <code>T aggr_obj = {arg1, arg2, ...}</code></li>
+
+</ul></li>
+<li data-fragment-index="5" class="fragment">Short-circuits constructors to initialize non-static data members
+<ul>
+<li data-fragment-index="6" class="fragment">Access restrictions on constructors thus irrelevant</li>
+
+</ul></li>
+
+</ul>
+<p>
+<br>
+</p>
+<p class="fragment">
+<b>What</b> qualifies as an aggregate?
+</p>
+</section>
+<section>
+<aside class="notes">
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #ECBE7B;">A</span> <span style="color: #dcaeea;">a</span><span style="color: #51afef;">{}</span>;
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">Empty brace direct-list-init:</span>
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">-&gt; A has no user-provided constructor</span>
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">-&gt; aggregate initialization</span>
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">-&gt; data member 'a' is value-initialized</span>
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">-&gt; data member 'a' is zero-initialized</span>
+
+<span style="color: #ECBE7B;">B</span> <span style="color: #dcaeea;">b</span><span style="color: #51afef;">{}</span>;
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">Empty brace direct-list-init:</span>
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">-&gt; B has a user-provided constructor</span>
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">-&gt; value-initialization</span>
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">-&gt; default-initialization</span>
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">-&gt; the explicitly-defaulted constructor will</span>
+<span style="color: #5699AF;">//    </span><span style="color: #5699AF;">not initialize the data member 'b'</span>
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">-&gt; data member 'b' is left in an unit. state</span>
+</pre>
+</div>
+
+</aside>
+<div class="column" style="float:left; width: 50%; margin-top:0%">
+<blockquote>
+<div style="font-size: 70%;">
+<p>
+<b>C++11 (<a href="https://timsong-cpp.github.io/cppwp/n3337/">N3337</a>) / <a href="https://timsong-cpp.github.io/cppwp/n3337/dcl.init.aggr#1">[dcl.init.aggr]/1</a></b>:<br>
+An aggregate is an array or a class (&#x2026;) <b><emphasis>with no user-provided constructors</emphasis></b> (&#x2026;), <b><emphasis>no brace-or-equal-initializers</emphasis></b> for non-static data members (&#x2026;), no private or protected non-static data members (&#x2026;), no base classes (&#x2026;), and no virtual functions (&#x2026;).
+</p>
+</div>
+</blockquote>
+<blockquote class="fragment">
+<div style="font-size: 70%;">
+<p>
+<b><a href="https://timsong-cpp.github.io/cppwp/n3337/dcl.fct.def.default#4">[dcl.fct.def.default]/4</a> (C++11), <a href="https://timsong-cpp.github.io/cppwp/n4140/dcl.fct.def.default#5">/5</a> (14), <a href="https://timsong-cpp.github.io/cppwp/n4659/dcl.fct.def.default#5">/5</a> (17)</b>: <br>
+[…] A special member function <b><emphasis>is user-provided if</emphasis></b> it is user-declared and <b><emphasis>not explicitly defaulted or deleted on its first declaration.</emphasis></b> […]
+</p>
+</div>
+</blockquote>
+</div>
+<div class="column" style="float:left; width: 50%;">
+<div class="org-src-container">
+
+<pre class="fragment"><span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">A</span> <span style="color: #51afef;">{</span>
+  <span style="color: #c678dd;">A</span><span style="color: #c678dd;">()</span> = <span style="color: #51afef;">default</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">not user-provided</span>
+  <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">a</span>;
+<span style="color: #51afef;">}</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">-&gt; aggregate class</span>
+
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">B</span> <span style="color: #51afef;">{</span>
+  <span style="color: #c678dd;">B</span><span style="color: #c678dd;">()</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">user-provided (out of line below)</span>
+  <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">b</span>;
+<span style="color: #51afef;">}</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">-&gt; not an aggregate class</span>
+<span style="color: #a9a1e1;">B</span>::<span style="color: #c678dd;">B</span><span style="color: #51afef;">()</span> = <span style="color: #51afef;">default</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">empty braces direct-list-init:</span>
+<span style="color: #ECBE7B;">A</span> <span style="color: #dcaeea;">a</span><span style="color: #51afef;">{}</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">aggregate-initialization</span>
+       <span style="color: #5699AF;">// </span><span style="color: #5699AF;">-&gt; member 'a' is value-initialized</span>
+<span style="color: #ECBE7B;">B</span> <span style="color: #dcaeea;">b</span><span style="color: #51afef;">{}</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">value-initialization:</span>
+       <span style="color: #5699AF;">// </span><span style="color: #5699AF;">-&gt; default-initialization</span>
+       <span style="color: #5699AF;">// </span><span style="color: #5699AF;">-&gt; member 'b' not initialized in</span>
+       <span style="color: #5699AF;">//    </span><span style="color: #5699AF;">in the default constructor</span>
+       <span style="color: #5699AF;">// </span><span style="color: #5699AF;">-&gt; member 'b' default-initialized</span>
+       <span style="color: #5699AF;">//    </span><span style="color: #5699AF;">to an indeterminate value</span>
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">reading 'b.b' is undefined behaviour!</span>
+</pre>
+</div>
+</section>
+<section>
+<div class="column" style="float:left; width: 50%; margin-top:0%">
+<blockquote>
+<div style="font-size: 70%;">
+<p>
+<b>C++11 (<a href="https://timsong-cpp.github.io/cppwp/n3337/">N3337</a>) / [dcl.init.aggr]/1</b>:<br>
+An aggregate is an array or a class (&#x2026;) <b><emphasis>with no user-provided constructors</emphasis></b> (&#x2026;), <b><emphasis>no brace-or-equal-initializers</emphasis></b> for non-static data members (&#x2026;), no private or protected non-static data members (&#x2026;), no base classes (&#x2026;), and no virtual functions (&#x2026;).
+</p>
+</div>
+</blockquote>
+<blockquote>
+<div style="font-size: 70%;">
+<p>
+<b><a href="https://timsong-cpp.github.io/cppwp/n3337/dcl.fct.def.default#4">[dcl.fct.def.default]/4</a> (C++11), <a href="https://timsong-cpp.github.io/cppwp/n4140/dcl.fct.def.default#5">/5</a> (14), <a href="https://timsong-cpp.github.io/cppwp/n4659/dcl.fct.def.default#5">/5</a> (17)</b>: <br>
+[…] A special member function <b><emphasis>is user-provided if</emphasis></b> it is user-declared and <b><emphasis>not explicitly defaulted or deleted on its first declaration.</emphasis></b> […]
+</p>
+</div>
+</blockquote>
+</div>
+<div class="column" style="float:left; width: 50%;">
+<blockquote class="fragment">
+<div style="font-size: 70%;">
+<p>
+<b>C++14 (<a href="https://timsong-cpp.github.io/cppwp/n4140/">N4140</a>) / <a href="https://timsong-cpp.github.io/cppwp/n4140/dcl.init.aggr#1">[dcl.init.aggr]/1</a></b>: <br>
+An aggregate is an array or a class (&#x2026;) <b><emphasis>with no user-provided constructors</emphasis></b> (&#x2026;), <del><emphasis_red>brace-or-equal-initializers for non-static data members</emphasis_red></del> [&#x2026;]
+</p>
+</div>
+</blockquote>
+<blockquote class="fragment">
+<div style="font-size: 70%;">
+<p>
+<b>C++17 (<a href="https://timsong-cpp.github.io/cppwp/n4659/">N4659</a>) / <a href="https://timsong-cpp.github.io/cppwp/n4659/dcl.init.aggr#1">[dcl.init.aggr]/1</a></b>: <br>
+An aggregate is an array or a class with <br>
+(1.1) <b><emphasis>no user-provided</emphasis></b>, <b><emphasis_green>explicit</emphasis_green></b>, or <emphasis_green>inherited constructors</emphasis_green> (&#x2026;), <br>
+[&#x2026;] <del><emphasis_red>no base classes</emphasis_red></del> [&#x2026;] <br>
+(1.4) <emphasis_green>no virtual, private, or protected base classes</emphasis_green> (&#x2026;).
+</p>
+</div>
+</blockquote>
+</div>
+</section>
+<section>
+<div class="column" style="float:left; width: 50%; margin-top:0%">
+<blockquote data-fragment-index="1" class="fragment">
+<div style="font-size: 70%;">
+<p>
+<b>C++17 (<a href="https://timsong-cpp.github.io/cppwp/n4659/">N4659</a>) / <a href="https://timsong-cpp.github.io/cppwp/n4659/dcl.init.aggr#1">[dcl.init.aggr]/1</a></b>: <br>
+An aggregate is an array or a class with <br>
+(1.1) <b><emphasis>no user-provided</emphasis></b>, <b><emphasis_green>explicit</emphasis_green></b> [&#x2026;] constructors</emphasis_green> [&#x2026;]
+</p>
+</div>
+</blockquote>
+<aside class="notes">
+<p>
+Will not delve into the details of LWG issues 2510, but if your interested in some of the subtle complexities of copy-list-initialization, you may want to look into LWG 2510 and more specifically the related CWG 1518.
+</p>
+
+<p>
+LWG issue 2510 (Tag types should not be DefaultConstructible):
+<a href="https://cplusplus.github.io/LWG/issue2510">https://cplusplus.github.io/LWG/issue2510</a>
+</p>
+
+<p>
+CWG issue 1518 (Explicit default constructors and copy-list-initialization):
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_defects.html#1518">http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_defects.html#1518</a>
+</p>
+
+<p>
+which is implemented by <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0398r0.html">p0398r0</a>.
+</p>
+
+<p>
+The end result for LWG 2510: the tag types were updated to have an explicit default constructor, which would make sure they are not aggregates, meaning copy-list-init will not be aggregate initialization, it will be value initialization, which will resolve to default initialization, but explicit default ctors may not be used for copy-list-init.
+</p>
+
+<p>
+Particularly of interest for 1518 is <a href="https://timsong-cpp.github.io/cppwp/n4861/over.match.list#1.sentence-2">over.match.list/1</a>, namely that copy-list-initialization must not choose an explicit ctor, or the program is ill-formed.
+</p>
+
+<p>
+See also:
+</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/9157041">SO: copy-list-init and explicit ctor</a>.</li>
+<li><a href="https://stackoverflow.com/questions/50217428/what-does-default-initialization-in-copy-initialization-context-mean-in-c">SO: default-init in copy-init context</a></li>
+<li><a href="https://www.reddit.com/r/cpp/comments/5e8oq6/scott_meyers_needs_help/">Scott Meyers need help</a></li>
+
+</ul>
+
+</aside>
+<blockquote data-fragment-index="4" class="fragment">
+<div style="font-size: 70%;">
+<p>
+<b>P0398R0 / CWG1518 / LWG 2510 Tag types should not be DefaultConstructible</b> <br>
+</p>
+<p data-fragment-index="6" class="fragment">
+[&#x2026;] Making the types have an explicit default constructor might have helped [&#x2026;] <br>
+</p>
+<p data-fragment-index="7" class="fragment">
+JW: [&#x2026;] [The CWG Issue [1518] means that an explicit default constructor will no longer match <code>{}</code> ]. <br>
+WEB: Should we now go back and update our constructors? <br>
+JW: For tag types, yes.
+</p>
+</div>
+</blockquote>
+
+</div>
+<div class="column" style="float:left; width: 50%;">
+<div class="org-src-container">
+
+<pre data-fragment-index="2" class="fragment"><span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">A</span> <span style="color: #51afef;">{</span>          <span style="color: #c678dd;">A</span><span style="color: #c678dd;">()</span> = <span style="color: #51afef;">delete</span>; <span style="color: #51afef;">}</span>;
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">B</span> <span style="color: #51afef;">{</span> <span style="color: #51afef;">explicit</span> <span style="color: #c678dd;">B</span><span style="color: #c678dd;">()</span> = <span style="color: #51afef;">delete</span>; <span style="color: #51afef;">}</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="3" class="fragment"><span style="color: #ECBE7B;">A</span> <span style="color: #dcaeea;">a</span><span style="color: #51afef;">{}</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">Well-formed in C++11, 14, 17</span>
+
+<span style="color: #ECBE7B;">B</span> <span style="color: #dcaeea;">b</span><span style="color: #51afef;">{}</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">Well-formed in in C++11, 14</span>
+       <span style="color: #5699AF;">// </span><span style="color: #5699AF;">Ill-formed in C++17</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="5" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">from LWG Issue 2510</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">array</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">memory</span><span style="color: #51afef;">&gt;</span>
+
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">f</span><span style="color: #51afef;">(</span><span style="color: #a9a1e1;">std</span>::<span style="color: #ECBE7B;">array</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span>, <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">&gt;</span>, <span style="color: #ECBE7B;">int</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{}</span>   <span style="color: #5699AF;">// </span><span style="color: #5699AF;">#1</span>
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">f</span><span style="color: #51afef;">(</span><span style="color: #a9a1e1;">std</span>::allocator_arg_t, <span style="color: #ECBE7B;">int</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{}</span> <span style="color: #5699AF;">// </span><span style="color: #5699AF;">#2</span>
+
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">main</span><span style="color: #51afef;">()</span> <span style="color: #51afef;">{</span>
+  f<span style="color: #c678dd;">(</span><span style="color: #98be65;">{}</span>, <span style="color: #da8548; font-weight: bold;">666</span><span style="color: #c678dd;">)</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">#3</span>
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="8" class="fragment"><span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">nothrow_t</span> <span style="color: #51afef;">{</span>  <span style="color: #5699AF;">// </span><span style="color: #5699AF;">[support.dynamic]/1</span>
+  <span style="color: #51afef;">explicit</span> <span style="color: #c678dd;">nothrow_t</span><span style="color: #c678dd;">()</span> = <span style="color: #51afef;">default</span>; <span style="color: #51afef;">}</span>;
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">...</span>
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">defer_lock_t</span> <span style="color: #51afef;">{</span>  <span style="color: #5699AF;">//  </span><span style="color: #5699AF;">[thread.mutex]/1</span>
+  <span style="color: #51afef;">explicit</span> <span style="color: #c678dd;">defer_lock_t</span><span style="color: #c678dd;">()</span> = <span style="color: #51afef;">default</span>; <span style="color: #51afef;">}</span>;
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">try_to_lock_t</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">explicit</span> <span style="color: #c678dd;">try_to_lock_t</span><span style="color: #c678dd;">()</span> = <span style="color: #51afef;">default</span>; <span style="color: #51afef;">}</span>;
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">adopt_lock_t</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">explicit</span> <span style="color: #c678dd;">adopt_lock_t</span><span style="color: #c678dd;">()</span> = <span style="color: #51afef;">default</span>; <span style="color: #51afef;">}</span>;
+</pre>
+</div>
+</div>
+
+</section>
+<section id="slide-org9066986">
+<h2 id="org9066986">Feature A: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1008r1.pdf">P1008R1</a></h2>
+<p>
+<i>Prohibit aggregates with user-declared constructors</i>
+</p>
+<div class="column" style="float:left; width: 50%; margin-top:0%">
+<blockquote class="fragment">
+<div style="font-size: 70%;">
+<p>
+<b>C++20 (<a href="https://timsong-cpp.github.io/cppwp/n4861/">N4861</a>) / <a href="https://timsong-cpp.github.io/cppwp/n4861/dcl.init.aggr#1">[dcl.init.aggr]/1</a></b>: <br>
+An aggregate is an array or a class (&#x2026;) with <br>
+(1.1) no <b><emphasis_green>user-declared</emphasis_green></b> <del><emphasis_red>user-provided, explicit</emphasis_red></del> or inherited constructors (&#x2026;), <br>
+(1.2) no private or protected <emphasis_green>direct</emphasis_green> non-static data members (&#x2026;), <br>
+(1.3) no virtual functions (&#x2026;), and <br>
+(1.4) no virtual, private, or protected base classes (&#x2026;).
+</p>
+</div>
+</blockquote>
+</div>
+<div class="column" style="float:right; width: 50%; margin-top:0%">
+<div class="org-src-container">
+
+<pre class="fragment"><span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">A</span> <span style="color: #51afef;">{</span> <span style="color: #c678dd;">A</span><span style="color: #c678dd;">()</span> = <span style="color: #51afef;">delete</span>; <span style="color: #51afef;">}</span>;
+
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">B</span> <span style="color: #51afef;">{</span>
+  <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">i</span><span style="color: #c678dd;">{</span><span style="color: #da8548; font-weight: bold;">42</span><span style="color: #c678dd;">}</span>;
+<span style="color: #51afef;">private</span>:
+  <span style="color: #c678dd;">B</span><span style="color: #c678dd;">()</span> = <span style="color: #51afef;">default</span>;
+<span style="color: #51afef;">}</span>;
+
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">C</span> <span style="color: #51afef;">{</span>
+  <span style="color: #c678dd;">C</span><span style="color: #c678dd;">()</span> = <span style="color: #51afef;">default</span>;
+  <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">c</span><span style="color: #c678dd;">{</span><span style="color: #da8548; font-weight: bold;">42</span><span style="color: #c678dd;">}</span>;
+<span style="color: #51afef;">}</span>;
+
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">well-formed -&gt; ill-formed</span>
+<span style="color: #ECBE7B;">A</span> <span style="color: #dcaeea;">a</span><span style="color: #51afef;">{}</span>;
+<span style="color: #ECBE7B;">B</span> <span style="color: #dcaeea;">b1</span><span style="color: #51afef;">{}</span>;
+<span style="color: #ECBE7B;">B</span> <span style="color: #dcaeea;">b2</span><span style="color: #51afef;">{</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #51afef;">}</span>;
+<span style="color: #ECBE7B;">C</span> <span style="color: #dcaeea;">c</span><span style="color: #51afef;">{</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #51afef;">}</span>;
+</pre>
+</div>
+</div>
+
+</section>
+<section id="slide-org36f007c">
+<h2 id="org36f007c">Feature B</h2>
+<p>
+(cc, uu)
+</p>
+</section>
+<section>
+<div class="column" style="float:left; width: 50%;">
+<div class="org-src-container">
+
+<pre data-fragment-index="1" class="fragment"><span style="color: #51afef;">template</span><span style="color: #51afef;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">T</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">Foo</span> <span style="color: #51afef;">{</span> <span style="color: #ECBE7B;">T</span> <span style="color: #dcaeea;">t</span>; <span style="color: #51afef;">}</span>;
+
+<span style="color: #51afef;">template</span><span style="color: #51afef;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">T</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">addToFoo</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">Foo</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">T</span><span style="color: #c678dd;">&gt;</span>&amp; <span style="color: #dcaeea;">foo</span>, <span style="color: #ECBE7B;">T</span> <span style="color: #dcaeea;">val</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span> 
+  foo.t += val; <span style="color: #51afef;">}</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="2" class="fragment"><span style="color: #ECBE7B;">Foo</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">long</span><span style="color: #51afef;">&gt;</span> <span style="color: #dcaeea;">f</span><span style="color: #51afef;">{</span><span style="color: #da8548; font-weight: bold;">42</span><span style="color: #51afef;">}</span>;
+addToFoo<span style="color: #51afef;">(</span>f, <span style="color: #da8548; font-weight: bold;">13</span><span style="color: #51afef;">)</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="9" class="fragment"><span style="color: #ECBE7B;">Foo</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">long</span><span style="color: #51afef;">&gt;</span> <span style="color: #dcaeea;">f</span><span style="color: #51afef;">{</span><span style="color: #da8548; font-weight: bold;">42</span><span style="color: #51afef;">}</span>;
+addToFoo<span style="color: #51afef;">(</span>f, <span style="color: #a9a1e1;">13</span><span style="color: #51afef;">L</span><span style="color: #51afef;">)</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">OK: addToFoo&lt;long&gt;</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="12" class="fragment"><span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">Bar</span> <span style="color: #51afef;">{</span> <span style="color: #51afef;">using</span> <span style="color: #ECBE7B;">type</span> = <span style="color: #ECBE7B;">int</span>; <span style="color: #51afef;">}</span>;
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">f</span><span style="color: #51afef;">(</span><span style="color: #a9a1e1;">Bar</span>::<span style="color: #ECBE7B;">type</span> <span style="color: #dcaeea;">value</span><span style="color: #51afef;">)</span>;
+<span style="color: #5699AF;">//          </span><span style="color: #5699AF;">^^^^ - unqualified-id</span>
+<span style="color: #5699AF;">//     </span><span style="color: #5699AF;">^^^^^ - nested-name-specifier</span>
+<span style="color: #5699AF;">//     </span><span style="color: #5699AF;">^^^^^^^^^ - qualified-id</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="14" class="fragment"><span style="color: #51afef;">template</span><span style="color: #51afef;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">T</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">identity</span> <span style="color: #51afef;">{</span> <span style="color: #51afef;">using</span> <span style="color: #ECBE7B;">type</span> = T; <span style="color: #51afef;">}</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="15" class="fragment"><span style="color: #51afef;">template</span><span style="color: #51afef;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">T</span><span style="color: #51afef;">&gt;</span>  <span style="color: #5699AF;">// </span><span style="color: #5699AF;">T non-deducible</span>
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">f</span><span style="color: #51afef;">(</span><span style="color: #51afef;">typename</span> <span style="color: #a9a1e1;">identity</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">T</span><span style="color: #c678dd;">&gt;</span>::<span style="color: #ECBE7B;">type</span> <span style="color: #dcaeea;">t</span><span style="color: #51afef;">)</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="16" class="fragment"><span style="color: #51afef;">template</span><span style="color: #51afef;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">T</span><span style="color: #51afef;">&gt;</span> 
+<span style="color: #51afef;">using</span> <span style="color: #ECBE7B;">identity_t</span> = 
+  <span style="color: #51afef;">typename</span> <span style="color: #a9a1e1;">identity</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">T</span><span style="color: #51afef;">&gt;</span>::type;
+</pre>
+</div>
+</div>
+<div class="column" style="float:right; width: 50%; margin-top:0%">
+
+<blockquote data-fragment-index="4" class="fragment">
+<div style="font-size: 70%;">
+<ol>
+<li data-fragment-index="4" class="fragment appear">Name lookup</li>
+<li data-fragment-index="5" class="fragment appear"><emphasis> Template argument deduction (TAD) </emphasis></li>
+<li data-fragment-index="7" class="fragment appear"><no_emph> Template arg. substitution (candidates) </no_emph></li>
+<li data-fragment-index="7" class="fragment appear"><no_emph> Overload resolution (viable candidates) </no_emph></li>
+
+</ol>
+</div>
+</blockquote>
+<div class="org-src-container">
+
+<pre data-fragment-index="8" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">error: no matching function </span>
+<span style="color: #5699AF;">//        </span><span style="color: #5699AF;">for call to 'addToFoo'</span>
+</pre>
+</div>
+<blockquote data-fragment-index="6" class="fragment">
+<div style="font-size: 70%;">
+<p>
+deducing conflicting types for (temp. arg.) <code>T</code>: <br>
+ <code>long</code> (from <code>foo</code>) vs <code>int</code> (from <code>val</code>)
+</p>
+</div>
+</blockquote>
+<blockquote data-fragment-index="11" class="fragment">
+<div style="font-size: 70%;">
+<p>
+<b><a href="https://timsong-cpp.github.io/cppwp/n4861/temp.deduct.type#18">[temp.deduct.type]/18</a>:</b> Template parameters do not participate in TAD if they are used only in <b><emphasis>non-deduced contexts.</emphasis></b> (NDCs) [&#x2026;]
+</p>
+
+<p>
+<b><a href="https://timsong-cpp.github.io/cppwp/n4861/temp.deduct.type#5.1">[temp.deduct.type]/5.1</a>:</b> The NDCs are: <br> – The <b><emphasis>the <i>nested-name-specifier</i> </emphasis></b> of a type that was specified using a <i>qualified-id</i> [&#x2026;]
+</p>
+</div>
+</blockquote>
+
+</section>
+<section>
+<div class="column" style="float:left; width: 50%;">
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #51afef;">template</span><span style="color: #51afef;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">T</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">Foo</span> <span style="color: #51afef;">{</span> <span style="color: #ECBE7B;">T</span> <span style="color: #dcaeea;">t</span>; <span style="color: #51afef;">}</span>;
+
+<span style="color: #51afef;">template</span><span style="color: #51afef;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">T</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">addToFoo</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">Foo</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">T</span><span style="color: #c678dd;">&gt;</span>&amp; <span style="color: #dcaeea;">foo</span>, <span style="color: #ECBE7B;">T</span> <span style="color: #dcaeea;">val</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span> 
+  foo.t += val; <span style="color: #51afef;">}</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #ECBE7B;">Foo</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">long</span><span style="color: #51afef;">&gt;</span> <span style="color: #dcaeea;">f</span><span style="color: #51afef;">{</span><span style="color: #da8548; font-weight: bold;">42</span><span style="color: #51afef;">}</span>;
+addToFoo<span style="color: #51afef;">(</span>f, <span style="color: #da8548; font-weight: bold;">13</span><span style="color: #51afef;">)</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #ECBE7B;">Foo</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">long</span><span style="color: #51afef;">&gt;</span> <span style="color: #dcaeea;">f</span><span style="color: #51afef;">{</span><span style="color: #da8548; font-weight: bold;">42</span><span style="color: #51afef;">}</span>;
+addToFoo<span style="color: #51afef;">(</span>f, <span style="color: #a9a1e1;">13</span><span style="color: #51afef;">L</span><span style="color: #51afef;">)</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">OK: addToFoo&lt;long&gt;</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">Bar</span> <span style="color: #51afef;">{</span> <span style="color: #51afef;">using</span> <span style="color: #ECBE7B;">type</span> = <span style="color: #ECBE7B;">int</span>; <span style="color: #51afef;">}</span>;
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">f</span><span style="color: #51afef;">(</span><span style="color: #a9a1e1;">Bar</span>::<span style="color: #ECBE7B;">type</span> <span style="color: #dcaeea;">value</span><span style="color: #51afef;">)</span>;
+<span style="color: #5699AF;">//          </span><span style="color: #5699AF;">^^^^ - unqualified-id</span>
+<span style="color: #5699AF;">//     </span><span style="color: #5699AF;">^^^^^ - nested-name-specifier</span>
+<span style="color: #5699AF;">//     </span><span style="color: #5699AF;">^^^^^^^^^ - qualified-id</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #51afef;">template</span><span style="color: #51afef;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">T</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">identity</span> <span style="color: #51afef;">{</span> <span style="color: #51afef;">using</span> <span style="color: #ECBE7B;">type</span> = T; <span style="color: #51afef;">}</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #51afef;">template</span><span style="color: #51afef;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">T</span><span style="color: #51afef;">&gt;</span>  <span style="color: #5699AF;">// </span><span style="color: #5699AF;">T non-deducible</span>
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">f</span><span style="color: #51afef;">(</span><span style="color: #51afef;">typename</span> <span style="color: #a9a1e1;">identity</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">T</span><span style="color: #c678dd;">&gt;</span>::<span style="color: #ECBE7B;">type</span> <span style="color: #dcaeea;">t</span><span style="color: #51afef;">)</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #51afef;">template</span><span style="color: #51afef;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">T</span><span style="color: #51afef;">&gt;</span> 
+<span style="color: #51afef;">using</span> <span style="color: #ECBE7B;">identity_t</span> = 
+  <span style="color: #51afef;">typename</span> <span style="color: #a9a1e1;">identity</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">T</span><span style="color: #51afef;">&gt;</span>::type;
+</pre>
+</div>
+</div>
+<div class="column" style="float:right; width: 50%; margin-top:0%">
+<div class="org-src-container">
+
+<pre data-fragment-index="1" class="fragment"><span style="color: #51afef;">template</span><span style="color: #51afef;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">T</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">addToFoo</span><span style="color: #51afef;">(</span>
+  <span style="color: #ECBE7B;">Foo</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">T</span><span style="color: #c678dd;">&gt;</span>&amp; <span style="color: #dcaeea;">foo</span>,
+  <span style="color: #ECBE7B;">identity_t</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">T</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">val</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">{</span> foo.t += val; <span style="color: #51afef;">}</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="2" class="fragment"><span style="color: #5699AF;">//</span><span style="color: #5699AF;">^^^^^^^^^^^^^ T in non-deduced context.</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="3" class="fragment"><span style="color: #ECBE7B;">Foo</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">long</span><span style="color: #51afef;">&gt;</span> <span style="color: #dcaeea;">f</span><span style="color: #51afef;">{</span><span style="color: #da8548; font-weight: bold;">42</span><span style="color: #51afef;">}</span>;
+addToFoo<span style="color: #51afef;">(</span>f, <span style="color: #da8548; font-weight: bold;">13</span><span style="color: #51afef;">)</span>;  <span style="color: #5699AF;">// </span><span style="color: #5699AF;">OK!</span>
+</pre>
+</div>
+<blockquote data-fragment-index="4" class="fragment">
+<div style="font-size: 70%;">
+<p>
+<code>T</code> unambiguously deduced to <code>long</code> (from <code>foo</code>), and <code>13</code> promoted (<code>T val</code> -&gt; <code>long val</code>).
+</p>
+</div>
+</blockquote>
+
+<div class="org-src-container">
+
+<pre data-fragment-index="5" class="fragment"><span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">type_traits</span><span style="color: #51afef;">&gt;</span>
+
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">Danger, Will Robinson!</span>
+<span style="color: #51afef;">template</span> <span style="color: #51afef;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">T</span><span style="color: #51afef;">&gt;</span> 
+<span style="color: #51afef;">using</span> <span style="color: #ECBE7B;">identity_t</span> = <span style="color: #a9a1e1;">std</span>::<span style="color: #ECBE7B;">common_type_t</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">T</span><span style="color: #51afef;">&gt;</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="6" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">ill-formed</span>
+<span style="color: #51afef;">static_assert</span><span style="color: #51afef;">(</span>
+  <span style="color: #a9a1e1;">std</span>::<span style="color: #ECBE7B;">is_same_v</span><span style="color: #c678dd;">&lt;</span>
+    <span style="color: #a9a1e1;">std</span>::<span style="color: #ECBE7B;">common_type_t</span><span style="color: #98be65;">&lt;</span><span style="color: #ECBE7B;">int</span> <span style="color: #51afef;">const</span><span style="color: #98be65;">&gt;</span>, <span style="color: #5699AF;">// </span><span style="color: #5699AF;">int</span>
+    <span style="color: #ECBE7B;">int</span> <span style="color: #51afef;">const</span><span style="color: #c678dd;">&gt;</span>, <span style="color: #98be65;">""</span><span style="color: #51afef;">)</span>;
+</pre>
+</div>
+
+</section>
+<section id="slide-orgda93731">
+<h2 id="orgda93731">Feature B: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0887r1.pdf">P0887R1</a></h2>
+<p>
+<i>The identity metafunction</i>
+</p>
+<blockquote data-fragment-index="1" class="fragment">
+<div style="font-size: 70%;">
+<p>
+This paper proposes the library utility <code>std::type_identity</code>, which implements the identity metafunction. The functionality it provides is both fundamental and surprisingly useful. It can be used to <b><emphasis> selectively disable template argument deduction </emphasis></b> (for which there is currently no standard mechanism), and as a basic building block for other metafunctions.
+</p>
+</div>
+</blockquote>
+<blockquote data-fragment-index="2" class="fragment">
+<div style="font-size: 70%;">
+<p>
+The main issue with standardising this utility has long been the <b><emphasis> lack of consensus on a name </emphasis></b>.
+</p>
+</div>
+</blockquote>
+
+</section>
+<section id="slide-org84a631c">
+<h2 id="org84a631c">Feature C</h2>
+<p>
+(ccc, u-)
+</p>
+</section>
+<section>
+<div class="column" style="float:left; width: 50%;">
+</div>
+<div class="column" style="float:right; width: 50%; margin-top:0%">
+</div>
+
+
+
+</section>
+<section id="slide-orgab67cab">
+<h3 id="orgab67cab">Friends</h3>
+</section>
+<section>
+<div class="column" style="float:left; width: 50%;">
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">S</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">friend</span> <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">f</span><span style="color: #c678dd;">()</span>;
+<span style="color: #51afef;">private</span>:
+  <span style="color: #51afef;">static</span> <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">h</span><span style="color: #c678dd;">()</span> <span style="color: #c678dd;">{}</span>
+<span style="color: #51afef;">}</span>;
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">f</span><span style="color: #51afef;">()</span> <span style="color: #51afef;">{</span> <span style="color: #a9a1e1;">S</span>::h<span style="color: #c678dd;">()</span>; <span style="color: #51afef;">}</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="2" class="fragment"><span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">S</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">friend</span> <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">f</span><span style="color: #c678dd;">()</span> <span style="color: #c678dd;">{</span> h<span style="color: #98be65;">()</span>; <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">private</span>:
+  <span style="color: #51afef;">static</span> <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">h</span><span style="color: #c678dd;">()</span> <span style="color: #c678dd;">{}</span>
+<span style="color: #51afef;">}</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="3" class="fragment">f<span style="color: #51afef;">()</span>;
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">Error: 'f' not declared in this scope.</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre data-fragment-index="20" class="fragment"><span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">S</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">friend</span> <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">f</span><span style="color: #c678dd;">()</span> <span style="color: #c678dd;">{}</span>
+  <span style="color: #51afef;">friend</span> <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">g</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">S</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{}</span>
+<span style="color: #51afef;">}</span>;
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">f</span><span style="color: #51afef;">()</span>;
+
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">main</span><span style="color: #51afef;">()</span> <span style="color: #51afef;">{</span>
+  f<span style="color: #c678dd;">()</span>;    <span style="color: #5699AF;">// </span><span style="color: #5699AF;">OK.</span>
+  g<span style="color: #c678dd;">(</span>S<span style="color: #98be65;">{}</span><span style="color: #c678dd;">)</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">OK (ADL) [namespace.memdef]/3</span>
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+
+</div>
+<div class="column" style="float:right; width: 50%; margin-top:0%">
+<blockquote data-fragment-index="1" class="fragment">
+<div style="font-size: 70%;">
+<p>
+<b><a href="https://timsong-cpp.github.io/cppwp/n4861/class.friend#6">[class.friend]/6</a>:</b> A function can be <b><emphasis>defined in a friend declaration </emphasis></b> of a class [&#x2026;] and the function has namespace scope. 
+</p>
+
+<p>
+<b><a href="https://timsong-cpp.github.io/cppwp/n4861/class.friend#7">[class.friend]/7</a>:</b> Such a function is <b><emphasis> implicitly an inline function </emphasis></b>. A <code>friend</code> function defined in a class <b><emphasis>is in the (lexical) scope of the class </emphasis></b> in which it is defined. [&#x2026;]
+</p>
+</div>
+</blockquote>
+<blockquote data-fragment-index="3" class="fragment">
+<div style="font-size: 70%;">
+<p>
+<b><a href="https://timsong-cpp.github.io/cppwp/n4861/namespace.memdef#3">[namespace.memdef]/3</a>:</b> [&#x2026;] The friend declaration does <b><emphasis> not </emphasis></b> by itself make the name <b><emphasis> visible to unqualified lookup or qualified lookup </emphasis></b>.
+</p>
+<p data-fragment-index="6" class="fragment">
+[ <i>Note:</i> The name of the friend <b><emphasis>will be visible in its namespace if a matching declaration is provided at namespace scope</emphasis></b> [&#x2026;] ]
+</p>
+</div>
+</blockquote>
+</section>
+<section>
+<div class="column" style="float:left; width: 50%;">
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #51afef;">template</span> <span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">N</span><span style="color: #51afef;">&gt;</span> <span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">A</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">friend</span> <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">f</span><span style="color: #c678dd;">()</span> <span style="color: #c678dd;">{}</span>
+<span style="color: #51afef;">}</span>;
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">f</span><span style="color: #51afef;">()</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="1" class="fragment"><span style="color: #51afef;">template</span> <span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">N</span><span style="color: #51afef;">&gt;</span> <span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">B</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">friend</span> <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">g</span><span style="color: #c678dd;">()</span> <span style="color: #c678dd;">{}</span>
+<span style="color: #51afef;">}</span>;
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">g</span><span style="color: #51afef;">()</span>;
+
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">main</span><span style="color: #51afef;">()</span> <span style="color: #51afef;">{</span>
+  <span style="color: #5699AF;">// </span><span style="color: #5699AF;">Instantiates _a_ specialization of 'A'</span>
+  <span style="color: #ECBE7B;">A</span><span style="color: #c678dd;">&lt;</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">a</span>;
+  f<span style="color: #c678dd;">()</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">OK (def. instantiated along A&lt;1&gt;)</span>
+  g<span style="color: #c678dd;">()</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">Error: undefined ref. to 'g()'.</span>
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="2" class="fragment"><span style="color: #ECBE7B;">A</span><span style="color: #51afef;">&lt;</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #51afef;">&gt;</span> <span style="color: #dcaeea;">a1</span>;
+<span style="color: #ECBE7B;">A</span><span style="color: #51afef;">&lt;</span><span style="color: #da8548; font-weight: bold;">2</span><span style="color: #51afef;">&gt;</span> <span style="color: #dcaeea;">a2</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">error: redefinition of 'f'</span>
+</pre>
+</div>
+<blockquote data-fragment-index="2" class="fragment">
+<div style="font-size: 70%;">
+<p>
+<b><a href="https://timsong-cpp.github.io/cppwp/n4861/basic.def.odr#1">[basic.odr.def]/1</a>:</b> No TU shall contain more than one definition of any [&#x2026;], function [&#x2026;]
+</p>
+<p data-fragment-index="8" class="fragment">
+<b><a href="https://timsong-cpp.github.io/cppwp/n4861/basic.def.odr#13" data-fragment-index="8" class="fragment">[basic.odr.def]/13</a>:</b> There can be more than one definition of a [&#x2026;] inline function [&#x2026;]
+</p>
+</div>
+</blockquote>
+</div>
+<div class="column" style="float:right; width: 50%; margin-top:0%">
+<div class="org-src-container">
+
+<pre data-fragment-index="3" class="fragment"><span style="color: #51afef;">template</span> <span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">N</span><span style="color: #51afef;">&gt;</span> <span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">A</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">friend</span> <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">f</span><span style="color: #c678dd;">()</span> <span style="color: #c678dd;">{</span> <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">x</span><span style="color: #98be65;">{</span>N<span style="color: #98be65;">}</span>; <span style="color: #98be65;">(</span><span style="color: #ECBE7B;">void</span><span style="color: #98be65;">)</span>x; <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>;
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">f</span><span style="color: #51afef;">()</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="4" class="fragment"><span style="color: #51afef;">template</span> <span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">N</span>, <span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">T</span><span style="color: #51afef;">&gt;</span> <span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">B</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">friend</span> <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">g</span><span style="color: #c678dd;">()</span> <span style="color: #c678dd;">{</span> <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">x</span><span style="color: #98be65;">{</span>N<span style="color: #98be65;">}</span>; <span style="color: #98be65;">(</span><span style="color: #ECBE7B;">void</span><span style="color: #98be65;">)</span>x; <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>;
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">g</span><span style="color: #51afef;">()</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="5" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">foo.cpp</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"a.h"</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"b.h"</span>
+<span style="color: #ECBE7B;">A</span><span style="color: #51afef;">&lt;</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #51afef;">&gt;</span> <span style="color: #dcaeea;">foo_a</span>;
+<span style="color: #ECBE7B;">B</span><span style="color: #51afef;">&lt;</span><span style="color: #da8548; font-weight: bold;">1</span>, <span style="color: #ECBE7B;">int</span><span style="color: #51afef;">&gt;</span> <span style="color: #dcaeea;">foo_b</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="6" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">bar.cpp</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"a.h"</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"b.h"</span>
+<span style="color: #ECBE7B;">A</span><span style="color: #51afef;">&lt;</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #51afef;">&gt;</span> <span style="color: #dcaeea;">bar_a</span>;
+<span style="color: #ECBE7B;">B</span><span style="color: #51afef;">&lt;</span><span style="color: #da8548; font-weight: bold;">1</span>, <span style="color: #ECBE7B;">char</span><span style="color: #51afef;">&gt;</span> <span style="color: #dcaeea;">bar_b</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="7" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">baz.cpp</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"a.h"</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"b.h"</span>
+<span style="color: #ECBE7B;">A</span><span style="color: #51afef;">&lt;</span><span style="color: #da8548; font-weight: bold;">42</span><span style="color: #51afef;">&gt;</span> <span style="color: #dcaeea;">baz_a</span>;
+<span style="color: #ECBE7B;">B</span><span style="color: #51afef;">&lt;</span><span style="color: #da8548; font-weight: bold;">42</span>, <span style="color: #ECBE7B;">char</span><span style="color: #51afef;">&gt;</span> <span style="color: #dcaeea;">baz_b</span>;
+</pre>
+</div>
+</div>
+</section>
+<section id="slide-org4c7daf1">
+<h3 id="org4c7daf1">Explicit instantiation definitions</h3>
+</section>
+<section>
+<div class="column" style="float:left; width: 50%;">
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #51afef;">template</span> <span style="color: #51afef;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">T</span><span style="color: #51afef;">&gt;</span> 
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">S</span> <span style="color: #51afef;">{</span>
+  <span style="color: #ECBE7B;">T</span> <span style="color: #dcaeea;">t</span>;
+
+  <span style="color: #51afef;">template</span> <span style="color: #c678dd;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">U</span><span style="color: #c678dd;">&gt;</span> 
+  <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">h</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">U</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{}</span>
+<span style="color: #51afef;">}</span>;
+
+<span style="color: #51afef;">template</span> <span style="color: #51afef;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">T</span><span style="color: #51afef;">&gt;</span> 
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">foo</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">T</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #51afef;">)</span> <span style="color: #51afef;">{}</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="1" class="fragment"><span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">implicit_instantiation_demo</span><span style="color: #51afef;">()</span> <span style="color: #51afef;">{</span>
+  <span style="color: #ECBE7B;">S</span><span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">char</span><span style="color: #c678dd;">&gt;</span> <span style="color: #dcaeea;">s</span>; 
+  <span style="color: #5699AF;">// </span><span style="color: #5699AF;">instantiates S&lt;char&gt;</span>
+  
+  s.h<span style="color: #c678dd;">(</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">)</span>;
+  <span style="color: #5699AF;">// </span><span style="color: #5699AF;">(U deduced to int) instantiates </span>
+  <span style="color: #5699AF;">// </span><span style="color: #5699AF;">S&lt;char&gt;::h&lt;int&gt;(int const&amp;)</span>
+  
+  f<span style="color: #c678dd;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #c678dd;">&gt;(</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">)</span>; 
+  <span style="color: #5699AF;">// </span><span style="color: #5699AF;">instantiates f&lt;int&gt;(int const&amp;)</span>
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="2" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">Explicit instantiation definitions:</span>
+<span style="color: #51afef;">template</span> <span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">S</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">char</span><span style="color: #51afef;">&gt;</span>;
+<span style="color: #51afef;">template</span> <span style="color: #ECBE7B;">void</span> <span style="color: #a9a1e1;">S</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">char</span><span style="color: #51afef;">&gt;</span>::<span style="color: #c678dd;">h</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #51afef;">&gt;(</span><span style="color: #ECBE7B;">int</span> <span style="color: #51afef;">const</span>&amp;<span style="color: #51afef;">)</span>;
+<span style="color: #51afef;">template</span> <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">f</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">int</span><span style="color: #51afef;">&gt;(</span><span style="color: #ECBE7B;">int</span> <span style="color: #51afef;">const</span>&amp;<span style="color: #51afef;">)</span>;
+</pre>
+</div>
+</div>
+<div class="column" style="float:right; width: 50%; margin-top:0%">
+
+<blockquote data-fragment-index="3" class="fragment">
+<div style="font-size: 70%;">
+<p>
+<b><a href="https://timsong-cpp.github.io/cppwp/n4861/temp.spec#5">[temp.spec]/5</a>:</b>  For a given template and <b><emphasis> a given set of template-arguments </emphasis></b>, <br> 
+</p>
+
+<ul>
+<li data-fragment-index="4" class="fragment appear">an explicit instantiation definition shall <b><emphasis> appear at most once in a program </emphasis></b>, and</li>
+<li data-fragment-index="5" class="fragment appear">an explicit specialization shall be <b><emphasis> defined at most once in a program, as specified in [basic.def.odr] </emphasis></b>, and</li>
+<li data-fragment-index="6" class="fragment appear"><no_emph> both an explicit instantiation (EI) and a declaration of an explicit specialization (ES) shall not appear in a program unless the EI follows a declaration of the ES. </no_emph></li>
+
+</ul>
+
+<p data-fragment-index="7" class="fragment">
+An implementation is <b><emphasis>not required to diagnose </emphasis></b> a violation of this rule.
+</p>
+</div>
+</blockquote>
+<blockquote data-fragment-index="8" class="fragment">
+<div style="font-size: 50%;">
+<p>
+<b><a href="https://timsong-cpp.github.io/cppwp/n4861/temp.expl.spec#8">[temp.expl.spec]/8</a>:</b> <no_emph>[&#x2026;] When writing a specialization, be careful about its location; or to make it compile will be such a trial as to kindle its self-immolation.</no_emph>
+</p>
+</div>
+</blockquote>
+</div>
+</section>
+<section>
+<div class="column" style="float:left; width: 50%;">
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">s.h</span>
+<span style="color: #51afef; font-weight: bold;">#pragma once</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"s_util.h"</span>
+
+<span style="color: #51afef;">namespace</span> <span style="color: #a9a1e1;">detail</span> <span style="color: #51afef;">{</span>
+<span style="color: #51afef;">template</span> <span style="color: #c678dd;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">T</span> = SUtil<span style="color: #c678dd;">&gt;</span>
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">SImpl</span> <span style="color: #c678dd;">{</span> 
+  <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">f</span><span style="color: #98be65;">()</span> <span style="color: #51afef;">const</span>;  <span style="color: #5699AF;">// </span><span style="color: #5699AF;">definition elsewhere</span>
+<span style="color: #c678dd;">}</span>;
+<span style="color: #51afef;">}</span>
+
+<span style="color: #51afef;">using</span> <span style="color: #ECBE7B;">S</span> = <span style="color: #a9a1e1;">detail</span>::<span style="color: #ECBE7B;">SImpl</span><span style="color: #51afef;">&lt;&gt;</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="2" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">s-timpl.h</span>
+<span style="color: #51afef; font-weight: bold;">#pragma once</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"s.h"</span>
+
+<span style="color: #51afef;">template</span><span style="color: #51afef;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">T</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #ECBE7B;">void</span> <span style="color: #a9a1e1;">detail</span>::<span style="color: #a9a1e1;">SImpl</span><span style="color: #51afef;">&lt;</span><span style="color: #ECBE7B;">T</span><span style="color: #51afef;">&gt;</span>::<span style="color: #c678dd;">f</span><span style="color: #51afef;">()</span> <span style="color: #51afef;">{</span> <span style="color: #a9a1e1;">T</span>::f<span style="color: #c678dd;">()</span>; <span style="color: #51afef;">}</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="3" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">s.cpp</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"s-timpl.h"</span>
+<span style="color: #51afef;">template</span> <span style="color: #51afef;">struct</span> <span style="color: #a9a1e1;">detail</span>::<span style="color: #ECBE7B;">SImpl</span><span style="color: #51afef;">&lt;&gt;</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="5" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">client.cpp</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"s.h"</span>
+
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">demo</span><span style="color: #51afef;">()</span> <span style="color: #51afef;">{</span> S<span style="color: #c678dd;">{}</span>.f<span style="color: #c678dd;">()</span>; <span style="color: #51afef;">}</span>  <span style="color: #5699AF;">// </span><span style="color: #5699AF;">"f</span><span style="color: #ECBE7B;">"</span>
+</pre>
+</div>
+
+</div>
+<div class="column" style="float:right; width: 50%; margin-top:0%">
+<div class="org-src-container">
+
+<pre data-fragment-index="1" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">s_util.h</span>
+<span style="color: #51afef; font-weight: bold;">#pragma once</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">iostream</span><span style="color: #51afef;">&gt;</span>
+
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">SUtil</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">static</span> <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">f</span><span style="color: #c678dd;">()</span> <span style="color: #c678dd;">{</span> <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; <span style="color: #98be65;">"f\n"</span>; <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="6" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">s_util_mock.h</span>
+<span style="color: #51afef; font-weight: bold;">#pragma once</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">iostream</span><span style="color: #51afef;">&gt;</span>
+
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">SUtilMock</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">static</span> <span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">f</span><span style="color: #c678dd;">()</span> <span style="color: #c678dd;">{</span> 
+      <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; <span style="color: #98be65;">"f mock\n"</span>; <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="7" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">s_test.cpp</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"s-timpl.h"</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"s_util_mock.h"</span>
+
+<span style="color: #51afef;">template</span> <span style="color: #51afef;">struct</span> <span style="color: #a9a1e1;">detail</span>::<span style="color: #ECBE7B;">SImpl</span><span style="color: #51afef;">&lt;</span>SUtilMock<span style="color: #51afef;">&gt;</span>;
+<span style="color: #51afef;">using</span> <span style="color: #ECBE7B;">SUnderTest</span> = <span style="color: #a9a1e1;">detail</span>::<span style="color: #ECBE7B;">SImpl</span><span style="color: #51afef;">&lt;</span>SUtilMock<span style="color: #51afef;">&gt;</span>;
+
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">test</span><span style="color: #51afef;">()</span> <span style="color: #51afef;">{</span>
+  <span style="color: #ECBE7B;">SUnderTest</span> <span style="color: #dcaeea;">s</span><span style="color: #c678dd;">{}</span>;
+  s.f<span style="color: #c678dd;">()</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">"f mock"</span>
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+</div>
+</section>
+<section>
+<blockquote data-fragment-index="1" class="fragment">
+<div style="font-size: 70%;">
+<p>
+C++17 (<a href="https://timsong-cpp.github.io/cppwp/n4659/">N4659</a>) / <b><a href="https://timsong-cpp.github.io/cppwp/n4649/temp.explicit#12">[temp.explicit]/12</a>:</b>  The usual access checking rules do not apply to names used to specify explicit instantiations. […]
+</p>
+</div>
+</blockquote>
+<div class="org-src-container">
+
+<pre data-fragment-index="2" class="fragment"><span style="color: #51afef;">class</span> <span style="color: #ECBE7B;">A</span> <span style="color: #51afef;">{</span> <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">x</span>; <span style="color: #51afef;">}</span>;
+
+<span style="color: #51afef;">template</span><span style="color: #51afef;">&lt;</span><span style="color: #51afef;">auto</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef;">class</span> <span style="color: #ECBE7B;">B</span> <span style="color: #51afef;">{}</span>;
+
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">Explicit instantiation definition.</span>
+<span style="color: #51afef;">template</span> <span style="color: #51afef;">class</span> <span style="color: #ECBE7B;">B</span><span style="color: #51afef;">&lt;</span>&amp;<span style="color: #a9a1e1;">A</span>::x<span style="color: #51afef;">&gt;</span>;  <span style="color: #5699AF;">// </span><span style="color: #5699AF;">well-formed</span>
+<span style="color: #5699AF;">//               </span><span style="color: #5699AF;">^^^^^ access rules for private data</span>
+<span style="color: #5699AF;">//                     </span><span style="color: #5699AF;">member 'x' is waived in an</span>
+<span style="color: #5699AF;">//                     </span><span style="color: #5699AF;">explicit instantiation definition.</span>
+</pre>
+</div>
+
+</section>
+<section id="slide-org4af0218">
+<h3 id="org4af0218">Access of private data members pre-C++20 (<a href="http://bloglitb.blogspot.com/2011/12/access-to-private-members-safer.html">Johannes Schaub</a>)</h3>
+</section>
+<section>
+<div class="column" style="float:left; width: 50%;">
+
+<div class="org-src-container">
+
+<pre data-fragment-index="2" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">access_private_of_s.h</span>
+<span style="color: #51afef; font-weight: bold;">#pragma once</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"s.h"</span>
+
+<span style="color: #51afef;">template</span> <span style="color: #51afef;">&lt;</span><span style="color: #51afef;">auto</span> <span style="color: #dcaeea;">mem_fn_ptr</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">InvokePrivateFunSf</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">friend</span> <span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">invoke_private_S_f</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">S</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #dcaeea;">s</span><span style="color: #c678dd;">)</span> 
+  <span style="color: #c678dd;">{</span> <span style="color: #51afef;">return</span> <span style="color: #98be65;">(</span>s.*mem_fn_ptr<span style="color: #98be65;">)()</span>; <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>;
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">invoke_private_S_f</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">S</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #dcaeea;">s</span><span style="color: #51afef;">)</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="3" class="fragment"><span style="color: #51afef;">template</span> <span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">InvokePrivateFunSf</span><span style="color: #51afef;">&lt;</span>&amp;<span style="color: #a9a1e1;">S</span>::f<span style="color: #51afef;">&gt;</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="4" class="fragment"><span style="color: #51afef;">template</span> <span style="color: #51afef;">&lt;</span><span style="color: #51afef;">auto</span> <span style="color: #dcaeea;">data_mem_ptr</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">AccessPrivateDataMemSx</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">friend</span> <span style="color: #ECBE7B;">int</span>&amp; <span style="color: #c678dd;">access_private_S_x</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">S</span>&amp; <span style="color: #dcaeea;">s</span><span style="color: #c678dd;">)</span> 
+  <span style="color: #c678dd;">{</span> <span style="color: #51afef;">return</span> s.*data_mem_ptr; <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>;
+<span style="color: #ECBE7B;">int</span>&amp; <span style="color: #c678dd;">access_private_S_x</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">S</span>&amp; <span style="color: #dcaeea;">foo</span><span style="color: #51afef;">)</span>;
+
+<span style="color: #51afef;">template</span> <span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">AccessPrivateDataMemSx</span><span style="color: #51afef;">&lt;</span>
+  &amp;<span style="color: #a9a1e1;">S</span>::x<span style="color: #51afef;">&gt;</span>;
+</pre>
+</div>
+<blockquote data-fragment-index="7" class="fragment">
+<div style="font-size: 70%;">
+<p>
+<b><a href="https://timsong-cpp.github.io/cppwp/n4861/temp.spec#5">[temp.spec]/5</a>:</b> For [&#x2026;] <b><emphasis>a given set of template-arguments </emphasis></b>, an explicit instantiation definition <b><emphasis> shall <span class="underline">appear</span> at most once in a program </emphasis></b> [&#x2026;]
+</p>
+</blockquote>
+</div>
+<div class="column" style="float:right; width: 50%; margin-top:0%">
+<div class="org-src-container">
+
+<pre data-fragment-index="1" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">s.h</span>
+<span style="color: #51afef; font-weight: bold;">#pragma once</span>
+
+<span style="color: #51afef;">class</span> <span style="color: #ECBE7B;">S</span> <span style="color: #51afef;">{</span>
+  <span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">f</span><span style="color: #c678dd;">()</span> <span style="color: #51afef;">const</span> <span style="color: #c678dd;">{</span> <span style="color: #51afef;">return</span> x; <span style="color: #c678dd;">}</span>
+  <span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">g</span><span style="color: #c678dd;">()</span> <span style="color: #51afef;">const</span> <span style="color: #c678dd;">{</span> <span style="color: #51afef;">return</span> y; <span style="color: #c678dd;">}</span>
+  <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">x</span><span style="color: #c678dd;">{</span><span style="color: #da8548; font-weight: bold;">42</span><span style="color: #c678dd;">}</span>;
+  <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">y</span><span style="color: #c678dd;">{</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">}</span>;
+<span style="color: #51afef;">}</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="5" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">client.cpp</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">iostream</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"access_private_of_s.h"</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"s.h"</span>
+
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">demo</span><span style="color: #51afef;">()</span> <span style="color: #51afef;">{</span>
+  <span style="color: #ECBE7B;">S</span> <span style="color: #dcaeea;">s</span><span style="color: #c678dd;">{}</span>;
+  <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; invoke_private_S_f<span style="color: #c678dd;">(</span>s<span style="color: #c678dd;">)</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">42</span>
+  ++access_private_S_x<span style="color: #c678dd;">(</span>s<span style="color: #c678dd;">)</span>;
+  <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; invoke_private_S_f<span style="color: #c678dd;">(</span>s<span style="color: #c678dd;">)</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">43</span>
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="6" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">another_client.cpp</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"access_private_of_s.h"</span>
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">ill-formed, NDR</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="8" class="fragment"><span style="color: #51afef;">template</span> <span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">InvokePrivateFunSf</span><span style="color: #51afef;">&lt;</span>&amp;<span style="color: #a9a1e1;">S</span>::g<span style="color: #51afef;">&gt;</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="9" class="fragment"><span style="color: #ECBE7B;">AccessPrivateDataMemSx</span><span style="color: #51afef;">&lt;</span>&amp;<span style="color: #a9a1e1;">S</span>::y<span style="color: #51afef;">&gt;</span> <span style="color: #dcaeea;">ap</span><span style="color: #51afef;">{}</span>;
+</pre>
+</div>
+</div>
+</section>
+<section>
+<div class="column" style="float:left; width: 50%;">
+
+<div class="org-src-container">
+
+<pre data-fragment-index="2" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">access_private_of_s.h</span>
+<span style="color: #51afef; font-weight: bold;">#pragma once</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"s.h"</span>
+
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">Unique namespace in each TU.</span>
+<span style="color: #51afef;">namespace</span> <span style="color: #51afef;">{</span>
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">TranslationUnitTag</span> <span style="color: #c678dd;">{}</span>;
+<span style="color: #51afef;">}</span>  <span style="color: #5699AF;">// </span><span style="color: #5699AF;">namespace</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="3" class="fragment"><span style="color: #51afef;">template</span> <span style="color: #51afef;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">Tag</span>, <span style="color: #51afef;">auto</span> <span style="color: #dcaeea;">mem_fn_ptr</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">InvokePrivateFunSf</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">friend</span> <span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">invoke_private_S_f</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">S</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #dcaeea;">s</span><span style="color: #c678dd;">)</span> 
+  <span style="color: #c678dd;">{</span> <span style="color: #51afef;">return</span> <span style="color: #98be65;">(</span>s.*mem_fn_ptr<span style="color: #98be65;">)()</span>; <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>;
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">invoke_private_S_f</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">S</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #dcaeea;">s</span><span style="color: #51afef;">)</span>;
+
+<span style="color: #51afef;">template</span> <span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">InvokePrivateFunSf</span><span style="color: #51afef;">&lt;</span>
+  TranslationUnitTag, &amp;<span style="color: #a9a1e1;">S</span>::f<span style="color: #51afef;">&gt;</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="4" class="fragment"><span style="color: #51afef;">template</span> <span style="color: #51afef;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">Tag</span>, <span style="color: #51afef;">auto</span> <span style="color: #dcaeea;">data_mem_ptr</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">AccessPrivateDataMemSx</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">friend</span> <span style="color: #ECBE7B;">int</span>&amp; <span style="color: #c678dd;">access_private_S_x</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">S</span>&amp; <span style="color: #dcaeea;">s</span><span style="color: #c678dd;">)</span> 
+  <span style="color: #c678dd;">{</span> <span style="color: #51afef;">return</span> s.*data_mem_ptr; <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>;
+<span style="color: #ECBE7B;">int</span>&amp; <span style="color: #c678dd;">access_private_S_x</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">S</span>&amp; <span style="color: #dcaeea;">foo</span><span style="color: #51afef;">)</span>;
+
+<span style="color: #51afef;">template</span> <span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">AccessPrivateDataMemSx</span><span style="color: #51afef;">&lt;</span>
+  TranslationUnitTag, &amp;<span style="color: #a9a1e1;">S</span>::x<span style="color: #51afef;">&gt;</span>;
+</pre>
+</div>
+
+</div>
+<div class="column" style="float:right; width: 50%; margin-top:0%">
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">s.h</span>
+<span style="color: #51afef; font-weight: bold;">#pragma once</span>
+
+<span style="color: #51afef;">class</span> <span style="color: #ECBE7B;">S</span> <span style="color: #51afef;">{</span>
+  <span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">f</span><span style="color: #c678dd;">()</span> <span style="color: #51afef;">const</span> <span style="color: #c678dd;">{</span> <span style="color: #51afef;">return</span> x; <span style="color: #c678dd;">}</span>
+  <span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">g</span><span style="color: #c678dd;">()</span> <span style="color: #51afef;">const</span> <span style="color: #c678dd;">{</span> <span style="color: #51afef;">return</span> y; <span style="color: #c678dd;">}</span>
+  <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">x</span><span style="color: #c678dd;">{</span><span style="color: #da8548; font-weight: bold;">42</span><span style="color: #c678dd;">}</span>;
+  <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">y</span><span style="color: #c678dd;">{</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">}</span>;
+<span style="color: #51afef;">}</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="5" class="fragment"><span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"access_private_of_s.h"</span>  <span style="color: #5699AF;">// </span><span style="color: #5699AF;">...</span>
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">demo</span><span style="color: #51afef;">()</span> <span style="color: #51afef;">{</span>
+  <span style="color: #ECBE7B;">S</span> <span style="color: #dcaeea;">s</span><span style="color: #c678dd;">{}</span>;
+
+  <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; invoke_private_S_f<span style="color: #c678dd;">(</span>s<span style="color: #c678dd;">)</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">42</span>
+  <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; invoke_private_S_g<span style="color: #c678dd;">(</span>s<span style="color: #c678dd;">)</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">1</span>
+
+  ++access_private_S_x<span style="color: #c678dd;">(</span>s<span style="color: #c678dd;">)</span>;
+  <span style="color: #51afef;">auto</span> &amp;<span style="color: #dcaeea;">y</span> = access_private_S_y<span style="color: #c678dd;">(</span>s<span style="color: #c678dd;">)</span>;
+  y = <span style="color: #da8548; font-weight: bold;">99</span>;
+
+  <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; invoke_private_S_f<span style="color: #c678dd;">(</span>s<span style="color: #c678dd;">)</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">43</span>
+  <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; invoke_private_S_g<span style="color: #c678dd;">(</span>s<span style="color: #c678dd;">)</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">99</span>
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+<blockquote data-fragment-index="6" class="fragment">
+<div style="font-size: 70%;">
+<p>
+<a href="https://wandbox.org/permlink/J7vE17pybQPro2hC">Demo</a>
+</p>
+</div>
+</blockquote>
+</div>
+</section>
+<section id="slide-org218f8d5">
+<h3 id="org218f8d5"><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#2118">CWG issue 2118</a></h3>
+<blockquote>
+<div style="font-size: 70%;">
+<p>
+<b>2118. Stateful metaprogramming via friend injection</b> <br>
+<b>Date:</b> 2015-04-27 [&#x2026;]
+</p>
+<p data-fragment-index="1" class="fragment">
+Defining a friend function in a template, then referencing that function later <b><emphasis>provides a means of capturing and retrieving metaprogramming state</emphasis></b>. This technique is <b><emphasis>arcane and should be made ill-formed</emphasis></b>.
+</p>
+<p data-fragment-index="2" class="fragment">
+<b>Notes from the May, 2015 meeting:</b> <br>
+CWG agreed that such techniques <b><emphasis>should be ill-formed</emphasis></b>, although the mechanism for prohibiting them is as yet undetermined.
+</p>
+</div>
+</blockquote>
+
+</section>
+<section id="slide-orgadf844b">
+<h2 id="orgadf844b">Feature C (<a href="http://open-std.org/JTC1/SC22/WG21/docs/papers/2017/p0692r1.html">P0692R1</a>)</h2>
+<p>
+<i>Access Checking on Specializations</i>
+</p>
+<div class="column" style="float:left; width: 50%; margin-top:0%">
+<blockquote class="fragment">
+<div style="font-size: 70%;">
+<p>
+Summary from <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p2131r0.html">P2131R0</a> (<i>Changes between C++17 and C++20 DIS</i>):
+</p>
+
+<p>
+This change fixes a long-standing, somewhat obscure situation, where it was not possible to declare a template specialization for a template argument that is a private (or protected) member type. For example, given class <code>Foo { class Bar {}; };</code>, the access <code>Foo::Bar</code> is now allowed in <code>template&lt;class&gt; struct X; template&lt;&gt; struct X&lt;Foo::Bar&gt;;</code>.
+</p>
+</div>
+</blockquote>
+</div>
+<div class="column" style="float:right; width: 50%; margin-top:0%">
+<blockquote class="fragment">
+<div style="font-size: 70%;">
+<p>
+<b><a href="https://timsong-cpp.github.io/cppwp/n4861/temp.spec#6">[temp.spec]/6</a>:</b> <b><emphasis>The usual access checking rules do not apply to names in a declaration of an</emphasis></b> explicit instantiation or <b><emphasis>explicit specialization</emphasis></b>, [&#x2026;] [ <i>Note:</i> <b><emphasis>In particular, the template arguments</emphasis></b> and names used in the function declarator [&#x2026;] <b><emphasis>may be private types</emphasis></b> [&#x2026;] — <i>end note</i> ]
+</p>
+</div>
+</blockquote>
+</div>
+
+</section>
+<section>
+<div class="column" style="float:left; width: 50%;">
+
+<div class="org-src-container">
+
+<pre data-fragment-index="2" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">access_private.h</span>
+<span style="color: #51afef; font-weight: bold;">#pragma once</span>
+
+<span style="color: #51afef;">template</span> <span style="color: #51afef;">&lt;</span><span style="color: #51afef;">auto</span> <span style="color: #dcaeea;">mem_ptr</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">AccessPrivate</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">static</span> <span style="color: #51afef;">constexpr</span> <span style="color: #51afef;">auto</span> <span style="color: #dcaeea;">kMemPtr</span> = mem_ptr;
+  <span style="color: #5699AF;">// </span><span style="color: #5699AF;">Define only in explicit specializations</span>
+  <span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">Delegate</span>;
+<span style="color: #51afef;">}</span>;
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre data-fragment-index="3" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">access_private_of_s.h</span>
+<span style="color: #51afef; font-weight: bold;">#pragma once</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"access_private.h"</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"s.h"</span>
+
+<span style="color: #51afef;">template</span> <span style="color: #51afef;">&lt;&gt;</span>
+<span style="color: #51afef;">struct</span> <span style="color: #a9a1e1;">AccessPrivate</span><span style="color: #51afef;">&lt;</span>&amp;<span style="color: #a9a1e1;">S</span>::f<span style="color: #51afef;">&gt;</span>::<span style="color: #ECBE7B;">Delegate</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">friend</span> <span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">invoke_private_S_f</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">S</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #dcaeea;">s</span><span style="color: #c678dd;">)</span>
+  <span style="color: #c678dd;">{</span> <span style="color: #51afef;">return</span> <span style="color: #98be65;">(</span>s.*kMemPtr<span style="color: #98be65;">)()</span>; <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>;
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">invoke_private_S_f</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">S</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #dcaeea;">s</span><span style="color: #51afef;">)</span>;
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre data-fragment-index="4" class="fragment"><span style="color: #51afef;">template</span> <span style="color: #51afef;">&lt;&gt;</span> 
+<span style="color: #51afef;">struct</span> <span style="color: #a9a1e1;">AccessPrivate</span><span style="color: #51afef;">&lt;</span>&amp;<span style="color: #a9a1e1;">S</span>::x<span style="color: #51afef;">&gt;</span>::<span style="color: #ECBE7B;">Delegate</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">friend</span> <span style="color: #ECBE7B;">int</span> &amp;<span style="color: #c678dd;">access_private_S_x</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">S</span> &amp;<span style="color: #dcaeea;">s</span><span style="color: #c678dd;">)</span> 
+  <span style="color: #c678dd;">{</span> <span style="color: #51afef;">return</span> s.*kMemPtr; <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>;
+<span style="color: #ECBE7B;">int</span>&amp; <span style="color: #c678dd;">access_private_S_x</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">S</span> &amp;<span style="color: #dcaeea;">foo</span><span style="color: #51afef;">)</span>;
+</pre>
+</div>
+
+</div>
+<div class="column" style="float:right; width: 50%; margin-top:0%">
+<div class="org-src-container">
+
+<pre data-fragment-index="1" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">s.h</span>
+<span style="color: #51afef; font-weight: bold;">#pragma once</span>
+
+<span style="color: #51afef;">class</span> <span style="color: #ECBE7B;">S</span> <span style="color: #51afef;">{</span>
+  <span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">f</span><span style="color: #c678dd;">()</span> <span style="color: #51afef;">const</span> <span style="color: #c678dd;">{</span> <span style="color: #51afef;">return</span> x; <span style="color: #c678dd;">}</span>
+  <span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">g</span><span style="color: #c678dd;">()</span> <span style="color: #51afef;">const</span> <span style="color: #c678dd;">{</span> <span style="color: #51afef;">return</span> y; <span style="color: #c678dd;">}</span>
+  <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">x</span><span style="color: #c678dd;">{</span><span style="color: #da8548; font-weight: bold;">42</span><span style="color: #c678dd;">}</span>;
+  <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">y</span><span style="color: #c678dd;">{</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #c678dd;">}</span>;
+<span style="color: #51afef;">}</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="5" class="fragment"><span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"access_private_of_s.h"</span>  <span style="color: #5699AF;">// </span><span style="color: #5699AF;">...</span>
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">demo</span><span style="color: #51afef;">()</span> <span style="color: #51afef;">{</span>
+  <span style="color: #ECBE7B;">S</span> <span style="color: #dcaeea;">s</span><span style="color: #c678dd;">{}</span>;
+
+  <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; invoke_private_S_f<span style="color: #c678dd;">(</span>s<span style="color: #c678dd;">)</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">42</span>
+  <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; invoke_private_S_g<span style="color: #c678dd;">(</span>s<span style="color: #c678dd;">)</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">1</span>
+
+  ++access_private_S_x<span style="color: #c678dd;">(</span>s<span style="color: #c678dd;">)</span>;
+  <span style="color: #51afef;">auto</span> &amp;<span style="color: #dcaeea;">y</span> = access_private_S_y<span style="color: #c678dd;">(</span>s<span style="color: #c678dd;">)</span>;
+  y = <span style="color: #da8548; font-weight: bold;">99</span>;
+
+  <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; invoke_private_S_f<span style="color: #c678dd;">(</span>s<span style="color: #c678dd;">)</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">43</span>
+  <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; invoke_private_S_g<span style="color: #c678dd;">(</span>s<span style="color: #c678dd;">)</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">99</span>
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+<blockquote data-fragment-index="6" class="fragment">
+<div style="font-size: 70%;">
+<p>
+<a href="https://wandbox.org/permlink/uJooGR16RMxjJnCl">Demo</a>
+</p>
+</div>
+</blockquote>
+</div>
+
+</section>
+<section>
+<div class="column" style="float:left; width: 50%;">
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">access_private.h</span>
+<span style="color: #51afef; font-weight: bold;">#pragma once</span>
+
+<span style="color: #51afef;">template</span> <span style="color: #51afef;">&lt;</span><span style="color: #51afef;">auto</span> <span style="color: #dcaeea;">mem_ptr</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">AccessPrivate</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">static</span> <span style="color: #51afef;">constexpr</span> <span style="color: #51afef;">auto</span> <span style="color: #dcaeea;">kMemPtr</span> = mem_ptr;
+  <span style="color: #5699AF;">// </span><span style="color: #5699AF;">Define only in explicit specializations</span>
+  <span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">Delegate</span>;
+<span style="color: #51afef;">}</span>;
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">access_private_of_s.h</span>
+<span style="color: #51afef; font-weight: bold;">#pragma once</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"access_private.h"</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"s.h"</span>
+
+<span style="color: #51afef;">template</span> <span style="color: #51afef;">&lt;&gt;</span>
+<span style="color: #51afef;">struct</span> <span style="color: #a9a1e1;">AccessPrivate</span><span style="color: #51afef;">&lt;</span>&amp;<span style="color: #a9a1e1;">S</span>::f<span style="color: #51afef;">&gt;</span>::<span style="color: #ECBE7B;">Delegate</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">friend</span> <span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">invoke_private_S_f</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">S</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #dcaeea;">s</span><span style="color: #c678dd;">)</span>
+  <span style="color: #c678dd;">{</span> <span style="color: #51afef;">return</span> <span style="color: #98be65;">(</span>s.*kMemPtr<span style="color: #98be65;">)()</span>; <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>;
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">invoke_private_S_f</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">S</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #dcaeea;">s</span><span style="color: #51afef;">)</span>;
+
+<span style="color: #51afef;">template</span> <span style="color: #51afef;">&lt;&gt;</span>
+<span style="color: #51afef;">struct</span> <span style="color: #a9a1e1;">AccessPrivate</span><span style="color: #51afef;">&lt;</span>&amp;<span style="color: #a9a1e1;">S</span>::x<span style="color: #51afef;">&gt;</span>::<span style="color: #ECBE7B;">Delegate</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">friend</span> <span style="color: #ECBE7B;">int</span> &amp;<span style="color: #c678dd;">access_private_S_x</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">S</span> &amp;<span style="color: #dcaeea;">s</span><span style="color: #c678dd;">)</span>
+  <span style="color: #c678dd;">{</span> <span style="color: #51afef;">return</span> s.*kMemPtr; <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>;
+<span style="color: #ECBE7B;">int</span>&amp; <span style="color: #c678dd;">access_private_S_x</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">S</span> &amp;<span style="color: #dcaeea;">foo</span><span style="color: #51afef;">)</span>;
+</pre>
+</div>
+
+</div>
+<div class="column" style="float:right; width: 50%; margin-top:0%">
+<div class="org-src-container">
+
+<pre data-fragment-index="1" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">access_private_of_s.h</span>
+<span style="color: #51afef; font-weight: bold;">#pragma once</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"s.h"</span>
+
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">Unique namespace in each TU.</span>
+<span style="color: #51afef;">namespace</span> <span style="color: #51afef;">{</span>
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">TranslationUnitTag</span> <span style="color: #c678dd;">{}</span>;
+<span style="color: #51afef;">}</span>  <span style="color: #5699AF;">// </span><span style="color: #5699AF;">namespace</span>
+
+<span style="color: #51afef;">template</span> <span style="color: #51afef;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">Tag</span>, <span style="color: #51afef;">auto</span> <span style="color: #dcaeea;">mem_fn_ptr</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">InvokePrivateFunSf</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">friend</span> <span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">invoke_private_S_f</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">S</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #dcaeea;">s</span><span style="color: #c678dd;">)</span> 
+  <span style="color: #c678dd;">{</span> <span style="color: #51afef;">return</span> <span style="color: #98be65;">(</span>s.*mem_fn_ptr<span style="color: #98be65;">)()</span>; <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>;
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">invoke_private_S_f</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">S</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #dcaeea;">s</span><span style="color: #51afef;">)</span>;
+
+<span style="color: #51afef;">template</span> <span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">InvokePrivateFunSf</span><span style="color: #51afef;">&lt;</span>
+  <span style="color: #ECBE7B;">TranslationUnitTag</span>, &amp;<span style="color: #a9a1e1;">S</span>::f<span style="color: #51afef;">&gt;</span>;
+
+<span style="color: #51afef;">template</span> <span style="color: #51afef;">&lt;</span><span style="color: #51afef;">typename</span> <span style="color: #ECBE7B;">Tag</span>, <span style="color: #51afef;">auto</span> <span style="color: #dcaeea;">data_mem_ptr</span><span style="color: #51afef;">&gt;</span>
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">AccessPrivateDataMemSx</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">friend</span> <span style="color: #ECBE7B;">int</span>&amp; <span style="color: #c678dd;">access_private_S_x</span><span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">S</span>&amp; <span style="color: #dcaeea;">s</span><span style="color: #c678dd;">)</span> 
+  <span style="color: #c678dd;">{</span> <span style="color: #51afef;">return</span> s.*data_mem_ptr; <span style="color: #c678dd;">}</span>
+<span style="color: #51afef;">}</span>;
+<span style="color: #ECBE7B;">int</span>&amp; <span style="color: #c678dd;">access_private_S_x</span><span style="color: #51afef;">(</span><span style="color: #ECBE7B;">S</span>&amp; <span style="color: #dcaeea;">foo</span><span style="color: #51afef;">)</span>;
+
+<span style="color: #51afef;">template</span> <span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">AccessPrivateDataMemSx</span><span style="color: #51afef;">&lt;</span>
+  <span style="color: #ECBE7B;">TranslationUnitTag</span>, &amp;<span style="color: #a9a1e1;">S</span>::x<span style="color: #51afef;">&gt;</span>;
+</pre>
+</div>
+</div>
+</section>
+<section id="slide-orgf86147c">
+<h3 id="orgf86147c">Bonus slides: making a lib out of it</h3>
+<p class="forwardlink">
+&#x2026; or jump to <a href="#/slide-questions" class="forwardlink">Questions?</a>
+</p>
+</section>
+<section>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">access_private.h</span>
+<span style="color: #51afef;">namespace</span> <span style="color: #a9a1e1;">accessprivate</span> <span style="color: #51afef;">{</span>
+
+<span style="color: #51afef;">template</span> <span style="color: #c678dd;">&lt;</span><span style="color: #51afef;">auto</span> <span style="color: #dcaeea;">mem_ptr</span><span style="color: #c678dd;">&gt;</span> 
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">AccessPrivate</span> <span style="color: #c678dd;">{</span>
+  <span style="color: #51afef;">static</span> <span style="color: #51afef;">constexpr</span> <span style="color: #51afef;">auto</span> <span style="color: #dcaeea;">kMemPtr</span> = mem_ptr;
+
+  <span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">Delegate</span>;
+  <span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">ConstDelegate</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">To allow overloading accessors on constness.</span>
+<span style="color: #c678dd;">}</span>;
+
+<span style="color: #51afef;">}</span> <span style="color: #5699AF;">// </span><span style="color: #5699AF;">namespace accessprivate</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre data-fragment-index="1" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">... macros!</span>
+</pre>
+</div>
+</section>
+<section>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">Macro for defining a non-const accessor function.</span>
+<span style="color: #51afef; font-weight: bold;">#define</span> <span style="color: #c678dd;">DEFINE_ACCESSOR</span><span style="color: #51afef;">(</span><span style="color: #dcaeea;">qualified_class_name</span>, <span style="color: #dcaeea;">class_data_member</span><span style="color: #51afef;">)</span>               \
+  <span style="color: #51afef;">namespace</span> <span style="color: #a9a1e1;">accessprivate</span> <span style="color: #51afef;">{</span>                                                    \
+  <span style="color: #51afef;">template</span> <span style="color: #c678dd;">&lt;&gt;</span>                                                                  \
+  <span style="color: #51afef;">struct</span> <span style="color: #a9a1e1;">AccessPrivate</span><span style="color: #c678dd;">&lt;</span>&amp;<span style="color: #a9a1e1;">qualified_class_name</span>::class_data_member<span style="color: #c678dd;">&gt;</span>::<span style="color: #ECBE7B;">Delegate</span> <span style="color: #c678dd;">{</span>   \
+    <span style="color: #51afef;">friend</span> <span style="color: #51afef;">auto</span> &amp;<span style="color: #dcaeea;">get_</span>##class_data_member<span style="color: #98be65;">(</span><span style="color: #ECBE7B;">qualified_class_name</span> &amp;<span style="color: #dcaeea;">obj</span><span style="color: #98be65;">)</span> <span style="color: #98be65;">{</span>          \
+      <span style="color: #51afef;">return</span> obj.*kMemPtr;                                                     \
+    <span style="color: #98be65;">}</span>                                                                          \
+  <span style="color: #c678dd;">}</span>;                                                                           \
+  <span style="color: #51afef;">auto</span> &amp;<span style="color: #dcaeea;">get_</span>##class_data_member<span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">qualified_class_name</span> &amp;<span style="color: #dcaeea;">obj</span><span style="color: #c678dd;">)</span>;                    \
+  <span style="color: #51afef;">}</span>
+
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">Macro for defining a const accessor function.</span>
+<span style="color: #51afef; font-weight: bold;">#define</span> <span style="color: #c678dd;">DEFINE_ACCESSOR_C</span><span style="color: #51afef;">(</span><span style="color: #dcaeea;">qualified_class_name</span>, <span style="color: #dcaeea;">class_data_member</span><span style="color: #51afef;">)</span>             \
+  <span style="color: #51afef;">namespace</span> <span style="color: #a9a1e1;">accessprivate</span> <span style="color: #51afef;">{</span>                                                    \
+  <span style="color: #51afef;">template</span> <span style="color: #c678dd;">&lt;&gt;</span>                                                                  \
+  <span style="color: #51afef;">struct</span> <span style="color: #a9a1e1;">AccessPrivate</span><span style="color: #c678dd;">&lt;</span>                                                        \
+      &amp;<span style="color: #a9a1e1;">qualified_class_name</span>::class_data_member<span style="color: #c678dd;">&gt;</span>::<span style="color: #ECBE7B;">ConstDelegate</span> <span style="color: #c678dd;">{</span>               \
+    <span style="color: #51afef;">friend</span> <span style="color: #51afef;">auto</span> <span style="color: #51afef;">const</span> &amp;                                                        \
+        <span style="color: #dcaeea;">get_</span>##class_data_member<span style="color: #98be65;">(</span><span style="color: #ECBE7B;">qualified_class_name</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #dcaeea;">obj</span><span style="color: #98be65;">)</span> <span style="color: #98be65;">{</span>             \
+      <span style="color: #51afef;">return</span> obj.*kMemPtr;                                                     \
+    <span style="color: #98be65;">}</span>                                                                          \
+  <span style="color: #c678dd;">}</span>;                                                                           \
+  <span style="color: #51afef;">auto</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #dcaeea;">get_</span>##class_data_member<span style="color: #c678dd;">(</span><span style="color: #ECBE7B;">qualified_class_name</span> <span style="color: #51afef;">const</span> &amp;<span style="color: #dcaeea;">obj</span><span style="color: #c678dd;">)</span>;        \
+  <span style="color: #51afef;">}</span>
+</pre>
+</div>
+</section>
+<section>
+
+<div style="font-size: 70%;">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Macro</td>
+<td class="org-left">Accessor</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>DEFINE_ACCESSOR(&lt;QCN&gt;, &lt;CDM&gt;)</code></td>
+<td class="org-left"><code>auto&amp; get_&lt;CDM&gt;(&lt;QCN&gt;&amp;)</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>DEFINE_ACCESSOR_C(&lt;QCN&gt;, &lt;CDM&gt;)</code></td>
+<td class="org-left"><code>auto const&amp; get_&lt;CDM&gt;(&lt;QCN&gt; const&amp;)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote data-fragment-index="1" class="fragment">
+<div style="font-size: 70%;">
+<p>
+Constraints:
+</p>
+
+<ul>
+<li>shall be invoked from the global namespace scope (diagnosable),</li>
+<li>shall, for a given set of arguments, only be invoked once within a given TU (diagnosable)</li>
+
+</ul>
+</div>
+</blockquote>
+
+
+</section>
+<section>
+<div class="column" style="float:left; width: 63%;">
+<div class="org-src-container">
+
+<pre data-fragment-index="2" class="fragment"><span style="color: #5699AF;">// </span><span style="color: #5699AF;">some_test_source_file.cpp</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"access_private.h"</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">"s.h"</span>
+<span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #51afef;">&lt;</span><span style="color: #98be65;">iostream</span><span style="color: #51afef;">&gt;</span>
+
+<span style="color: #a9a1e1;">DEFINE_ACCESSOR</span><span style="color: #51afef;">(</span><span style="color: #a9a1e1;">ns</span>::S, x<span style="color: #51afef;">)</span>
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">-&gt; auto&amp; accessprivate::get_x(S&amp;)</span>
+<span style="color: #a9a1e1;">DEFINE_ACCESSOR</span><span style="color: #51afef;">(</span><span style="color: #a9a1e1;">ns</span>::S, y<span style="color: #51afef;">)</span>
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">-&gt; auto&amp; *accessprivate::get_y(S&amp;)</span>
+
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">non_const_accessor</span><span style="color: #51afef;">()</span> <span style="color: #51afef;">{</span>
+  <span style="color: #a9a1e1;">ns</span>::<span style="color: #ECBE7B;">S</span> <span style="color: #dcaeea;">s</span><span style="color: #c678dd;">{}</span>;
+  <span style="color: #a9a1e1;">accessprivate</span>::get_x<span style="color: #c678dd;">(</span>s<span style="color: #c678dd;">)</span> = <span style="color: #da8548; font-weight: bold;">13</span>;
+  <span style="color: #a9a1e1;">accessprivate</span>::get_y<span style="color: #c678dd;">(</span>s<span style="color: #c678dd;">)</span> = <span style="color: #da8548; font-weight: bold;">33</span>;
+  <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; s.getX<span style="color: #c678dd;">()</span> &lt;&lt; <span style="color: #98be65;">" "</span> &lt;&lt; s.getY<span style="color: #c678dd;">()</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">13 33</span>
+<span style="color: #51afef;">}</span>
+
+<span style="color: #a9a1e1;">DEFINE_ACCESSOR_C</span><span style="color: #51afef;">(</span><span style="color: #a9a1e1;">ns</span>::S, x<span style="color: #51afef;">)</span>
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">-&gt; auto const&amp; accessprivate::get_x(S const&amp;)</span>
+<span style="color: #a9a1e1;">DEFINE_ACCESSOR_C</span><span style="color: #51afef;">(</span><span style="color: #a9a1e1;">ns</span>::S, y<span style="color: #51afef;">)</span>
+<span style="color: #5699AF;">// </span><span style="color: #5699AF;">-&gt; auto const&amp; accessprivate::get_y(S const&amp;)</span>
+
+<span style="color: #ECBE7B;">void</span> <span style="color: #c678dd;">const_accessor</span><span style="color: #51afef;">()</span> <span style="color: #51afef;">{</span>
+  <span style="color: #51afef;">const</span> <span style="color: #a9a1e1;">ns</span>::<span style="color: #ECBE7B;">S</span> <span style="color: #dcaeea;">s</span><span style="color: #c678dd;">{}</span>;
+  <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; <span style="color: #a9a1e1;">accessprivate</span>::get_x<span style="color: #c678dd;">(</span>s<span style="color: #c678dd;">)</span> &lt;&lt; <span style="color: #98be65;">" "</span>   <span style="color: #5699AF;">// </span><span style="color: #5699AF;">42</span>
+            &lt;&lt; <span style="color: #a9a1e1;">accessprivate</span>::get_y<span style="color: #c678dd;">(</span>s<span style="color: #c678dd;">)</span> &lt;&lt; <span style="color: #98be65;">"\n"</span>; <span style="color: #5699AF;">// </span><span style="color: #5699AF;">1</span>
+<span style="color: #51afef;">}</span>
+</pre>
+</div>
+</div>
+<div class="column" style="float:right; width: 37%; margin-top:0%">
+<div class="org-src-container">
+
+<pre data-fragment-index="1" class="fragment"><span style="color: #51afef; font-weight: bold;">#pragma once</span>
+
+<span style="color: #51afef;">namespace</span> <span style="color: #a9a1e1;">ns</span> <span style="color: #51afef;">{</span>
+<span style="color: #51afef;">struct</span> <span style="color: #ECBE7B;">S</span> <span style="color: #c678dd;">{</span>
+  <span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">getX</span><span style="color: #98be65;">()</span> <span style="color: #51afef;">const</span> <span style="color: #98be65;">{</span> <span style="color: #51afef;">return</span> x; <span style="color: #98be65;">}</span>
+  <span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">getY</span><span style="color: #98be65;">()</span> <span style="color: #51afef;">const</span> <span style="color: #98be65;">{</span> <span style="color: #51afef;">return</span> y; <span style="color: #98be65;">}</span>
+<span style="color: #51afef;">private</span>:
+  <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">x</span><span style="color: #98be65;">{</span><span style="color: #da8548; font-weight: bold;">42</span><span style="color: #98be65;">}</span>;
+  <span style="color: #ECBE7B;">int</span> <span style="color: #dcaeea;">y</span><span style="color: #98be65;">{</span><span style="color: #da8548; font-weight: bold;">1</span><span style="color: #98be65;">}</span>;
+<span style="color: #c678dd;">}</span>;
+<span style="color: #51afef;">}</span>  <span style="color: #5699AF;">// </span><span style="color: #5699AF;">namespace ns</span>
+</pre>
+</div>
+<blockquote data-fragment-index="3" class="fragment">
+<div style="font-size: 70%;">
+<p>
+<a href="https://wandbox.org/permlink/wCfTHbBddXxZii9g">Demo</a>
+</p>
+</div>
+</blockquote>
+<blockquote data-fragment-index="4" class="fragment">
+<div style="font-size: 70%;">
+<p>
+<a href="https://github.com/dfrib/accessprivate">dfrib / accessprivate</a> @ GitHub
+</p>
+</div>
+</blockquote>
+<blockquote data-fragment-index="5" class="fragment">
+<div style="font-size: 70%;">
+<p>
+<span class="underline">Disclaimer:</span> <br> <b><emphasis_red>do not use this in product code!</emphasis_red></b>
+</p>
+</div>
+</blockquote>
+</div>
+</section>
+<section id="slide-questions">
+<h2 id="questions">Questions?</h2>
+</section>
+<section id="slide-orgcf287bc">
+<h2 id="orgcf287bc">Read more / references</h2>
+<ul>
+<li>Feature A: <a href="https://dfrib.github.io/the-fickle-aggregate/">The fickle aggregate</a></li>
+<li>Feature B: <a href="https://dfrib.github.io/non-deduced-contexts/">Leveraging non-deduced contexts &#x2026;</a></li>
+<li>Feature C: <a href="https://dfrib.github.io/a-foliage-of-folly/">A foliage of folly</a></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="revealjs/dist/reveal.js"></script>
+<script src="revealjs/plugin/markdown/markdown.js"></script>
+<script src="revealjs/plugin/notes/notes.js"></script>
+<script src="revealjs/plugin/search/search.js"></script>
+<script src="revealjs/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+
+overview: true,
+width: 1300,
+height: 800,
+
+transition: 'none',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealMarkdown, RevealNotes, RevealSearch, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
 </html>
